@@ -1,13 +1,65 @@
-﻿function goBack() {
+﻿document.addEventListener("DOMContentLoaded", function () {
 
-    if (window.history.length > 1) {
+    const search =
+        document.getElementById("topicSearch");
 
-        window.history.back();
+    const cards =
+        Array.from(
+            document.querySelectorAll(".topic-card")
+        );
 
-    } else {
+    const count =
+        document.getElementById("topicCount");
 
-        window.location.href = "../index.html";
+    const noResults =
+        document.getElementById("noResults");
 
+    if (!search) {
+        return;
     }
 
-}
+    function filterTopics() {
+
+        const value =
+            search.value
+                .trim()
+                .toLowerCase();
+
+        let visible = 0;
+
+        cards.forEach(function (card) {
+
+            const text =
+                card.innerText.toLowerCase();
+
+            const matched =
+                text.includes(value);
+
+            card.style.display =
+                matched ? "flex" : "none";
+
+            if (matched) {
+                visible++;
+            }
+        });
+
+        count.textContent =
+            value
+                ? visible + " matching topics"
+                : cards.length + " topics";
+
+        if (noResults) {
+            noResults.style.display =
+                visible === 0
+                    ? "block"
+                    : "none";
+        }
+    }
+
+    search.addEventListener(
+        "input",
+        filterTopics
+    );
+
+    filterTopics();
+});

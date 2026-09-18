@@ -1,196 +1,279 @@
-﻿<!DOCTYPE html>
-
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        0600 - Random Access Iterators | C++ | XTutiRaiseUp
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="../assets/cpp.css"
-    >
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>0600 · Random Access Iterators</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:#0b0f19;color:#e8edf5;line-height:1.6;overflow-x:hidden}
+.bg{position:fixed;inset:0;z-index:-1;background:radial-gradient(circle at 20% 30%,rgba(59,130,246,.14),transparent 50%),radial-gradient(circle at 80% 70%,rgba(168,85,247,.12),transparent 50%)}
+.wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+.hero{text-align:center;padding:4rem 1.5rem 2rem}
+.pill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(96,165,250,.12);border:1px solid rgba(96,165,250,.3);border-radius:999px;padding:.35rem 1rem;font-size:.72rem;font-weight:700;color:#60a5fa;letter-spacing:.1em;text-transform:uppercase;margin-bottom:1.2rem}
+.pill .n{background:#60a5fa;color:#0b0f19;min-width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:800;padding:0 .3rem}
+.hero h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:.8rem}
+.grad{background:linear-gradient(135deg,#60a5fa,#a78bfa 40%,#f472b6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:1rem;color:#94a3b8;max-width:660px;margin:0 auto}
+.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.8rem;margin-bottom:1.5rem}
+.fact{background:rgba(15,23,42,.6);border:1px solid rgba(148,163,184,.12);border-radius:1rem;padding:1rem 1.1rem;text-align:center;transition:all .25s}
+.fact:hover{transform:translateY(-3px);border-color:rgba(96,165,250,.3)}
+.fact .b{font-size:1.1rem;font-weight:800;background:linear-gradient(135deg,#60a5fa,#a78bfa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+.fact .l{font-size:.66rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;font-weight:600;margin-top:.2rem}
+.card{background:rgba(15,23,42,.6);border:1px solid rgba(148,163,184,.12);border-radius:1.5rem;padding:1.8rem;margin-bottom:1.5rem;transition:border-color .25s}
+.card:hover{border-color:rgba(96,165,250,.25)}
+.lbl{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#60a5fa;margin-bottom:.6rem}
+.lbl i{width:6px;height:6px;background:#60a5fa;border-radius:50%;display:inline-block}
+.card h2{font-size:1.4rem;font-weight:700;color:#f1f5f9;margin-bottom:.4rem}
+.card>p{color:#94a3b8;font-size:.92rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1rem;margin-top:1.1rem}
+.cc{background:rgba(30,41,59,.6);border:1px solid rgba(148,163,184,.12);border-radius:1rem;padding:1.2rem;transition:all .25s;position:relative;overflow:hidden}
+.cc::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--c,#60a5fa),transparent)}
+.cc:hover{transform:translateY(-3px);border-color:rgba(96,165,250,.35);box-shadow:0 12px 28px -10px rgba(0,0,0,.5)}
+.cc .ic{font-size:1.5rem;margin-bottom:.4rem}
+.cc .t{font-size:.98rem;font-weight:700;color:#f1f5f9;margin-bottom:.3rem}
+.cc .d{font-size:.82rem;color:#94a3b8;line-height:1.5}
+.cc .ex{margin-top:.5rem;font-family:'Fira Code',monospace;font-size:.75rem;color:#93c5fd;background:rgba(0,0,0,.3);padding:.4rem .7rem;border-radius:.4rem;white-space:pre-wrap}
+.pg{display:grid;grid-template-columns:1.5fr 1fr;gap:0;border-radius:1rem;overflow:hidden;border:1px solid rgba(148,163,184,.15);margin-top:1.2rem;background:#0d1117}
+.ed{border-right:1px solid rgba(148,163,184,.12);display:flex;flex-direction:column}
+.tb{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1)}
+.tl{display:flex;align-items:center;gap:.6rem}
+.tr{display:flex;gap:6px}
+.tr span{width:11px;height:11px;border-radius:50%}
+.tr span:nth-child(1){background:#ff5f56}
+.tr span:nth-child(2){background:#ffbd2e}
+.tr span:nth-child(3){background:#27c93f}
+.fn{font-size:.78rem;color:#8b949e;font-family:'Fira Code',monospace}
+.rb{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:999px;padding:.4rem 1rem;font-size:.8rem;font-weight:600;cursor:pointer}
+.rb:hover{transform:translateY(-1px)}
+.ta{width:100%;min-height:300px;background:#0d1117;color:#e6edf3;border:none;padding:1.1rem 1.3rem;font-family:'Fira Code',monospace;font-size:.88rem;line-height:1.75;resize:vertical;outline:none;tab-size:4;white-space:pre}
+.op{display:flex;flex-direction:column;background:#010409}
+.oh{padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);font-size:.7rem;font-weight:600;color:#8b949e;letter-spacing:.08em;display:flex;align-items:center;gap:.5rem}
+.sd{width:8px;height:8px;border-radius:50%;background:#484f58}
+.sd.ok{background:#27c93f}
+.sd.err{background:#ff5f56}
+.ob{padding:1.1rem 1.3rem;font-family:'Fira Code',monospace;font-size:.85rem;line-height:1.7;color:#7ee787;white-space:pre-wrap;overflow-y:auto;flex:1;min-height:260px}
+.ob .err{color:#ff7b72}
+.ob .dim{color:#484f58;font-style:italic}
+.tip{background:rgba(59,130,246,.08);border:1px solid rgba(59,130,246,.2);border-radius:.8rem;padding:.9rem 1.1rem;margin-top:1rem;font-size:.85rem;color:#cbd5e1;display:flex;gap:.6rem}
+.tip code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .35rem;border-radius:.3rem;font-family:'Fira Code',monospace;font-size:.8rem}
+.sv{margin-top:1.1rem;background:#0d1117;border-radius:1rem;border:1px solid rgba(148,163,184,.15);overflow:hidden}
+.sh{padding:.7rem 1.2rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);display:flex;align-items:center;justify-content:space-between}
+.sh .ti{font-size:.8rem;color:#8b949e;font-family:'Fira Code',monospace}
+.sc{display:flex;gap:.4rem}
+.sb{background:rgba(59,130,246,.15);border:1px solid rgba(59,130,246,.3);color:#60a5fa;border-radius:.5rem;padding:.3rem .8rem;font-size:.75rem;font-weight:600;cursor:pointer}
+.sb:hover:not(:disabled){background:rgba(59,130,246,.3)}
+.sb:disabled{opacity:.35;cursor:not-allowed}
+.sbd{display:grid;grid-template-columns:1.2fr 1fr}
+.sk{padding:1rem 1.2rem;font-family:'Fira Code',monospace;font-size:.8rem;line-height:1.9;border-right:1px solid rgba(148,163,184,.1)}
+.sk .ln{padding:.15rem .5rem;border-radius:.3rem;white-space:pre;transition:background .3s}
+.sk .ln.act{background:rgba(96,165,250,.15);color:#f1f5f9;box-shadow:inset 3px 0 0 #60a5fa}
+.sk .kw{color:#ff7b72}
+.sk .fn2{color:#d2a8ff}
+.sk .st{color:#a5d6ff}
+.sk .nu{color:#79c0ff}
+.sk .pp{color:#ffa657}
+.sk .cm{color:#8b949e;font-style:italic}
+.si{padding:1rem 1.2rem;background:rgba(30,41,59,.4)}
+.si .ex2{font-size:.82rem;color:#cbd5e1;min-height:4rem;margin-bottom:.8rem;line-height:1.55}
+.si .ex2 code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .35rem;border-radius:.25rem;font-family:'Fira Code',monospace;font-size:.78rem}
+.si .tg{display:flex;flex-wrap:wrap;gap:.35rem;min-height:1.8rem}
+.si .tg span{background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:#d2a8ff;border-radius:.4rem;padding:.2rem .55rem;font-size:.7rem;font-family:'Fira Code',monospace}
+.sp{padding:.6rem 1.2rem;background:rgba(30,41,59,.3);border-top:1px solid rgba(148,163,184,.08);display:flex;align-items:center;gap:.6rem}
+.sp .bar{flex:1;height:4px;background:rgba(148,163,184,.15);border-radius:999px;overflow:hidden}
+.sp .bf{height:100%;width:0;background:linear-gradient(90deg,#60a5fa,#a78bfa);transition:width .35s}
+.sp .ct{font-size:.72rem;color:#64748b;font-family:'Fira Code',monospace;min-width:3.5rem;text-align:right}
+.rc{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.8rem;margin-top:1rem}
+.rcg{background:rgba(30,41,59,.6);border-radius:.8rem;padding:1rem 1.1rem;border-left:3px solid var(--rc,#60a5fa)}
+.rcg .t{font-size:.72rem;font-weight:700;color:var(--rc,#60a5fa);text-transform:uppercase;letter-spacing:.06em}
+.rcg .d{font-size:.85rem;color:#cbd5e1;margin-top:.2rem}
+.rcg .d code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .35rem;border-radius:.25rem;font-family:'Fira Code',monospace;font-size:.78rem}
+.nav{display:flex;justify-content:space-between;gap:1rem;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(148,163,184,.12)}
+.nav a{flex:1;background:rgba(30,41,59,.6);border:1px solid rgba(148,163,184,.12);border-radius:1rem;padding:1rem 1.2rem;text-decoration:none;color:#cbd5e1;transition:all .2s}
+.nav a:hover{background:rgba(59,130,246,.1);border-color:rgba(96,165,250,.3);transform:translateY(-2px)}
+.nav .l{font-size:.68rem;text-transform:uppercase;letter-spacing:.08em;color:#64748b;font-weight:600;margin-bottom:.2rem}
+.nav .t{font-size:.9rem;font-weight:600;color:#f1f5f9}
+.nav .nx{text-align:right}
+@media(max-width:780px){.pg,.sbd{grid-template-columns:1fr}.ed,.sk{border-right:none;border-bottom:1px solid rgba(148,163,184,.12)}.nav{flex-direction:column}}
+</style>
 </head>
-
 <body>
+<div class="bg"></div>
+<div class="hero">
+  <div class="wrap">
+    <div class="pill"><span class="n">0600</span> Topic 0600 of the C++ Series</div>
+    <h1>Random Access Iterators</h1>
+    <p>Random Access Iterators — part of the C++ Standard Library.</p>
+  </div>
+</div>
+<div class="wrap">
+  <div class="facts"><div class="fact"><div class="b">Header</div><div class="l">Only</div></div><div class="fact"><div class="b">Container</div><div class="l">Type</div></div><div class="fact"><div class="b">Iterators</div><div class="l">Support</div></div><div class="fact"><div class="b">Fast</div><div class="l">Tested</div></div><div class="fact"><div class="b">Standard</div><div class="l">STL</div></div></div>
 
-<header class="topbar">
+  <div class="card">
+    <div class="lbl"><i></i> Core Concepts</div>
+    <h2>What You Need to Know</h2>
+    <p>The Standard Template Library provides random access iterators and related tools ready to use.</p>
+    <div class="grid"><div class="cc" style="--c:#60a5fa">
+      <div class="ic">📦</div><div class="t">What It Is</div><div class="d">An overview of Random Access Iterators in the STL.</div>
+    </div><div class="cc" style="--c:#a78bfa">
+      <div class="ic">🛠️</div><div class="t">Usage</div><div class="d">How to use Random Access Iterators in code.</div><div class="ex">#include &lt;vector></div>
+    </div><div class="cc" style="--c:#f472b6">
+      <div class="ic">⚡</div><div class="t">Complexity</div><div class="d">Performance characteristics.</div>
+    </div><div class="cc" style="--c:#34d399">
+      <div class="ic">🎯</div><div class="t">When to Use</div><div class="d">Choosing Random Access Iterators over alternatives.</div>
+    </div></div>
+  </div>
 
-    <div class="brand">
-        <span class="brand-icon">⚡</span>
-        XTutiRaiseUp
-    </div>
-
-    <div class="top-actions">
-
-        <a
-            href="../index.html"
-            class="nav-btn"
-        >
-            ← C++ Topics
-        </a>
-
-        <a
-            href="../../../dashboard.html"
-            class="nav-btn"
-        >
-            🏠 Dashboard
-        </a>
-
-    </div>
-
-</header>
-
-<main class="container">
-
-<section class="hero">
-
-    <div class="hero-icon">
-        ⚙️
-    </div>
-
-    <div class="hero-stats">
-
-        <div class="stat">
-
-            <strong>
-                0600
-            </strong>
-
-            <span>
-                Topic
-            </span>
-
+  <div class="card">
+    <div class="lbl"><i></i> Hands-On</div>
+    <h2>Try It Yourself</h2>
+    <p>Try editing and running this C++ program for <strong>Random Access Iterators</strong>.</p>
+    <div class="pg">
+      <div class="ed">
+        <div class="tb">
+          <div class="tl"><div class="tr"><span></span><span></span><span></span></div><span class="fn">main.cpp</span></div>
+          <button class="rb" onclick="runCode()">▶ Run Code</button>
         </div>
+        <textarea class="ta" id="code" spellcheck="false">#include &lt;iostream>
 
-        <div class="stat">
-
-            <strong>
-                C++
-            </strong>
-
-            <span>
-                Language
-            </span>
-
-        </div>
-
-        <div class="stat">
-
-            <strong>
-                3000
-            </strong>
-
-            <span>
-                Total Topics
-            </span>
-
-        </div>
-
+int main() {
+    std::cout &lt;&lt; "Random Access Iterators\n";
+    std::cout &lt;&lt; "Topic 0600 of the C++ series\n";
+    return 0;
+}</textarea>
+      </div>
+      <div class="op">
+        <div class="oh"><span class="sd" id="sd"></span> OUTPUT</div>
+        <div class="ob" id="ob"><span class="dim">// Click "Run Code" to see the output...</span></div>
+      </div>
     </div>
+    <div class="tip">💡 Prefer STL containers over raw arrays in modern C++.</div>
+  </div>
 
-    <h1>
-        Random Access Iterators
-    </h1>
+  <div class="card">
+    <div class="lbl"><i></i> Watch It Run</div>
+    <h2>Step-by-Step Walkthrough</h2>
+    <p>Click <strong>Next Step</strong> to see what happens line by line.</p>
+    <div class="sv">
+      <div class="sh"><span class="ti">main.cpp</span>
+        <div class="sc">
+          <button class="sb" id="pb" onclick="sPrev()" disabled>← Prev</button>
+          <button class="sb" id="nb" onclick="sNext()">Next Step →</button>
+          <button class="sb" onclick="sReset()">↺ Reset</button>
+        </div>
+      </div>
+      <div class="sbd">
+        <div class="sk" id="sk"><div class="ln">#include &lt;iostream&gt;</div><div class="ln"></div><div class="ln">int main() {</div><div class="ln">    std::cout &lt;&lt; "Random Access Iterators\n";</div><div class="ln">    return 0;</div><div class="ln">}</div></div>
+        <div class="si">
+          <div class="ex2" id="sx">Click <strong>Next Step</strong> to begin.</div>
+          <div class="tg" id="st"><span style="font-size:.72rem;color:#484f58;">Waiting to start</span></div>
+        </div>
+      </div>
+      <div class="sp"><div class="bar"><div class="bf" id="bf"></div></div><div class="ct" id="ct">0 / 0</div></div>
+    </div>
+  </div>
 
-    <p>
-        C++ learning topic 0600.
-    </p>
+  <div class="card">
+    <div class="lbl"><i></i> Recap</div>
+    <h2>What You Just Learned</h2>
+    <div class="rc"><div class="rcg" style="--rc:#60a5fa"><div class="t">📦 Step 1</div><div class="d">Include the header.</div></div><div class="rcg" style="--rc:#a78bfa"><div class="t">🛠️ Step 2</div><div class="d">Declare and use the container.</div></div><div class="rcg" style="--rc:#f472b6"><div class="t">🔁 Step 3</div><div class="d">Iterate through elements.</div></div><div class="rcg" style="--rc:#34d399"><div class="t">🎯 Step 4</div><div class="d">Apply algorithms when useful.</div></div></div>
+  </div>
 
-</section>
-
-<div class="lesson-card">
-
-    <h2>
-        Random Access Iterators
-    </h2>
-
-    <p>
-        This is topic 0600 in the XTutiRaiseUp
-        C++ learning roadmap.
-    </p>
-
-    <br>
-
-    <p>
-        This page is prepared for complete documentation,
-        syntax, examples, source code, diagrams,
-        practical exercises, interview questions,
-        debugging notes and real-world applications.
-    </p>
-
+  <div class="nav">
+    <a href="../0599-output-iterators/index.html" class="pv"><div class="l">← Previous</div><div class="t">Output Iterators</div></a>
+    <a href="../0601-forward-iterators/index.html" class="nx"><div class="l">Next →</div><div class="t">Forward Iterators</div></a>
+  </div>
 </div>
 
-<div class="navigation">
-
-    <a
-        href="../0600-output-iterators/index.html"
-        class="nav-btn"
-    >
-        ← Previous
-    </a>
-
-    <a
-        href="../index.html"
-        class="nav-btn"
-    >
-        📚 All C++ Topics
-    </a>
-
-    <button
-        onclick="history.back()"
-        class="nav-btn"
-        style="cursor:pointer;"
-    >
-        ↩ Back
-    </button>
-
-    <a
-        href="../0601-forward-iterators/index.html"
-        class="nav-btn"
-    >
-        Next →
-    </a>
-
-    <a
-        href="../../../dashboard.html"
-        class="nav-btn"
-    >
-        🏠 Dashboard
-    </a>
-
-</div>
-
-</main>
-
-<footer>
-
-    <div>
-        XTutiRaiseUp by XSympan Technologies
-    </div>
-
-    <div>
-        Developed with ❤️
-    </div>
-
-    <div>
-        Support: fixitechsolution@gmail.com
-    </div>
-
-</footer>
-
-<script src="../assets/cpp.js"></script>
-
+<script>
+const T = {"steps":[{"line":0,"text":"<strong>📦 Step 1:</strong> Include the header.","tags":["Stl","Step 1"]},{"line":1,"text":"<strong>🛠️ Step 2:</strong> Declare and use the container.","tags":["Stl","Step 2"]},{"line":2,"text":"<strong>🔁 Step 3:</strong> Iterate through elements.","tags":["Stl","Step 3"]},{"line":3,"text":"<strong>🎯 Step 4:</strong> Apply algorithms when useful.","tags":["Stl","Step 4"]}],"stepCode":["#include <iostream>","","int main() {","    std::cout << \"Random Access Iterators\\n\";","    return 0;","}"]};
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function hl(l){let h=esc(l);h=h.replace(/(\/\/.*|#include.*)/g,'<span class="cm">$1</span>');h=h.replace(/\b(int|return|if|else|for|while|class|struct|void|auto|const|using|namespace|public|private|new|delete|try|catch|throw|template|typename|virtual|override|constexpr|nullptr|bool|true|false)\b/g,'<span class="kw">$1</span>');h=h.replace(/\b(main|cout|cin|endl|printf|std|string|vector|map|set)\b/g,'<span class="fn2">$1</span>');h=h.replace(/"([^"\\]|\\.)*"/g,'<span class="st">$&</span>');h=h.replace(/\b(\d+)\b/g,'<span class="nu">$1</span>');return h||' '}
+function stripC(c){return c.replace(/\/\*[\s\S]*?\*\//g,' ').replace(/\/\/.*$/gm,'')}
+function splitS(b){const o=[];let c='',s=false,h=false,d=0;for(let i=0;i<b.length;i++){const x=b[i],p=b[i-1];if(x==='"'&&p!=='\\')s=!s;if(x==="'"&&p!=='\\')h=!h;if(!s&&!h){if(x==='('||x==='{')d++;if(x===')'||x==='}')d--;if(x===';'&&d===0){o.push(c.trim());c='';continue}}c+=x}if(c.trim())o.push(c.trim());return o}
+function splitA(s){const a=[];let c='',d=0,ins=false;for(let i=0;i<s.length;i++){const x=s[i];if(x==='"'&&s[i-1]!=='\\')ins=!ins;if(!ins){if(x==='(')d++;if(x===')')d--;if(x===','&&d===0){a.push(c.trim());c='';continue}}c+=x}if(c.trim())a.push(c.trim());return a}
+function ev(e,v){e=e.trim();if(/^".*"$/.test(e))return e.slice(1,-1);if(/^'.'$/.test(e))return e.slice(1,-1);if(/^-?\d+\.\d+$/.test(e))return parseFloat(e);if(/^-?\d+$/.test(e))return parseInt(e,10);if(v[e]!==undefined)return v[e];let r=e;Object.keys(v).sort((a,b)=>b.length-a.length).forEach(n=>{r=r.replace(new RegExp('\\b'+n+'\\b','g'),'('+v[n]+')')});try{return Function('"use strict";return ('+r+')')()}catch{return 0}}
+function runCode(){
+  const raw=document.getElementById('code').value;
+  const ob=document.getElementById('ob'),sd=document.getElementById('sd');
+  ob.innerHTML='';
+  const o=(raw.match(/\/\*/g)||[]).length,c=(raw.match(/\*\//g)||[]).length;
+  if(o>c){sd.className='sd err';ob.innerHTML='<span class="err">⚠ Unclosed comment: /* was never closed with */</span>';return}
+  let cl=stripC(raw).replace(/#include\s*<[^>]+>/g,'');
+  const mm=cl.match(/int\s+main\s*\(\s*(?:void)?\s*\)\s*\{([\s\S]*)\}\s*$/);
+  if(!mm){sd.className='sd err';ob.innerHTML='<span class="err">⚠ No main() function found.</span>';return}
+  const body=mm[1],vars={},out=[];let exit=0;
+  for(const st of splitS(body)){
+    const s=st.trim();if(!s)continue;
+    if(/^return\b/.test(s)){exit=parseInt(s.replace(/^return\s+/,'').replace(/;$/,'').trim(),10)||0;break}
+    let d=s.match(/^(int|float|double|char|long|bool|auto|std::string|string)\s+(\w+)\s*=\s*([\s\S]+)$/);
+    if(d){vars[d[2]]=ev(d[3],vars);continue}
+    let d2=s.match(/^(int|float|double|char|long|bool|std::string|string)\s+(\w+)$/);
+    if(d2){vars[d2[2]]=0;continue}
+    let am=s.match(/^(\w+)\s*=\s*([\s\S]+)$/);
+    if(am&&vars[am[1]]!==undefined){vars[am[1]]=ev(am[2],vars);continue}
+    let cm=s.match(/^std::cout\s*([\s\S]+)$/);
+    if(cm){
+      let ch=cm[1],res='',parts=[],cur='',ins=false;
+      for(let i=0;i<ch.length;i++){
+        const x=ch[i];
+        if(x==='"'&&ch[i-1]!=='\\')ins=!ins;
+        if(!ins&&x==='<'&&ch[i+1]==='<'){parts.push(cur.trim());cur='';i++;continue}
+        cur+=x;
+      }
+      if(cur.trim())parts.push(cur.trim());
+      for(const p of parts){
+        if(!p)continue;
+        if(p==='std::endl'||p==='endl'){res+='\n';continue}
+        const sm=p.match(/^"((?:[^"\\]|\\.)*)"$/);
+        if(sm){res+=sm[1].replace(/\\n/g,'\n').replace(/\\t/g,'\t').replace(/\\\\/g,'\\').replace(/\\"/g,'"');continue}
+        res+=String(ev(p,vars));
+      }
+      out.push(res);continue;
+    }
+    let pm=s.match(/^printf\s*\(([\s\S]+)\)$/);
+    if(pm){
+      const a=splitA(pm[1]),fm=a[0].match(/^"((?:[^"\\]|\\.)*)"$/);
+      if(fm){
+        let fmt=fm[1].replace(/\\n/g,'\n').replace(/\\t/g,'\t');
+        const vals=a.slice(1).map(x=>ev(x,vars));let ai=0;
+        fmt=fmt.replace(/%[difcs]/g,m=>{const v=vals[ai++];if(m==='%d'||m==='%i')return Math.floor(Number(v));if(m==='%f')return Number(v).toFixed(6);if(m==='%c')return String(v);if(m==='%s')return String(v);return m});
+        out.push(fmt);
+      }
+      continue;
+    }
+  }
+  sd.className='sd ok';
+  ob.innerHTML=out.length?out.map(l=>'<div>'+esc(l)+'</div>').join(''):'<span class="dim">// Ran successfully but printed nothing.</span>';
+  const ex=document.createElement('div');
+  ex.style.cssText='margin-top:.6rem;font-size:.75rem;color:'+(exit===0?'#4ade80':'#f87171');
+  ex.textContent='Process exited with code '+exit;
+  ob.appendChild(ex);
+}
+document.getElementById('sk').innerHTML=T.steps.map((_,i)=>'<div class="ln" data-i="'+i+'">'+hl(T.stepCode[i]||'')+'</div>').join('');
+document.getElementById('ct').textContent='0 / '+T.steps.length;
+let cs=-1;
+function sU(){
+  document.querySelectorAll('#sk .ln').forEach(e=>e.classList.remove('act'));
+  if(cs<0){
+    document.getElementById('sx').innerHTML='Click <strong>Next Step</strong> to begin.';
+    document.getElementById('st').innerHTML='<span style="font-size:.72rem;color:#484f58;">Waiting to start</span>';
+    document.getElementById('bf').style.width='0%';
+    document.getElementById('ct').textContent='0 / '+T.steps.length;
+    document.getElementById('pb').disabled=true;document.getElementById('nb').disabled=false;return;
+  }
+  const s=T.steps[cs],el=document.querySelector('#sk .ln[data-i="'+cs+'"]');
+  if(el)el.classList.add('act');
+  document.getElementById('sx').innerHTML=s.text;
+  document.getElementById('st').innerHTML=(s.tags||[]).map(t=>'<span>'+t+'</span>').join('');
+  document.getElementById('bf').style.width=((cs+1)/T.steps.length*100)+'%';
+  document.getElementById('ct').textContent=(cs+1)+' / '+T.steps.length;
+  document.getElementById('pb').disabled=cs<=0;document.getElementById('nb').disabled=cs>=T.steps.length-1;
+}
+function sNext(){if(cs<T.steps.length-1){cs++;sU()}}
+function sPrev(){if(cs>0){cs--;sU()}}
+function sReset(){cs=-1;sU()}
+sU();
+</script>
 </body>
-
 </html>
