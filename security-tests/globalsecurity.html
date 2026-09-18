@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Global Security Systems — All Sectors Visualized</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0a0e1a;
+    --panel: #121826;
+    --panel-2: #1a2233;
+    --border: #223047;
+    --text: #e6edf7;
+    --muted: #8296b3;
+    --cyan: #22d3ee;
+    --green: #10b981;
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --violet: #8b5cf6;
+    --pink: #ec4899;
+    --blue: #3b82f6;
+  }
+  body {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(circle at 20% 0%, rgba(34,211,238,0.08), transparent 45%),
+      radial-gradient(circle at 80% 100%, rgba(139,92,246,0.08), transparent 45%);
+  }
+
+  /* ---------- HEADER ---------- */
+  header {
+    padding: 2rem 2rem 1.5rem;
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,14,26,0.85);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+  .header-inner { max-width: 1500px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  h1 .pulse {
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 0 rgba(16,185,129,0.7);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.7); }
+    70% { box-shadow: 0 0 0 12px rgba(16,185,129,0); }
+    100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+  }
+  h1 small { font-size: 0.75rem; font-weight: 400; color: var(--muted); display: block; }
+  .live-clock {
+    font-family: 'Consolas', monospace;
+    font-size: 0.85rem;
+    color: var(--cyan);
+    background: var(--panel);
+    padding: 0.4rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+
+  /* ---------- LAYOUT ---------- */
+  .wrap { max-width: 1500px; margin: 0 auto; padding: 2rem; }
+
+  /* ---------- STAT BAR ---------- */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  .stat {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.3rem;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .stat:hover { transform: translateY(-3px); border-color: var(--cyan); }
+  .stat::before {
+    content: '';
+    position: absolute; top: 0; left: 0; width: 3px; height: 100%;
+    background: var(--cyan);
+  }
+  .stat.green::before { background: var(--green); }
+  .stat.amber::before { background: var(--amber); }
+  .stat.red::before { background: var(--red); }
+  .stat.violet::before { background: var(--violet); }
+  .stat .label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+  .stat .value { font-size: 1.9rem; font-weight: 700; margin-top: 0.2rem; font-family: 'Consolas', monospace; }
+  .stat .sub { font-size: 0.75rem; color: var(--muted); margin-top: 0.15rem; }
+
+  /* ---------- SECTION HEADERS ---------- */
+  .section-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 2.5rem 0 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    color: var(--text);
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+  .section-title .dot {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--cyan);
+    box-shadow: 0 0 10px var(--cyan);
+  }
+
+  /* ---------- SECTOR GRID ---------- */
+  .sector-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.2rem;
+  }
+  .sector {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.3rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+  .sector:hover {
+    transform: translateY(-4px);
+    border-color: var(--accent, var(--cyan));
+    box-shadow: 0 12px 30px -10px rgba(34,211,238,0.25);
+  }
+  .sector::before {
+    content: '';
+    position: absolute;
+    top: -40%; right: -40%;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: var(--accent, var(--cyan));
+    opacity: 0.06;
+    transition: opacity 0.3s;
+  }
+  .sector:hover::before { opacity: 0.14; }
+  .sector-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.8rem;
+  }
+  .sector-icon {
+    width: 44px; height: 44px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    font-size: 1.4rem;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--border);
+  }
+  .threat-badge {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.25rem 0.6rem;
+    border-radius: 20px;
+  }
+  .threat-critical { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+  .threat-high { background: rgba(245,158,11,0.15); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+  .threat-medium { background: rgba(34,211,238,0.15); color: var(--cyan); border: 1px solid rgba(34,211,238,0.3); }
+  .threat-low { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+
+  .sector h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.3rem; }
+  .sector .desc { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.9rem; min-height: 2.4em; }
+
+  .systems-list { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-bottom: 0.9rem; }
+  .chip {
+    font-size: 0.68rem;
+    padding: 0.2rem 0.55rem;
+    border-radius: 6px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    transition: all 0.2s;
+  }
+  .sector:hover .chip { border-color: var(--accent, var(--cyan)); color: var(--text); }
+
+  .meter-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.68rem;
+    color: var(--muted);
+    margin-bottom: 0.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .meter {
+    height: 6px;
+    background: var(--panel-2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+  }
+  .meter-fill {
+    height: 100%;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--accent, var(--cyan)), color-mix(in srgb, var(--accent, var(--cyan)) 60%, white));
+    width: 0;
+    transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+  }
+
+  /* ---------- CONCENTRIC DEFENSE RINGS ---------- */
+  .rings-section {
+    display: grid;
+    grid-template-columns: minmax(340px, 1fr) 1fr;
+    gap: 2rem;
+    align-items: center;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 2rem;
+  }
+  @media (max-width: 900px) { .rings-section { grid-template-columns: 1fr; } }
+  .ring-visual { position: relative; width: 100%; max-width: 420px; margin: 0 auto; aspect-ratio: 1; }
+  .ring-visual svg { width: 100%; height: 100%; }
+  .ring-center {
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    pointer-events: none;
+  }
+  .ring-center .core {
+    width: 76px; height: 76px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(34,211,238,0.25), rgba(34,211,238,0.05));
+    border: 2px solid var(--cyan);
+    display: grid; place-items: center;
+    font-size: 1.6rem;
+    box-shadow: 0 0 30px rgba(34,211,238,0.4);
+    animation: coreGlow 3s ease-in-out infinite;
+  }
+  @keyframes coreGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(34,211,238,0.3); }
+    50% { box-shadow: 0 0 45px rgba(34,211,238,0.6); }
+  }
+  .ring-center .core-label {
+    font-size: 0.68rem; color: var(--cyan);
+    margin-top: 0.4rem; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700;
+  }
+
+  .layer-list { display: flex; flex-direction: column; gap: 0.7rem; }
+  .layer {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.8rem 1rem;
+    background: var(--panel-2);
+    border-radius: 10px;
+    border-left: 3px solid var(--layer-color);
+    transition: transform 0.2s, background 0.2s;
+    cursor: default;
+  }
+  .layer:hover { transform: translateX(6px); background: #202a3d; }
+  .layer-num {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--layer-color);
+    color: #0a0e1a;
+    font-weight: 800;
+    font-size: 0.75rem;
+    display: grid; place-items: center;
+    flex-shrink: 0;
+  }
+  .layer-body h4 { font-size: 0.88rem; font-weight: 600; }
+  .layer-body p { font-size: 0.75rem; color: var(--muted); margin: 0; }
+
+  /* ---------- ATTACK SURFACE NETWORK ---------- */
+  .network-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .network-panel svg { width: 100%; height: auto; display: block; }
+  .net-node { cursor: pointer; transition: transform 0.2s; transform-origin: center; transform-box: fill-box; }
+  .net-node:hover { transform: scale(1.15); }
+  .net-node circle { transition: all 0.25s; }
+  .net-node:hover circle { filter: brightness(1.4); }
+  .net-label { font-size: 10px; fill: var(--muted); font-weight: 600; pointer-events: none; }
+  .net-edge { stroke: rgba(130,150,179,0.18); stroke-width: 1; }
+  .net-edge.active { stroke: rgba(34,211,238,0.5); stroke-width: 1.5; animation: dash 3s linear infinite; stroke-dasharray: 4 4; }
+  @keyframes dash { to { stroke-dashoffset: -20; } }
+
+  /* ---------- THREAT FEED ---------- */
+  .feed-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.2rem 1.4rem;
+    max-height: 340px;
+    overflow-y: auto;
+    font-family: 'Consolas', monospace;
+    font-size: 0.78rem;
+  }
+  .feed-panel::-webkit-scrollbar { width: 6px; }
+  .feed-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  .feed-item {
+    display: flex;
+    gap: 0.8rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px dashed rgba(34,48,71,0.6);
+    animation: feedIn 0.4s ease;
+  }
+  @keyframes feedIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: none; } }
+  .feed-time { color: var(--muted); flex-shrink: 0; }
+  .feed-sev { flex-shrink: 0; font-weight: 700; }
+  .sev-critical { color: var(--red); }
+  .sev-high { color: var(--amber); }
+  .sev-medium { color: var(--cyan); }
+  .sev-low { color: var(--green); }
+  .feed-msg { color: #b8c7de; }
+
+  /* ---------- GRID 2 COL ---------- */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 950px) { .two-col { grid-template-columns: 1fr; } }
+
+  /* ---------- FOOTER ---------- */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    color: var(--muted);
+    font-size: 0.78rem;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  /* ---------- LEGEND ---------- */
+  .legend { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.72rem; color: var(--muted); margin-top: 1rem; }
+  .legend span { display: flex; align-items: center; gap: 0.35rem; }
+  .legend i { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+  /* ---------- MODAL ---------- */
+  .modal-bg {
+    position: fixed; inset: 0;
+    background: rgba(5,8,15,0.8);
+    backdrop-filter: blur(6px);
+    display: none;
+    place-items: center;
+    z-index: 100;
+    padding: 2rem;
+  }
+  .modal-bg.open { display: grid; }
+  .modal {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    max-width: 620px;
+    width: 100%;
+    padding: 2rem;
+    position: relative;
+    max-height: 85vh;
+    overflow-y: auto;
+    animation: modalIn 0.3s ease;
+  }
+  @keyframes modalIn { from { opacity: 0; transform: scale(0.94) translateY(20px); } to { opacity: 1; transform: none; } }
+  .modal-close {
+    position: absolute; top: 1rem; right: 1rem;
+    background: var(--panel-2); border: 1px solid var(--border);
+    color: var(--text); width: 32px; height: 32px; border-radius: 8px;
+    cursor: pointer; font-size: 1rem;
+  }
+  .modal-close:hover { background: var(--red); border-color: var(--red); }
+  .modal h2 { font-size: 1.3rem; margin-bottom: 0.3rem; }
+  .modal .modal-sub { color: var(--muted); font-size: 0.82rem; margin-bottom: 1.2rem; }
+  .modal .kv { display: grid; grid-template-columns: 130px 1fr; gap: 0.5rem 1rem; font-size: 0.85rem; margin-bottom: 1.2rem; }
+  .modal .kv dt { color: var(--muted); }
+  .modal .kv dd { color: var(--text); }
+  .modal h4 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--cyan); margin: 1rem 0 0.5rem; }
+  .modal ul { padding-left: 1.2rem; font-size: 0.85rem; color: #b8c7de; }
+  .modal li { margin-bottom: 0.3rem; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <h1>
+      <span class="pulse"></span>
+      <span>
+        Global Security Systems
+        <small>All sectors • Defense in depth • Live visualization</small>
+      </span>
+    </h1>
+    <div class="live-clock" id="clock">--:--:--</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- ================= STATS ================= -->
+  <div class="stats">
+    <div class="stat green">
+      <div class="label">Sectors Monitored</div>
+      <div class="value" data-count="12">0</div>
+      <div class="sub">Across 6 continents</div>
+    </div>
+    <div class="stat">
+      <div class="label">Security Controls</div>
+      <div class="value" data-count="247">0</div>
+      <div class="sub">Active policies &amp; rules</div>
+    </div>
+    <div class="stat amber">
+      <div class="label">Threats / 24h</div>
+      <div class="value" data-count="1846">0</div>
+      <div class="sub">Blocked or mitigated</div>
+    </div>
+    <div class="stat red">
+      <div class="label">Critical Alerts</div>
+      <div class="value" data-count="7">0</div>
+      <div class="sub">Requires review</div>
+    </div>
+    <div class="stat violet">
+      <div class="label">Quantum Readiness</div>
+      <div class="value" data-count="62" data-suffix="%">0</div>
+      <div class="sub">PQC migration progress</div>
+    </div>
+  </div>
+
+  <!-- ================= SECTOR GRID ================= -->
+  <div class="section-title"><span class="dot"></span>Sector Security Posture</div>
+  <div class="sector-grid" id="sectorGrid"></div>
+
+  <div class="legend">
+    <span><i style="background:var(--red)"></i> Critical</span>
+    <span><i style="background:var(--amber)"></i> High</span>
+    <span><i style="background:var(--cyan)"></i> Medium</span>
+    <span><i style="background:var(--green)"></i> Low</span>
+    <span style="margin-left:auto">Click any card for details →</span>
+  </div>
+
+  <!-- ================= DEFENSE IN DEPTH ================= -->
+  <div class="section-title"><span class="dot"></span>Defense‑in‑Depth Model</div>
+  <div class="rings-section">
+    <div class="ring-visual">
+      <svg viewBox="0 0 400 400">
+        <defs>
+          <radialGradient id="rg1"><stop offset="0%" stop-color="#22d3ee" stop-opacity="0.25"/><stop offset="100%" stop-color="#22d3ee" stop-opacity="0"/></radialGradient>
+        </defs>
+        <!-- Concentric rings -->
+        <circle cx="200" cy="200" r="180" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 6" opacity="0.5"/>
+        <circle cx="200" cy="200" r="150" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="3 6" opacity="0.55"/>
+        <circle cx="200" cy="200" r="120" fill="none" stroke="#22d3ee" stroke-width="1.5" stroke-dasharray="3 6" opacity="0.6"/>
+        <circle cx="200" cy="200" r="90" fill="none" stroke="#8b5cf6" stroke-width="1.5" stroke-dasharray="3 6" opacity="0.65"/>
+        <circle cx="200" cy="200" r="60" fill="none" stroke="#10b981" stroke-width="1.5" stroke-dasharray="3 6" opacity="0.7"/>
+        <!-- Labels along rings -->
+        <text x="200" y="30" text-anchor="middle" fill="#ef4444" font-size="10" font-weight="700" letter-spacing="1">PERIMETER</text>
+        <text x="200" y="60" text-anchor="middle" fill="#f59e0b" font-size="10" font-weight="700" letter-spacing="1">NETWORK</text>
+        <text x="200" y="90" text-anchor="middle" fill="#22d3ee" font-size="10" font-weight="700" letter-spacing="1">ENDPOINT</text>
+        <text x="200" y="120" text-anchor="middle" fill="#8b5cf6" font-size="10" font-weight="700" letter-spacing="1">IDENTITY</text>
+        <text x="200" y="150" text-anchor="middle" fill="#10b981" font-size="10" font-weight="700" letter-spacing="1">DATA</text>
+        <!-- Rotating pulse -->
+        <circle cx="200" cy="200" r="180" fill="none" stroke="#22d3ee" stroke-width="2" stroke-dasharray="40 1000" opacity="0.6">
+          <animateTransform attributeName="transform" type="rotate" from="0 200 200" to="360 200 200" dur="6s" repeatCount="indefinite"/>
+        </circle>
+      </svg>
+      <div class="ring-center">
+        <div class="core">🛡️</div>
+        <div class="core-label">ASSET</div>
+      </div>
+    </div>
+
+    <div class="layer-list">
+      <div class="layer" style="--layer-color:var(--green)">
+        <div class="layer-num">5</div>
+        <div class="layer-body">
+          <h4>Data Layer</h4>
+          <p>Encryption at rest &amp; in transit, DLP, tokenization, key management, PQC migration.</p>
+        </div>
+      </div>
+      <div class="layer" style="--layer-color:var(--violet)">
+        <div class="layer-num">4</div>
+        <div class="layer-body">
+          <h4>Identity Layer</h4>
+          <p>Zero Trust, MFA, SSO, PAM, behavioural analytics, continuous authentication.</p>
+        </div>
+      </div>
+      <div class="layer" style="--layer-color:var(--cyan)">
+        <div class="layer-num">3</div>
+        <div class="layer-body">
+          <h4>Endpoint Layer</h4>
+          <p>EDR/XDR, antivirus, host firewalls, device posture, patch management.</p>
+        </div>
+      </div>
+      <div class="layer" style="--layer-color:var(--amber)">
+        <div class="layer-num">2</div>
+        <div class="layer-body">
+          <h4>Network Layer</h4>
+          <p>NGFW, IDS/IPS, micro‑segmentation, NAC, VPN, DNS security, SASE.</p>
+        </div>
+      </div>
+      <div class="layer" style="--layer-color:var(--red)">
+        <div class="layer-num">1</div>
+        <div class="layer-body">
+          <h4>Perimeter Layer</h4>
+          <p>WAF, DDoS protection, email gateway, CDN, threat intelligence feeds.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= ATTACK SURFACE + THREAT FEED ================= -->
+  <div class="section-title"><span class="dot"></span>Attack Surface &amp; Live Threat Feed</div>
+  <div class="two-col">
+
+    <!-- Network graph -->
+    <div class="network-panel">
+      <h3 style="font-size:0.95rem; margin-bottom:1rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;">Inter‑Sector Attack Surface</h3>
+      <svg viewBox="0 0 500 340" id="netSvg">
+        <!-- Edges will be drawn by JS -->
+        <g id="edges"></g>
+        <g id="nodes"></g>
+      </svg>
+      <div class="legend">
+        <span><i style="background:var(--red)"></i> Critical</span>
+        <span><i style="background:var(--amber)"></i> High</span>
+        <span><i style="background:var(--cyan)"></i> Medium</span>
+        <span><i style="background:var(--green)"></i> Low</span>
+      </div>
+    </div>
+
+    <!-- Threat feed -->
+    <div class="network-panel" style="display:flex; flex-direction:column;">
+      <h3 style="font-size:0.95rem; margin-bottom:1rem; color:var(--muted); text-transform:uppercase; letter-spacing:0.08em;">Live Threat Feed</h3>
+      <div class="feed-panel" id="feed"></div>
+    </div>
+
+  </div>
+
+  <footer>
+    Global Security Systems Visualizer • Built as a single‑page dashboard • Data is illustrative
+  </footer>
+</div>
+
+<!-- ================= MODAL ================= -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   SECTOR DATA
+   ============================================================ */
+const SECTORS = [
+  {
+    id: "healthcare", icon: "🏥", name: "Healthcare", accent: "#ef4444",
+    threat: "critical", threatLabel: "Critical",
+    desc: "Protecting patient data, medical devices, and life‑critical systems.",
+    systems: ["EHR/EMR", "HIPAA", "IoMT Security", "PACS", "Telehealth", "Ransomware Defense"],
+    score: 78, readiness: 64,
+    details: {
+      regulations: "HIPAA, GDPR, HITECH, FDA 21 CFR Part 11",
+      threats: "Ransomware, medical device hijacking, PHI theft, insider misuse",
+      controls: "Network segmentation for IoMT, endpoint detection, encryption, access audits"
+    }
+  },
+  {
+    id: "finance", icon: "🏦", name: "Finance & Banking", accent: "#f59e0b",
+    threat: "critical", threatLabel: "Critical",
+    desc: "Safeguarding transactions, customer funds, and financial infrastructure.",
+    systems: ["PCI‑DSS", "Fraud Detection", "HSM", "SWIFT CSP", "Core Banking", "AML/KYC"],
+    score: 84, readiness: 71,
+    details: {
+      regulations: "PCI‑DSS, SOX, Basel III, PSD2, GDPR",
+      threats: "Card skimming, account takeover, BEC, insider fraud, ransomware",
+      controls: "HSM key management, real‑time fraud AI, tokenization, 24/7 SOC"
+    }
+  },
+  {
+    id: "government", icon: "🏛️", name: "Government & Defense", accent: "#8b5cf6",
+    threat: "critical", threatLabel: "Critical",
+    desc: "National security, classified data, and critical public services.",
+    systems: ["Zero Trust", "Air‑Gapped Nets", "PKI", "SIGINT Defense", "FedRAMP", "CMMC"],
+    score: 90, readiness: 82,
+    details: {
+      regulations: "FISMA, NIST 800‑53, FedRAMP, CMMC, ITAR",
+      threats: "APT/state‑sponsored, espionage, supply‑chain, cyber warfare",
+      controls: "Air‑gapped networks, quantum‑safe crypto, continuous monitoring, red teams"
+    }
+  },
+  {
+    id: "iot", icon: "📡", name: "IoT / IIoT", accent: "#22d3ee",
+    threat: "high", threatLabel: "High",
+    desc: "Securing billions of connected devices in homes, factories, and cities.",
+    systems: ["Device Identity", "MQTT/TLS", "Edge Security", "OTA Updates", "Zero Trust", "PQC"],
+    score: 61, readiness: 44,
+    details: {
+      regulations: "ETSI EN 303 645, IoT Cybersecurity Act, NIST IR 8259",
+      threats: "Botnets (Mirai), default credentials, firmware tampering, side‑channel",
+      controls: "Secure boot, hardware root of trust, federated learning IDS, PQC"
+    }
+  },
+  {
+    id: "industrial", icon: "🏭", name: "Industrial / SCADA", accent: "#ec4899",
+    threat: "critical", threatLabel: "Critical",
+    desc: "Protecting OT networks that control power, water, and manufacturing.",
+    systems: ["SCADA", "PLC Security", "IEC 62443", "Modbus/DNP3", "Purdue Model", "Safety Systems"],
+    score: 67, readiness: 52,
+    details: {
+      regulations: "IEC 62443, NERC CIP, NIS2, ISA‑99",
+      threats: "Stuxnet‑style attacks, safety system compromise, physical damage",
+      controls: "OT/IT segmentation, unidirectional gateways, anomaly detection, patching windows"
+    }
+  },
+  {
+    id: "cloud", icon: "☁️", name: "Cloud & SaaS", accent: "#3b82f6",
+    threat: "high", threatLabel: "High",
+    desc: "Securing multi‑cloud workloads, containers, and SaaS data.",
+    systems: ["CSPM", "CWPP", "CASB", "IAM", "Kubernetes Security", "Secrets Mgmt"],
+    score: 80, readiness: 76,
+    details: {
+      regulations: "ISO 27017, SOC 2, CSA CCM, GDPR",
+      threats: "Misconfiguration, data leakage, account hijacking, API abuse",
+      controls: "Least‑privilege IAM, encryption, workload isolation, CI/CD scanning"
+    }
+  },
+  {
+    id: "network", icon: "🌐", name: "Network / Telecom", accent: "#22d3ee",
+    threat: "high", threatLabel: "High",
+    desc: "Securing core networks, 5G, and communication infrastructure.",
+    systems: ["NGFW", "IDS/IPS", "SASE", "DDoS Protection", "DNS Security", "5G Security"],
+    score: 76, readiness: 68,
+    details: {
+      regulations: "3GPP, ITU‑T, NIS2, FCC",
+      threats: "DDoS, BGP hijacking, SS7/Diameter attacks, signalling abuse",
+      controls: "Traffic encryption, network slicing, RAN security, threat intel sharing"
+    }
+  },
+  {
+    id: "retail", icon: "🛒", name: "Retail & E‑Commerce", accent: "#f59e0b",
+    threat: "high", threatLabel: "High",
+    desc: "Protecting payments, customer data, and supply chains.",
+    systems: ["PCI‑DSS", "POS Security", "WAF", "Bot Defense", "Supply Chain", "Loyalty Data"],
+    score: 72, readiness: 58,
+    details: {
+      regulations: "PCI‑DSS, GDPR, CCPA",
+      threats: "Magecart, web skimming, credential stuffing, gift card fraud",
+      controls: "Script monitoring, tokenization, bot mitigation, endpoint hardening"
+    }
+  },
+  {
+    id: "energy", icon: "⚡", name: "Energy & Utilities", accent: "#ef4444",
+    threat: "critical", threatLabel: "Critical",
+    desc: "Securing power grids, smart meters, and renewable infrastructure.",
+    systems: ["SCADA/EMS", "Smart Meters", "NERC CIP", "IEC 61850", "Substation Security", "DER"],
+    score: 69, readiness: 55,
+    details: {
+      regulations: "NERC CIP, IEC 61850, NIS2",
+      threats: "Grid disruption, blackouts, nation‑state attacks, insider sabotage",
+      controls: "OT monitoring, encrypted telemetry, physical security, redundancy"
+    }
+  },
+  {
+    id: "transport", icon: "🚦", name: "Transport & Aviation", accent: "#8b5cf6",
+    threat: "high", threatLabel: "High",
+    desc: "Securing vehicles, air traffic, rail, and logistics.",
+    systems: ["V2X Security", "Avionics", "Rail Signalling", "Fleet Telematics", "Port Security", "Drone Defense"],
+    score: 70, readiness: 49,
+    details: {
+      regulations: "ISO 21434, DO‑326A, EN 50126",
+      threats: "CAN bus injection, GPS spoofing, ATC compromise, cargo theft",
+      controls: "Hardware security modules, secure OTA, intrusion detection, air‑gap"
+    }
+  },
+  {
+    id: "education", icon: "🎓", name: "Education", accent: "#10b981",
+    threat: "medium", threatLabel: "Medium",
+    desc: "Protecting student data, research, and campus networks.",
+    systems: ["FERPA", "Campus NAC", "Research Data", "Wi‑Fi Security", "BYOD", "Email Security"],
+    score: 64, readiness: 47,
+    details: {
+      regulations: "FERPA, GDPR, COPPA",
+      threats: "Ransomware, research theft, phishing, DDoS on exams",
+      controls: "Network segmentation, MFA, awareness training, backup"
+    }
+  },
+  {
+    id: "telecom", icon: "📱", name: "5G / Telecom Core", accent: "#3b82f6",
+    threat: "high", threatLabel: "High",
+    desc: "Securing 5G core, edge, and subscriber data.",
+    systems: ["5G Core", "Network Slicing", "MEC Security", "SIM Security", "NFV", "Roaming"],
+    score: 75, readiness: 66,
+    details: {
+      regulations: "3GPP TS 33.501, GSMA, ITU‑T",
+      threats: "Signalling attacks, slice isolation bypass, MEC compromise",
+      controls: "SUPI encryption, slice isolation, zero‑trust core, quantum‑safe links"
+    }
+  }
+];
+
+/* ============================================================
+   RENDER SECTOR CARDS
+   ============================================================ */
+const grid = document.getElementById('sectorGrid');
+SECTORS.forEach(s => {
+  const card = document.createElement('div');
+  card.className = 'sector';
+  card.style.setProperty('--accent', s.accent);
+  card.innerHTML = `
+    <div class="sector-head">
+      <div class="sector-icon">${s.icon}</div>
+      <span class="threat-badge threat-${s.threat}">${s.threatLabel}</span>
+    </div>
+    <h3>${s.name}</h3>
+    <div class="desc">${s.desc}</div>
+    <div class="systems-list">
+      ${s.systems.map(x => `<span class="chip">${x}</span>`).join('')}
+    </div>
+    <div class="meter-label"><span>Security Score</span><span>${s.score}%</span></div>
+    <div class="meter"><div class="meter-fill" style="width:${s.score}%"></div></div>
+    <div class="meter-label"><span>PQC Readiness</span><span>${s.readiness}%</span></div>
+    <div class="meter"><div class="meter-fill" style="width:${s.readiness}%; background:linear-gradient(90deg, ${s.accent}, #8b5cf6)"></div></div>
+  `;
+  card.addEventListener('click', () => openModal(s));
+  grid.appendChild(card);
+});
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+const modalBg = document.getElementById('modalBg');
+const modalContent = document.getElementById('modalContent');
+function openModal(s) {
+  modalContent.innerHTML = `
+    <h2>${s.icon} ${s.name}</h2>
+    <div class="modal-sub">${s.desc}</div>
+    <dl class="kv">
+      <dt>Threat Level</dt><dd><span class="threat-badge threat-${s.threat}">${s.threatLabel}</span></dd>
+      <dt>Security Score</dt><dd>${s.score}%</dd>
+      <dt>PQC Readiness</dt><dd>${s.readiness}%</dd>
+    </dl>
+    <h4>Regulations &amp; Frameworks</h4>
+    <ul><li>${s.details.regulations}</li></ul>
+    <h4>Primary Threats</h4>
+    <ul><li>${s.details.threats}</li></ul>
+    <h4>Key Controls</h4>
+    <ul><li>${s.details.controls}</li></ul>
+    <h4>Systems in Scope</h4>
+    <div class="systems-list">${s.systems.map(x => `<span class="chip">${x}</span>`).join('')}</div>
+  `;
+  modalBg.classList.add('open');
+}
+document.getElementById('modalClose').addEventListener('click', () => modalBg.classList.remove('open'));
+modalBg.addEventListener('click', e => { if (e.target === modalBg) modalBg.classList.remove('open'); });
+
+/* ============================================================
+   ATTACK SURFACE NETWORK GRAPH
+   ============================================================ */
+const svg = document.getElementById('netSvg');
+const edgesG = document.getElementById('edges');
+const nodesG = document.getElementById('nodes');
+const W = 500, H = 340, CX = W/2, CY = H/2;
+
+// Layout: central "Core" node + sector nodes in a circle
+const centerNode = { id: "core", label: "CORE", x: CX, y: CY, r: 26, color: "#22d3ee", sector: null };
+const sectorNodes = SECTORS.map((s, i) => {
+  const angle = (i / SECTORS.length) * Math.PI * 2 - Math.PI/2;
+  const radius = 130;
+  return {
+    id: s.id, label: s.name.split(' ')[0], x: CX + Math.cos(angle)*radius, y: CY + Math.sin(angle)*radius,
+    r: 16, color: s.accent, sector: s
+  };
+});
+const allNodes = [centerNode, ...sectorNodes];
+
+// Edges from center to each sector
+allNodes.forEach(n => {
+  if (n.id === "core") return;
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  line.setAttribute("x1", centerNode.x);
+  line.setAttribute("y1", centerNode.y);
+  line.setAttribute("x2", n.x);
+  line.setAttribute("y2", n.y);
+  line.setAttribute("class", "net-edge active");
+  line.style.stroke = n.color;
+  line.style.opacity = "0.35";
+  edgesG.appendChild(line);
+});
+
+// Nodes
+allNodes.forEach(n => {
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("class", "net-node");
+  g.setAttribute("transform", `translate(${n.x},${n.y})`);
+
+  const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  circle.setAttribute("r", n.r);
+  circle.setAttribute("fill", n.color);
+  circle.setAttribute("fill-opacity", "0.18");
+  circle.setAttribute("stroke", n.color);
+  circle.setAttribute("stroke-width", "1.5");
+  g.appendChild(circle);
+
+  const dot = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+  dot.setAttribute("r", 4);
+  dot.setAttribute("fill", n.color);
+  g.appendChild(dot);
+
+  const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  label.setAttribute("class", "net-label");
+  label.setAttribute("text-anchor", "middle");
+  label.setAttribute("y", n.r + 12);
+  label.textContent = n.label;
+  g.appendChild(label);
+
+  if (n.sector) {
+    g.style.cursor = "pointer";
+    g.addEventListener("click", () => openModal(n.sector));
+  }
+  nodesG.appendChild(g);
+});
+
+// Pulse animation on center
+const pulseCircle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+pulseCircle.setAttribute("cx", centerNode.x);
+pulseCircle.setAttribute("cy", centerNode.y);
+pulseCircle.setAttribute("r", 26);
+pulseCircle.setAttribute("fill", "none");
+pulseCircle.setAttribute("stroke", "#22d3ee");
+pulseCircle.setAttribute("stroke-width", "2");
+pulseCircle.setAttribute("opacity", "0.6");
+const animateR = document.createElementNS("http://www.w3.org/2000/svg", "animate");
+animateR.setAttribute("attributeName", "r");
+animateR.setAttribute("from", "26");
+animateR.setAttribute("to", "60");
+animateR.setAttribute("dur", "2s");
+animateR.setAttribute("repeatCount", "indefinite");
+const animateO = document.createElementNS("http://www.w3.org/2000/svg", "animate");
+animateO.setAttribute("attributeName", "opacity");
+animateO.setAttribute("from", "0.6");
+animateO.setAttribute("to", "0");
+animateO.setAttribute("dur", "2s");
+animateO.setAttribute("repeatCount", "indefinite");
+pulseCircle.appendChild(animateR);
+pulseCircle.appendChild(animateO);
+nodesG.appendChild(pulseCircle);
+
+/* ============================================================
+   LIVE THREAT FEED
+   ============================================================ */
+const feed = document.getElementById('feed');
+const THREATS = [
+  { sev: "critical", msg: "Ransomware attempt blocked — Healthcare segment" },
+  { sev: "high", msg: "Port scan detected from 185.***.***.42 → SCADA" },
+  { sev: "medium", msg: "Unusual login pattern — Finance user 'admin2'" },
+  { sev: "low", msg: "Failed MFA attempt — Education VPN gateway" },
+  { sev: "critical", msg: "Zero‑day signature match — Energy substation" },
+  { sev: "high", msg: "DDoS flood mitigated — Telecom core (2.4 Gbps)" },
+  { sev: "medium", msg: "PQC handshake fallback triggered — IoT node #4471" },
+  { sev: "low", msg: "Cert expiry warning — Transport V2X gateway" },
+  { sev: "high", msg: "Anomalous API call rate — Cloud workload 'pay‑svc'" },
+  { sev: "medium", msg: "Behavioural trust drop — Retail POS terminal 12" },
+  { sev: "critical", msg: "Lateral movement blocked — Gov network segment B" },
+  { sev: "low", msg: "Patch compliance drift — Industrial PLC #89" },
+  { sev: "high", msg: "Credential stuffing spike — Retail login endpoint" },
+  { sev: "medium", msg: "Federated model drift detected — IoT cluster 3" },
+  { sev: "low", msg: "DNS tunneling heuristic — Education research lab" },
+];
+
+function addFeedItem() {
+  const t = THREATS[Math.floor(Math.random() * THREATS.length)];
+  const now = new Date();
+  const time = now.toTimeString().slice(0, 8);
+  const item = document.createElement('div');
+  item.className = 'feed-item';
+  item.innerHTML = `
+    <span class="feed-time">${time}</span>
+    <span class="feed-sev sev-${t.sev}">${t.sev.toUpperCase().padEnd(8, ' ')}</span>
+    <span class="feed-msg">${t.msg}</span>
+  `;
+  feed.prepend(item);
+  while (feed.children.length > 25) feed.removeChild(feed.lastChild);
+}
+for (let i = 0; i < 6; i++) addFeedItem();
+setInterval(addFeedItem, 2200);
+
+/* ============================================================
+   LIVE CLOCK
+   ============================================================ */
+function tick() {
+  const d = new Date();
+  document.getElementById('clock').textContent =
+    d.toTimeString().slice(0, 8) + " UTC" + (d.getTimezoneOffset() <= 0 ? "+" : "-") + Math.abs(d.getTimezoneOffset()/60);
+}
+tick();
+setInterval(tick, 1000);
+
+/* ============================================================
+   COUNT-UP STATS
+   ============================================================ */
+document.querySelectorAll('.stat .value').forEach(el => {
+  const target = parseInt(el.dataset.count, 10);
+  const suffix = el.dataset.suffix || "";
+  let cur = 0;
+  const step = Math.max(1, Math.floor(target / 60));
+  const iv = setInterval(() => {
+    cur += step;
+    if (cur >= target) { cur = target; clearInterval(iv); }
+    el.textContent = cur.toLocaleString() + suffix;
+  }, 22);
+});
+</script>
+</body>
+</html>

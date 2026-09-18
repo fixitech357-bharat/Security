@@ -1,0 +1,1177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 9 · Compilation Process</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #0b0f19;
+    color: #e8edf5;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .bg-glow {
+    position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(59,130,246,0.14) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(168,85,247,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(14,165,233,0.06) 0%, transparent 60%);
+    animation: pulseGlow 12s ease-in-out infinite alternate;
+  }
+  @keyframes pulseGlow {
+    0% { opacity: 0.7; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.08); }
+  }
+  .bg-grid {
+    position: fixed; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  .container { max-width: 1150px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* HERO */
+  .hero { text-align: center; padding: 4.5rem 1.5rem 2rem; }
+  .topic-pill {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(96,165,250,0.12);
+    border: 1px solid rgba(96,165,250,0.3);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    font-size: 0.72rem; font-weight: 700;
+    color: #60a5fa;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .topic-pill .num {
+    background: #60a5fa; color: #0b0f19;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 800;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.15;
+    margin-bottom: 0.8rem;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 40%, #f472b6 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 1.05rem; color: #94a3b8; max-width: 660px;
+    margin: 0 auto; animation: fadeUp 0.7s ease 0.2s both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* QUICK FACTS */
+  .facts-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+  .fact {
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1rem;
+    padding: 1rem 1.1rem;
+    text-align: center;
+    transition: all 0.25s ease;
+  }
+  .fact:hover {
+    transform: translateY(-3px);
+    border-color: rgba(96,165,250,0.3);
+  }
+  .fact .big {
+    font-size: 1.15rem; font-weight: 800;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+  .fact .label {
+    font-size: 0.68rem; color: #94a3b8;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    font-weight: 600; margin-top: 0.2rem;
+  }
+
+  /* GLASS CARD */
+  .glass-card {
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1.5rem; padding: 1.8rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.25s ease;
+  }
+  .glass-card:hover { border-color: rgba(96,165,250,0.25); }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #60a5fa; margin-bottom: 0.7rem;
+  }
+  .section-label .dot {
+    width: 6px; height: 6px; background: #60a5fa;
+    border-radius: 50%; animation: blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .glass-card h2 {
+    font-size: 1.5rem; font-weight: 700; color: #f1f5f9;
+    margin-bottom: 0.5rem; letter-spacing: -0.02em;
+  }
+  .glass-card > p { color: #94a3b8; font-size: 0.95rem; }
+
+  /* PIPELINE */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.5rem;
+    padding: 1.5rem 1rem;
+    background: rgba(30,41,59,0.4);
+    border-radius: 1rem;
+    border: 1px solid rgba(148,163,184,0.1);
+  }
+  .pipe-stage {
+    background: rgba(15,23,42,0.8);
+    border: 1px solid rgba(148,163,184,0.2);
+    border-radius: 0.8rem;
+    padding: 1rem 1.2rem;
+    text-align: center;
+    min-width: 130px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+  .pipe-stage:hover {
+    border-color: var(--ps-color, #60a5fa);
+    background: rgba(59,130,246,0.1);
+    transform: translateY(-3px);
+  }
+  .pipe-stage.active {
+    border-color: var(--ps-color, #60a5fa);
+    background: rgba(59,130,246,0.15);
+    box-shadow: 0 0 20px -5px var(--ps-color, #60a5fa);
+  }
+  .pipe-stage .ps-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+  }
+  .pipe-stage .ps-title {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--ps-color, #60a5fa);
+    margin-bottom: 0.15rem;
+  }
+  .pipe-stage .ps-sub {
+    font-size: 0.68rem;
+    color: #64748b;
+    font-family: 'Fira Code', monospace;
+  }
+  .pipe-arrow {
+    color: #60a5fa;
+    font-size: 1.2rem;
+    animation: pulseArrow 1.5s ease-in-out infinite;
+  }
+  @keyframes pulseArrow {
+    0%,100% { opacity: 0.5; transform: translateX(0); }
+    50% { opacity: 1; transform: translateX(4px); }
+  }
+
+  /* STAGE DETAIL PANEL */
+  .stage-detail {
+    margin-top: 1rem;
+    background: rgba(30,41,59,0.5);
+    border-radius: 1rem;
+    padding: 1.4rem 1.6rem;
+    border: 1px solid rgba(148,163,184,0.1);
+    min-height: 140px;
+    transition: all 0.3s ease;
+  }
+  .stage-detail .sd-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.5rem;
+  }
+  .stage-detail .sd-body {
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+  }
+  .stage-detail .sd-body code {
+    background: rgba(255,166,87,0.15);
+    color: #ffa657;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.3rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem;
+  }
+  .stage-detail .sd-example {
+    margin-top: 0.8rem;
+    background: #0d1117;
+    border-radius: 0.6rem;
+    padding: 0.8rem 1rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+    color: #e6edf3;
+    border: 1px solid rgba(148,163,184,0.1);
+  }
+
+  /* COMPILER EXPLORER (CODE TABS) */
+  .code-tabs {
+    display: flex;
+    gap: 0.3rem;
+    margin-top: 1.2rem;
+    border-bottom: 1px solid rgba(148,163,184,0.15);
+    padding-bottom: 0;
+    overflow-x: auto;
+  }
+  .code-tab {
+    padding: 0.6rem 1rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: #64748b;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'Fira Code', monospace;
+    white-space: nowrap;
+  }
+  .code-tab:hover {
+    color: #94a3b8;
+  }
+  .code-tab.active {
+    color: #60a5fa;
+    border-bottom-color: #60a5fa;
+  }
+  .code-tab-content {
+    background: #0d1117;
+    border: 1px solid rgba(148,163,184,0.15);
+    border-top: none;
+    border-radius: 0 0 0.8rem 0.8rem;
+    padding: 1.2rem 1.4rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    overflow-x: auto;
+    color: #e6edf3;
+    white-space: pre;
+    min-height: 220px;
+  }
+  .code-tab-content .cmt { color: #8b949e; font-style: italic; }
+  .code-tab-content .kw { color: #ff7b72; }
+  .code-tab-content .func { color: #d2a8ff; }
+  .code-tab-content .str { color: #a5d6ff; }
+  .code-tab-content .num { color: #79c0ff; }
+  .code-tab-content .pp { color: #ffa657; }
+  .code-tab-content .asm { color: #7ee787; }
+
+  /* PLAYGROUND */
+  .playground {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 0;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(148,163,184,0.15);
+    margin-top: 1.2rem;
+    background: #0d1117;
+  }
+  .editor-pane {
+    border-right: 1px solid rgba(148,163,184,0.12);
+    display: flex; flex-direction: column;
+  }
+  .editor-toolbar {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.6rem 1rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+  }
+  .editor-toolbar .left { display: flex; align-items: center; gap: 0.6rem; }
+  .editor-toolbar .traffic { display: flex; gap: 6px; }
+  .editor-toolbar .traffic span {
+    width: 11px; height: 11px; border-radius: 50%;
+  }
+  .editor-toolbar .traffic span:nth-child(1) { background: #ff5f56; }
+  .editor-toolbar .traffic span:nth-child(2) { background: #ffbd2e; }
+  .editor-toolbar .traffic span:nth-child(3) { background: #27c93f; }
+  .editor-toolbar .filename {
+    font-size: 0.78rem; color: #8b949e;
+    font-family: 'Fira Code', monospace;
+  }
+  .run-btn {
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white; border: none;
+    border-radius: 999px; padding: 0.4rem 1.1rem;
+    font-size: 0.8rem; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; gap: 0.4rem;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px -3px rgba(16,185,129,0.4);
+  }
+  .run-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -3px rgba(16,185,129,0.55); }
+  .run-btn:active { transform: translateY(0); }
+  .code-textarea {
+    width: 100%;
+    min-height: 320px;
+    background: #0d1117;
+    color: #e6edf3;
+    border: none;
+    padding: 1.2rem 1.4rem;
+    font-family: 'Fira Code', 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    line-height: 1.75;
+    resize: vertical;
+    outline: none;
+    tab-size: 4;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .code-textarea::selection { background: rgba(96,165,250,0.3); }
+  .output-pane {
+    display: flex; flex-direction: column;
+    background: #010409;
+  }
+  .output-header {
+    padding: 0.6rem 1rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+    font-size: 0.72rem; font-weight: 600;
+    color: #8b949e; text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: flex; align-items: center; gap: 0.5rem;
+  }
+  .output-header .status-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #484f58; transition: background 0.3s;
+  }
+  .output-header .status-dot.ok { background: #27c93f; box-shadow: 0 0 8px rgba(39,201,63,0.5); }
+  .output-header .status-dot.err { background: #ff5f56; box-shadow: 0 0 8px rgba(255,95,86,0.5); }
+  .output-body {
+    padding: 1.2rem 1.4rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #7ee787;
+    white-space: pre-wrap;
+    overflow-y: auto;
+    flex: 1;
+    min-height: 280px;
+  }
+  .output-body .err { color: #ff7b72; }
+  .output-body .dim { color: #484f58; font-style: italic; }
+  .output-body .phase { color: #60a5fa; font-weight: 600; }
+  .output-body .file { color: #ffa657; }
+
+  /* TIPS BOX */
+  .tip-box {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 0.8rem;
+    padding: 0.9rem 1.1rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    display: flex; gap: 0.6rem;
+  }
+  .tip-box .tip-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .tip-box code {
+    background: rgba(255,166,87,0.15);
+    color: #ffa657;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.3rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+  }
+
+  /* STEP VISUALIZER */
+  .step-viz {
+    margin-top: 1.2rem;
+    background: #0d1117;
+    border-radius: 1rem;
+    border: 1px solid rgba(148,163,184,0.15);
+    overflow: hidden;
+  }
+  .step-header {
+    padding: 0.7rem 1.2rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .step-header .title {
+    font-size: 0.8rem; color: #8b949e;
+    font-family: 'Fira Code', monospace;
+  }
+  .step-controls { display: flex; gap: 0.4rem; }
+  .step-btn {
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.3);
+    color: #60a5fa;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .step-btn:hover:not(:disabled) { background: rgba(59,130,246,0.3); }
+  .step-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .step-body { display: grid; grid-template-columns: 1.2fr 1fr; }
+  .step-code {
+    padding: 1rem 1.2rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem; line-height: 1.9;
+    border-right: 1px solid rgba(148,163,184,0.1);
+  }
+  .step-code .line {
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.3rem;
+    transition: background 0.3s, color 0.3s;
+    white-space: pre;
+  }
+  .step-code .line.active {
+    background: rgba(96,165,250,0.15);
+    color: #f1f5f9;
+    box-shadow: inset 3px 0 0 #60a5fa;
+  }
+  .step-info {
+    padding: 1rem 1.2rem;
+    background: rgba(30,41,59,0.4);
+  }
+  .step-info .explanation {
+    font-size: 0.82rem; color: #cbd5e1;
+    min-height: 4rem; margin-bottom: 0.8rem;
+    line-height: 1.55;
+  }
+  .step-info .tag-list {
+    display: flex; flex-wrap: wrap; gap: 0.35rem;
+    min-height: 1.8rem;
+  }
+  .step-info .tag {
+    background: rgba(167,139,250,0.15);
+    border: 1px solid rgba(167,139,250,0.3);
+    color: #d2a8ff;
+    border-radius: 0.4rem; padding: 0.2rem 0.55rem;
+    font-size: 0.7rem; font-family: 'Fira Code', monospace;
+  }
+  .step-progress {
+    padding: 0.6rem 1.2rem;
+    background: rgba(30,41,59,0.3);
+    border-top: 1px solid rgba(148,163,184,0.08);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .step-progress .bar {
+    flex: 1; height: 4px;
+    background: rgba(148,163,184,0.15);
+    border-radius: 999px; overflow: hidden;
+  }
+  .step-progress .bar-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    transition: width 0.35s ease;
+  }
+  .step-progress .count {
+    font-size: 0.72rem; color: #64748b;
+    font-family: 'Fira Code', monospace;
+    min-width: 3.5rem; text-align: right;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 780px) {
+    .container { padding: 0 1rem; }
+    .hero { padding: 3rem 1rem 1.5rem; }
+    .glass-card { padding: 1.3rem; border-radius: 1.2rem; }
+    .glass-card h2 { font-size: 1.25rem; }
+    .playground { grid-template-columns: 1fr; }
+    .editor-pane { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.12); }
+    .code-textarea { min-height: 260px; font-size: 0.8rem; }
+    .step-body { grid-template-columns: 1fr; }
+    .step-code { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.1); }
+    .pipeline { flex-direction: column; }
+    .pipe-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="topic-pill"><span class="num">9</span> Topic 9 of the C Series</div>
+    <h1>The <span class="gradient-text">Compilation Process</span></h1>
+    <p>
+      How does your C code become a running program? It happens in four phases:
+      Preprocessing, Compilation, Assembly, and Linking. Explore each one.
+    </p>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- QUICK FACTS -->
+  <div class="facts-row">
+    <div class="fact">
+      <div class="big">4</div>
+      <div class="label">Main Phases</div>
+    </div>
+    <div class="fact">
+      <div class="big">.c</div>
+      <div class="label">Input</div>
+    </div>
+    <div class="fact">
+      <div class="big">.i</div>
+      <div class="label">Preprocessed</div>
+    </div>
+    <div class="fact">
+      <div class="big">.s</div>
+      <div class="label">Assembly</div>
+    </div>
+    <div class="fact">
+      <div class="big">.o</div>
+      <div class="label">Object</div>
+    </div>
+    <div class="fact">
+      <div class="big">a.out</div>
+      <div class="label">Executable</div>
+    </div>
+  </div>
+
+  <!-- ===== PIPELINE ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Pipeline</div>
+    <h2>The 4 Stages of Compilation</h2>
+    <p>
+      Click any stage to see what it does, what file it produces, and an example.
+    </p>
+
+    <div class="pipeline" id="pipeline">
+      <div class="pipe-stage active" style="--ps-color:#ffa657;" onclick="showStage('preprocess')">
+        <div class="ps-icon">🔧</div>
+        <div class="ps-title">1. Preprocessing</div>
+        <div class="ps-sub">.c → .i</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-stage" style="--ps-color:#60a5fa;" onclick="showStage('compile')">
+        <div class="ps-icon">⚙️</div>
+        <div class="ps-title">2. Compilation</div>
+        <div class="ps-sub">.i → .s</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-stage" style="--ps-color:#a78bfa;" onclick="showStage('assemble')">
+        <div class="ps-icon">📦</div>
+        <div class="ps-title">3. Assembly</div>
+        <div class="ps-sub">.s → .o</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-stage" style="--ps-color:#f472b6;" onclick="showStage('link')">
+        <div class="ps-icon">🔗</div>
+        <div class="ps-title">4. Linking</div>
+        <div class="ps-sub">.o → executable</div>
+      </div>
+    </div>
+
+    <!-- STAGE DETAIL PANEL -->
+    <div class="stage-detail" id="stageDetail">
+      <div class="sd-title">🔧 1. Preprocessing</div>
+      <div class="sd-body">
+        The <strong>preprocessor</strong> handles all lines starting with <code>#</code>.
+        It pastes in the contents of included headers (<code>#include</code>), replaces
+        macros (<code>#define</code>), and removes comments. The output is a pure C
+        file — no <code>#</code> lines left — called the <em>translation unit</em>.
+      </div>
+      <div class="sd-example">
+        <span style="color:#64748b;">$ gcc -E main.c -o main.i</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COMPILER EXPLORER ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Compiler Explorer</div>
+    <h2>See the Code at Each Stage</h2>
+    <p>
+      Click a tab to see how the same program looks at each stage of the pipeline.
+    </p>
+
+    <div class="code-tabs">
+      <button class="code-tab active" onclick="showCodeTab('source', this)">main.c (source)</button>
+      <button class="code-tab" onclick="showCodeTab('preprocessed', this)">main.i (preprocessed)</button>
+      <button class="code-tab" onclick="showCodeTab('assembly', this)">main.s (assembly)</button>
+      <button class="code-tab" onclick="showCodeTab('object', this)">main.o (object)</button>
+    </div>
+    <div class="code-tab-content" id="codeTabContent"></div>
+  </div>
+
+  <!-- ===== LIVE PLAYGROUND ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Hands-On</div>
+    <h2>Simulate the Compilation</h2>
+    <p>
+      Write any C code and click "Compile". The output panel will show you the
+      exact command a compiler would run, the phases, and then the final result.
+    </p>
+
+    <div class="playground">
+      <div class="editor-pane">
+        <div class="editor-toolbar">
+          <div class="left">
+            <div class="traffic"><span></span><span></span><span></span></div>
+            <span class="filename">program.c</span>
+          </div>
+          <button class="run-btn" onclick="compileAndRun()">▶ Compile &amp; Run</button>
+        </div>
+        <textarea class="code-textarea" id="codeInput" spellcheck="false">#include <stdio.h>
+
+#define VERSION 9
+
+int main() {
+    printf("Compiling and running!\n");
+    printf("Version: %d\n", VERSION);
+    return 0;
+}</textarea>
+      </div>
+
+      <div class="output-pane">
+        <div class="output-header">
+          <span class="status-dot" id="statusDot"></span>
+          COMPILER OUTPUT
+        </div>
+        <div class="output-body" id="outputBody">
+          <span class="dim">// Click "Compile &amp; Run" to see the pipeline...</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <div>
+        <strong>Try this:</strong> Remove the <code>#define VERSION 9</code> line and
+        run — the compiler will report an error because <code>VERSION</code> is
+        undefined. This simulates a real preprocessing error.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP-BY-STEP ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Watch the Pipeline</div>
+    <h2>Walk Through Every Phase</h2>
+    <p>
+      Click <strong>Next Step</strong> to move through the pipeline one phase at a time.
+    </p>
+
+    <div class="step-viz">
+      <div class="step-header">
+        <span class="title">compile_walkthrough.c</span>
+        <div class="step-controls">
+          <button class="step-btn" id="prevBtn" onclick="stepPrev()" disabled>← Prev</button>
+          <button class="step-btn" id="nextBtn" onclick="stepNext()">Next Step →</button>
+          <button class="step-btn" id="resetBtn" onclick="stepReset()">↺ Reset</button>
+        </div>
+      </div>
+
+      <div class="step-body">
+        <div class="step-code" id="stepCode">
+          <div class="line" data-line="0">/* Phase 1: Preprocessing */</div>
+          <div class="line" data-line="1">#include &lt;stdio.h&gt;</div>
+          <div class="line" data-line="2">#define MAX 100</div>
+          <div class="line" data-line="3">int main() {</div>
+          <div class="line" data-line="4">    int x = MAX;</div>
+          <div class="line" data-line="5">    printf("%d\n", x);</div>
+          <div class="line" data-line="6">    return 0;</div>
+          <div class="line" data-line="7">}</div>
+        </div>
+
+        <div class="step-info">
+          <div class="explanation" id="stepExplanation">
+            Click <strong>Next Step</strong> to begin.
+          </div>
+          <div class="tag-list" id="stepTags">
+            <span style="font-size:0.72rem;color:#484f58;">Waiting to start</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-progress">
+        <div class="bar"><div class="bar-fill" id="stepBarFill"></div></div>
+        <div class="count" id="stepCount">0 / 8</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RECAP ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Recap</div>
+    <h2>What You Just Learned</h2>
+    <p>
+      The compilation process turns human-readable C code into machine-executable
+      binaries. Here's the summary:
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.8rem;margin-top:1rem;">
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #ffa657;">
+        <div style="font-size:0.72rem;font-weight:700;color:#ffa657;text-transform:uppercase;letter-spacing:0.06em;">Preprocessing</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Handles <code style="color:#ffa657;">#include</code>, <code style="color:#ffa657;">#define</code>, and comments. Produces a pure C file.</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #60a5fa;">
+        <div style="font-size:0.72rem;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:0.06em;">Compilation</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Translates C into assembly language. Checks syntax and types.</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #a78bfa;">
+        <div style="font-size:0.72rem;font-weight:700;color:#a78bfa;text-transform:uppercase;letter-spacing:0.06em;">Assembly</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Turns assembly code into machine code (object file <code style="color:#d2a8ff;">.o</code>).</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #f472b6;">
+        <div style="font-size:0.72rem;font-weight:700;color:#f472b6;text-transform:uppercase;letter-spacing:0.06em;">Linking</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Combines object files with libraries into a single executable.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   STAGE DATA
+   ============================================================ */
+const stageData = {
+  preprocess: {
+    title: '🔧 1. Preprocessing',
+    body: 'The <strong>preprocessor</strong> handles all lines starting with <code>#</code>. It pastes in the contents of included headers (<code>#include</code>), replaces macros (<code>#define</code>), and removes comments. The output is a pure C file — no <code>#</code> lines left — called the <em>translation unit</em>.',
+    example: '$ gcc -E main.c -o main.i'
+  },
+  compile: {
+    title: '⚙️ 2. Compilation',
+    body: 'The <strong>compiler</strong> takes the preprocessed C code and translates it into <strong>assembly language</strong> for the target CPU. This is where syntax errors are caught, types are checked, and optimizations are applied.',
+    example: '$ gcc -S main.i -o main.s'
+  },
+  assemble: {
+    title: '📦 3. Assembly',
+    body: 'The <strong>assembler</strong> takes the assembly code and translates it into <strong>machine code</strong> — the actual 1s and 0s the CPU understands. The output is an <em>object file</em> (<code>.o</code> on Unix, <code>.obj</code> on Windows). It contains machine code but is not yet a runnable program.',
+    example: '$ gcc -c main.s -o main.o'
+  },
+  link: {
+    title: '🔗 4. Linking',
+    body: 'The <strong>linker</strong> combines your object files with the standard C library (<code>libc</code>) and any other libraries you use. It resolves function calls like <code>printf()</code> and produces the final <strong>executable file</strong> (<code>a.out</code> on Unix, <code>.exe</code> on Windows).',
+    example: '$ gcc main.o -o program'
+  }
+};
+
+function showStage(key) {
+  document.querySelectorAll('.pipe-stage').forEach(s => s.classList.remove('active'));
+  const stages = document.querySelectorAll('.pipe-stage');
+  const keys = ['preprocess', 'compile', 'assemble', 'link'];
+  const idx = keys.indexOf(key);
+  if (idx >= 0) stages[idx].classList.add('active');
+
+  const d = stageData[key];
+  document.getElementById('stageDetail').innerHTML =
+    `<div class="sd-title">${d.title}</div>
+     <div class="sd-body">${d.body}</div>
+     <div class="sd-example"><span style="color:#64748b;">${d.example}</span></div>`;
+}
+
+/* ============================================================
+   COMPILER EXPLORER TABS
+   ============================================================ */
+const codeStages = {
+  source: `<span class="cmt">/* main.c — original source file */</span>
+<span class="pp">#include</span> <span class="str">&lt;stdio.h&gt;</span>
+
+<span class="pp">#define</span> <span class="macro">VERSION</span> <span class="num">9</span>
+
+<span class="kw">int</span> <span class="func">main</span>() {
+    <span class="func">printf</span>(<span class="str">"Hello!\\n"</span>);
+    <span class="func">printf</span>(<span class="str">"Version: %d\\n"</span>, <span class="macro">VERSION</span>);
+    <span class="kw">return</span> <span class="num">0</span>;
+}`,
+  preprocessed: `<span class="cmt">/* main.i — after preprocessing. All # lines are gone. */</span>
+<span class="cmt">/* Thousands of lines from stdio.h have been pasted here... */</span>
+<span class="cmt">/* The macro VERSION has been replaced with 9. */</span>
+
+<span class="kw">int</span> <span class="func">main</span>() {
+    <span class="func">printf</span>(<span class="str">"Hello!\\n"</span>);
+    <span class="func">printf</span>(<span class="str">"Version: %d\\n"</span>, <span class="num">9</span>);
+    <span class="kw">return</span> <span class="num">0</span>;
+}`,
+  assembly: `<span class="cmt">; main.s — compiled to assembly for x86-64</span>
+    <span class="asm">.section</span> .rodata
+    <span class="asm">.LC0:</span>
+        <span class="asm">.string</span> <span class="str">"Hello!"</span>
+    <span class="asm">.LC1:</span>
+        <span class="asm">.string</span> <span class="str">"Version: %d"</span>
+
+    <span class="asm">.text</span>
+    <span class="asm">.globl</span> main
+    <span class="asm">main:</span>
+        <span class="asm">pushq</span> %rbp
+        <span class="asm">movq</span> %rsp, %rbp
+        <span class="asm">leaq</span> .LC0(%rip), %rdi
+        <span class="asm">call</span> puts
+        <span class="asm">movl</span> $9, %esi
+        <span class="asm">leaq</span> .LC1(%rip), %rdi
+        <span class="asm">call</span> printf
+        <span class="asm">movl</span> $0, %eax
+        <span class="asm">popq</span> %rbp
+        <span class="asm">ret</span>`,
+  object: `<span class="cmt">/* main.o — object file (binary, shown as hex) */</span>
+<span class="cmt">/* The assembler has converted everything to machine code. */</span>
+<span class="cmt">/* The linker will now combine this with libc. */</span>
+
+<span style="color:#484f58;">0000000000000000 &lt;main&gt;:</span>
+   0:   <span class="num">55</span>                      push   %rbp
+   1:   <span class="num">48 89 e5</span>                mov    %rsp,%rbp
+   4:   <span class="num">48 8d 3d 00 00 00 00</span>    lea    0x0(%rip),%rdi
+   b:   <span class="num">e8 00 00 00 00</span>          call   <span class="func">puts@plt</span>
+  10:   <span class="num">be 09 00 00 00</span>          mov    $0x9,%esi
+  15:   <span class="num">48 8d 3d 00 00 00 00</span>    lea    0x0(%rip),%rdi
+  1c:   <span class="num">e8 00 00 00 00</span>          call   <span class="func">printf@plt</span>
+  21:   <span class="num">b8 00 00 00 00</span>          mov    $0x0,%eax
+  26:   <span class="num">5d</span>                      pop    %rbp
+  27:   <span class="num">c3</span>                      ret`
+};
+
+function showCodeTab(key, el) {
+  document.querySelectorAll('.code-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('codeTabContent').innerHTML = codeStages[key];
+}
+
+/* Init first tab */
+showCodeTab('source', document.querySelector('.code-tab.active'));
+
+/* ============================================================
+   COMPILE & RUN SIMULATION
+   ============================================================ */
+
+function compileAndRun() {
+  const code = document.getElementById('codeInput').value;
+  const outBody = document.getElementById('outputBody');
+  const statusDot = document.getElementById('statusDot');
+  outBody.innerHTML = '';
+
+  // Check for common preprocessing errors
+  const missingIncludes = !/#include\s*<stdio.h>/.test(code);
+  const undefinedMacro = /VERSION/.test(code) && !/#define\s+VERSION/.test(code);
+
+  // Simulate phases
+  const phases = [
+    { name: '1. Preprocessing', icon: '🔧', cmd: 'gcc -E program.c -o program.i', color: '#ffa657' },
+    { name: '2. Compilation', icon: '⚙️', cmd: 'gcc -S program.i -o program.s', color: '#60a5fa' },
+    { name: '3. Assembly', icon: '📦', cmd: 'gcc -c program.s -o program.o', color: '#a78bfa' },
+    { name: '4. Linking', icon: '🔗', cmd: 'gcc program.o -o program', color: '#f472b6' }
+  ];
+
+  if (missingIncludes) {
+    statusDot.className = 'status-dot err';
+    outBody.innerHTML = `<span class="err">⚠ Compilation Error: stdio.h not included.</span>\n<span class="dim">printf() is not declared. Add #include <stdio.h></span>`;
+    return;
+  }
+
+  if (undefinedMacro) {
+    statusDot.className = 'status-dot err';
+    outBody.innerHTML = `<span class="err">⚠ Compilation Error: 'VERSION' undeclared.</span>\n<span class="dim">The macro VERSION was never defined. Add #define VERSION 9</span>`;
+    return;
+  }
+
+  // Success
+  statusDot.className = 'status-dot ok';
+
+  let output = '';
+  phases.forEach(p => {
+    output += `<span class="phase">${p.icon} ${p.name}</span>\n`;
+    output += `<span class="file">$ ${p.cmd}</span>\n`;
+    output += `<span class="dim">   → Success.</span>\n\n`;
+  });
+
+  // Run the interpreted program
+  const result = interpret(code);
+
+  output += `<span class="phase">🚀 Running the executable</span>\n`;
+  output += `<span class="file">$ ./program</span>\n`;
+
+  if (result.error) {
+    output += `<span class="err">${result.error}</span>`;
+  } else {
+    result.output.forEach(line => {
+      output += `${line}\n`;
+    });
+  }
+
+  output += `\n<span class="dim">Process exited with code ${result.exitCode || 0}</span>`;
+
+  outBody.innerHTML = output;
+}
+
+/* ============================================================
+   MINI C INTERPRETER (for running the code)
+   ============================================================ */
+
+function stripComments(code) {
+  return code.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
+}
+
+function splitStatements(body) {
+  const stmts = [];
+  let current = '';
+  let inString = false, inChar = false, depth = 0;
+
+  for (let i = 0; i < body.length; i++) {
+    const c = body[i];
+    const prev = body[i - 1];
+    if (c === '"' && prev !== '\\') inString = !inString;
+    if (c === "'" && prev !== '\\') inChar = !inChar;
+    if (!inString && !inChar) {
+      if (c === '(' || c === '{') depth++;
+      if (c === ')' || c === '}') depth--;
+      if (c === ';' && depth === 0) {
+        stmts.push(current.trim());
+        current = '';
+        continue;
+      }
+    }
+    current += c;
+  }
+  if (current.trim()) stmts.push(current.trim());
+  return stmts;
+}
+
+function evalExpression(expr, vars) {
+  expr = expr.trim();
+  if (/^".*"$/.test(expr)) return expr.slice(1, -1);
+  if (/^'.'$/.test(expr)) return expr.slice(1, -1);
+  if (/^-?\d+\.\d+$/.test(expr)) return parseFloat(expr);
+  if (/^-?\d+$/.test(expr)) return parseInt(expr, 10);
+  if (vars[expr] !== undefined) return vars[expr].value;
+
+  let replaced = expr;
+  const names = Object.keys(vars).sort((a, b) => b.length - a.length);
+  for (const name of names) {
+    replaced = replaced.replace(new RegExp(`\\b${name}\\b`, 'g'), `(${vars[name].value})`);
+  }
+  try {
+    return Function('"use strict";return (' + replaced + ')')();
+  } catch {
+    return 0;
+  }
+}
+
+function splitArgs(str) {
+  const args = [];
+  let current = '';
+  let depth = 0, inString = false;
+  for (let i = 0; i < str.length; i++) {
+    const c = str[i];
+    if (c === '"' && str[i - 1] !== '\\') inString = !inString;
+    if (!inString) {
+      if (c === '(') depth++;
+      if (c === ')') depth--;
+      if (c === ',' && depth === 0) {
+        args.push(current.trim());
+        current = '';
+        continue;
+      }
+    }
+    current += c;
+  }
+  if (current.trim()) args.push(current.trim());
+  return args;
+}
+
+function evalPrintf(args, vars) {
+  const fmtMatch = args.match(/^"((?:[^"\\]|\\.)*)"((?:,\s*[\s\S]+)?)$/);
+  if (!fmtMatch) return { error: 'printf: invalid format string' };
+  let fmt = fmtMatch[1];
+  const rest = (fmtMatch[2] || '').replace(/^,\s*/, '').trim();
+  const extraArgs = rest ? splitArgs(rest) : [];
+  const values = extraArgs.map(a => evalExpression(a, vars));
+
+  let result = '';
+  let argIndex = 0;
+  let i = 0;
+  while (i < fmt.length) {
+    if (fmt[i] === '\\' && i + 1 < fmt.length) {
+      const next = fmt[i + 1];
+      if (next === 'n') result += '\n';
+      else if (next === 't') result += '\t';
+      else if (next === '\\') result += '\\';
+      else if (next === '"') result += '"';
+      else result += next;
+      i += 2;
+    } else if (fmt[i] === '%' && i + 1 < fmt.length) {
+      const spec = fmt[i + 1];
+      const val = values[argIndex++];
+      if (spec === 'd' || spec === 'i') result += Math.floor(Number(val));
+      else if (spec === 'f' || spec === 'lf') result += Number(val).toFixed(6);
+      else if (spec === 'c') result += String(val);
+      else if (spec === 's') result += String(val);
+      else if (spec === '%') result += '%';
+      else result += '%' + spec;
+      i += 2;
+    } else {
+      result += fmt[i];
+      i++;
+    }
+  }
+  return { text: result };
+}
+
+function interpret(code) {
+  const output = [];
+  const variables = {};
+  let error = null;
+  let exitCode = 0;
+
+  // Extract macros
+  const macros = {};
+  const macroRegex = /#define\s+(\w+)\s+([^\n]+)/g;
+  let m;
+  while ((m = macroRegex.exec(code)) !== null) {
+    macros[m[1]] = m[2].trim();
+  }
+
+  let clean = stripComments(code);
+  clean = clean.replace(/#include\s*<[^>]+>/g, '');
+  clean = clean.replace(/#define\s+\w+\s+[^\n]+/g, '');
+
+  for (const key in macros) {
+    clean = clean.replace(new RegExp(`\\b${key}\\b`, 'g'), macros[key]);
+  }
+
+  const mainMatch = clean.match(/int\s+main\s*\(\s*(?:void)?\s*\)\s*\{([\s\S]*)\}\s*$/);
+  if (!mainMatch) return { output: [], error: 'No main() function found.', exitCode: 1 };
+
+  const statements = splitStatements(mainMatch[1]);
+
+  for (const stmt of statements) {
+    const s = stmt.trim();
+    if (!s) continue;
+
+    if (/^return\b/.test(s)) {
+      const retVal = s.replace(/^return\s+/, '').replace(/;$/, '').trim();
+      exitCode = parseInt(retVal, 10) || 0;
+      break;
+    }
+
+    let declMatch = s.match(/^(int|float|double|char)\s+(\w+)\s*=\s*([\s\S]+)$/);
+    if (declMatch) {
+      variables[declMatch[2]] = { type: declMatch[1], value: evalExpression(declMatch[3], variables) };
+      continue;
+    }
+
+    let declOnly = s.match(/^(int|float|double|char)\s+(\w+)$/);
+    if (declOnly) {
+      variables[declOnly[2]] = { type: declOnly[1], value: 0 };
+      continue;
+    }
+
+    let printfMatch = s.match(/^printf\s*\(([\s\S]+)\)$/);
+    if (printfMatch) {
+      const r = evalPrintf(printfMatch[1], variables);
+      if (r.error) { error = r.error; break; }
+      output.push(r.text);
+      continue;
+    }
+  }
+
+  return { output, variables, error, exitCode };
+}
+
+/* ============================================================
+   STEP-BY-STEP VISUALIZER
+   ============================================================ */
+
+const executionSteps = [
+  { line: 0, explanation: '<strong>Phase 1 starts: Preprocessing.</strong> The preprocessor reads the file and looks for lines starting with <code>#</code>.', tags: ['Preprocessing'] },
+  { line: 1, explanation: '<strong>#include &lt;stdio.h&gt;</strong> is replaced with the entire contents of the stdio.h header — thousands of lines of function declarations.', tags: ['Preprocessing'] },
+  { line: 2, explanation: '<strong>#define MAX 100</strong> creates a macro. Later, every occurrence of <code>MAX</code> in the code will be replaced with <code>100</code>.', tags: ['Preprocessing'] },
+  { line: 4, explanation: '<strong>Macro expansion.</strong> The preprocessor replaces <code>MAX</code> with <code>100</code>. The line becomes <code>int x = 100;</code>', tags: ['Preprocessing'] },
+  { line: 3, explanation: '<strong>Phase 2: Compilation.</strong> The compiler takes the preprocessed code and translates it into assembly language for the CPU.', tags: ['Compilation'] },
+  { line: 5, explanation: '<strong>Syntax check:</strong> The compiler verifies that <code>printf</code> is declared (thanks to the header) and that the arguments are valid.', tags: ['Compilation'] },
+  { line: 6, explanation: '<strong>Phase 3: Assembly.</strong> The assembly code is translated into machine code. The output is an object file (<code>main.o</code>).', tags: ['Assembly'] },
+  { line: 7, explanation: '<strong>Phase 4: Linking.</strong> The linker combines <code>main.o</code> with the C standard library, resolving <code>printf</code>. The final executable is produced.', tags: ['Linking'] }
+];
+
+let currentStep = -1;
+
+function updateStepUI() {
+  const total = executionSteps.length;
+  document.querySelectorAll('#stepCode .line').forEach(el => el.classList.remove('active'));
+
+  if (currentStep < 0) {
+    document.getElementById('stepExplanation').innerHTML = 'Click <strong>Next Step</strong> to begin.';
+    document.getElementById('stepTags').innerHTML = '<span style="font-size:0.72rem;color:#484f58;">Waiting to start</span>';
+    document.getElementById('stepBarFill').style.width = '0%';
+    document.getElementById('stepCount').textContent = `0 / ${total}`;
+    document.getElementById('prevBtn').disabled = true;
+    document.getElementById('nextBtn').disabled = false;
+    return;
+  }
+
+  const step = executionSteps[currentStep];
+  const lineEl = document.querySelector(`#stepCode .line[data-line="${step.line}"]`);
+  if (lineEl) lineEl.classList.add('active');
+
+  document.getElementById('stepExplanation').innerHTML = step.explanation;
+
+  const tagList = document.getElementById('stepTags');
+  tagList.innerHTML = step.tags.map(t =>
+    `<span class="tag">${t}</span>`
+  ).join('');
+
+  const pct = ((currentStep + 1) / total) * 100;
+  document.getElementById('stepBarFill').style.width = pct + '%';
+  document.getElementById('stepCount').textContent = `${currentStep + 1} / ${total}`;
+  document.getElementById('prevBtn').disabled = currentStep <= 0;
+  document.getElementById('nextBtn').disabled = currentStep >= total - 1;
+}
+
+function stepNext() {
+  if (currentStep < executionSteps.length - 1) {
+    currentStep++;
+    updateStepUI();
+  }
+}
+
+function stepPrev() {
+  if (currentStep > 0) {
+    currentStep--;
+    updateStepUI();
+  }
+}
+
+function stepReset() {
+  currentStep = -1;
+  updateStepUI();
+}
+
+updateStepUI();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,526 @@
+
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+ html {
+     scroll-behavior: smooth;
+ }
+ body {
+     min-height: 100vh;
+     overflow: hidden;
+     font-family: Arial, Helvetica, sans-serif;
+     color: #ffffff;
+     background:
+         radial-gradient(
+             circle at 10% 15%,
+             rgba(0, 180, 255, 0.20),
+             transparent 28%
+         ),
+         radial-gradient(
+             circle at 90% 10%,
+             rgba(130, 70, 255, 0.20),
+             transparent 28%
+         ),
+         radial-gradient(
+             circle at 50% 100%,
+             rgba(0, 255, 180, 0.14),
+             transparent 30%
+         ),
+         #03060b;
+ }
+ /* ================= BACKGROUND ================= */
+ .background {
+     position: fixed;
+     inset: 0;
+     overflow: hidden;
+     z-index: 0;
+     pointer-events: none;
+ }
+ .grid {
+     position: absolute;
+     inset: 0;
+     background-image:
+         linear-gradient(
+             rgba(255,255,255,0.025) 1px,
+             transparent 1px
+         ),
+         linear-gradient(
+             90deg,
+             rgba(255,255,255,0.025) 1px,
+             transparent 1px
+         );
+     background-size: 55px 55px;
+     mask-image: linear-gradient(
+         to bottom,
+         black,
+         transparent
+     );
+ }
+ /* ================= GLOWING ORBS ================= */
+ .orb {
+     position: absolute;
+     border-radius: 50%;
+     filter: blur(5px);
+     opacity: 0.45;
+ }
+ .orb1 {
+     width: 260px;
+     height: 260px;
+     background: #00cfff;
+     left: -90px;
+     top: 15%;
+     animation: orbMove1 16s ease-in-out infinite;
+ }
+ .orb2 {
+     width: 240px;
+     height: 240px;
+     background: #7c3aed;
+     right: -80px;
+     top: 12%;
+     animation: orbMove2 19s ease-in-out infinite;
+ }
+ .orb3 {
+     width: 210px;
+     height: 210px;
+     background: #00f5a0;
+     left: 22%;
+     bottom: -100px;
+     animation: orbMove3 18s ease-in-out infinite;
+ }
+ .orb4 {
+     width: 180px;
+     height: 180px;
+     background: #ff3cac;
+     right: 22%;
+     bottom: -80px;
+     animation: orbMove4 21s ease-in-out infinite;
+ }
+ @keyframes orbMove1 {
+     0%, 100% {
+         transform: translate(0, 0);
+     }
+     50% {
+         transform: translate(120px, -80px);
+     }
+ }
+ @keyframes orbMove2 {
+     0%, 100% {
+         transform: translate(0, 0);
+     }
+     50% {
+         transform: translate(-120px, 70px);
+     }
+ }
+ @keyframes orbMove3 {
+     0%, 100% {
+         transform: translate(0, 0);
+     }
+     50% {
+         transform: translate(100px, -100px);
+     }
+ }
+ @keyframes orbMove4 {
+     0%, 100% {
+         transform: translate(0, 0);
+     }
+     50% {
+         transform: translate(-100px, -120px);
+     }
+ }
+ /* ================= FLYING PARTICLES ================= */
+ .particle {
+     position: absolute;
+     bottom: -20px;
+     width: 3px;
+     height: 3px;
+     border-radius: 50%;
+     background: #ffffff;
+     box-shadow:
+         0 0 8px rgba(255,255,255,0.9);
+     animation: flyUp linear infinite;
+     opacity: 0;
+ }
+ @keyframes flyUp {
+     0% {
+         transform: translateY(0) translateX(0);
+         opacity: 0;
+     }
+     15% {
+         opacity: 0.7;
+     }
+     85% {
+         opacity: 0.7;
+     }
+     100% {
+         transform:
+             translateY(-110vh)
+             translateX(100px);
+         opacity: 0;
+     }
+ }
+ .p1 {
+     left: 5%;
+     animation-duration: 11s;
+ }
+ .p2 {
+     left: 12%;
+     animation-duration: 15s;
+ }
+ .p3 {
+     left: 20%;
+     animation-duration: 13s;
+ }
+ .p4 {
+     left: 29%;
+     animation-duration: 18s;
+ }
+ .p5 {
+     left: 37%;
+     animation-duration: 12s;
+ }
+ .p6 {
+     left: 46%;
+     animation-duration: 17s;
+ }
+ .p7 {
+     left: 55%;
+     animation-duration: 14s;
+ }
+ .p8 {
+     left: 64%;
+     animation-duration: 19s;
+ }
+ .p9 {
+     left: 73%;
+     animation-duration: 13s;
+ }
+ .p10 {
+     left: 82%;
+     animation-duration: 16s;
+ }
+ .p11 {
+     left: 91%;
+     animation-duration: 12s;
+ }
+ /* ================= MAIN PAGE ================= */
+ .page {
+     position: relative;
+     z-index: 2;
+     min-height: 100vh;
+ }
+ /* ================= NAVIGATION ================= */
+ nav {
+     width: min(1250px, 92%);
+     margin: 18px auto 0;
+     padding: 12px 18px;
+     display: flex;
+     align-items: center;
+     justify-content: space-between;
+     border-radius: 18px;
+     background: rgba(7, 10, 17, 0.65);
+     border: 1px solid rgba(255,255,255,0.10);
+     backdrop-filter: blur(16px);
+     box-shadow:
+         0 10px 35px rgba(0,0,0,0.20);
+ }
+ .brand {
+     display: flex;
+     align-items: center;
+     gap: 12px;
+ }
+ .brand img {
+     width: 52px;
+     height: 52px;
+     border-radius: 50%;
+     object-fit: cover;
+     border: 2px solid rgba(0, 205, 255, 0.75);
+     box-shadow:
+         0 0 20px rgba(0, 205, 255, 0.22);
+ }
+ .brand-name {
+     font-size: 19px;
+     font-weight: bold;
+     background:
+         linear-gradient(
+             90deg,
+             #ffffff,
+             #55d8ff,
+             #a78bfa
+         );
+     -webkit-background-clip: text;
+     background-clip: text;
+     color: transparent;
+ }
+ .brand-company {
+     display: block;
+     margin-top: 3px;
+     font-size: 11px;
+     color: #7f8c9a;
+     font-weight: normal;
+ }
+ /* ================= HERO ================= */
+ .hero {
+     min-height: calc(100vh - 90px);
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     text-align: center;
+     padding:
+         45px 20px
+         130px;
+ }
+ .hero-content {
+     max-width: 950px;
+ }
+ /* ================= LOGO ================= */
+ .hero-logo {
+     width: 145px;
+     height: 145px;
+     border-radius: 50%;
+     object-fit: cover;
+     border:
+         3px solid
+         rgba(0, 208, 255, 0.85);
+     box-shadow:
+         0 0 25px rgba(0, 208, 255, 0.30),
+         0 0 70px rgba(95, 70, 255, 0.12);
+     animation:
+         logoFloat 4s ease-in-out infinite,
+         logoGlow 3s ease-in-out infinite;
+     margin-bottom: 25px;
+ }
+ @keyframes logoFloat {
+     0%, 100% {
+         transform: translateY(0);
+     }
+     50% {
+         transform: translateY(-9px);
+     }
+ }
+ @keyframes logoGlow {
+     0%, 100% {
+         box-shadow:
+             0 0 25px rgba(0,208,255,0.30),
+             0 0 70px rgba(95,70,255,0.12);
+     }
+     50% {
+         box-shadow:
+             0 0 40px rgba(0,208,255,0.45),
+             0 0 90px rgba(95,70,255,0.20);
+     }
+ }
+ /* ================= BADGE ================= */
+ .badge {
+     display: inline-flex;
+     align-items: center;
+     gap: 8px;
+     padding:
+         9px 16px;
+     border-radius: 50px;
+     background:
+         rgba(255,255,255,0.045);
+     border:
+         1px solid
+         rgba(255,255,255,0.10);
+     color: #aebdcb;
+     font-size: 12px;
+     margin-bottom: 22px;
+     letter-spacing: 0.6px;
+ }
+ .dot {
+     width: 8px;
+     height: 8px;
+     border-radius: 50%;
+     background: #00ffa6;
+     box-shadow:
+         0 0 12px #00ffa6;
+     animation:
+         pulse 1.8s infinite;
+ }
+ @keyframes pulse {
+     0%, 100% {
+         transform: scale(1);
+         opacity: 1;
+     }
+     50% {
+         transform: scale(1.5);
+         opacity: 0.55;
+     }
+ }
+ /* ================= TITLE ================= */
+ .hero h1 {
+     font-size:
+         clamp(48px, 8vw, 88px);
+     line-height: 1;
+     margin-bottom: 20px;
+     background:
+         linear-gradient(
+             90deg,
+             #ffffff,
+             #45d9ff,
+             #9b7cff,
+             #00f5a0,
+             #ffffff
+         );
+     background-size: 300% auto;
+     -webkit-background-clip: text;
+     background-clip: text;
+     color: transparent;
+     animation:
+         titleGradient 7s linear infinite;
+ }
+ @keyframes titleGradient {
+     0% {
+         background-position: 0% center;
+     }
+     100% {
+         background-position: 300% center;
+     }
+ }
+ .hero h2 {
+     font-size:
+         clamp(20px, 3vw, 29px);
+     color: #e1e8ef;
+     margin-bottom: 18px;
+     font-weight: 600;
+ }
+ .hero p {
+     max-width: 780px;
+     margin: auto;
+     color: #98a6b5;
+     font-size: 16px;
+     line-height: 1.85;
+ }
+ /* ================= BUTTONS ================= */
+ .actions {
+     margin-top: 32px;
+     display: flex;
+     justify-content: center;
+     flex-wrap: wrap;
+     gap: 12px;
+ }
+ .btn {
+     display: inline-flex;
+     align-items: center;
+     justify-content: center;
+     gap: 8px;
+     padding:
+         14px 23px;
+     border-radius: 11px;
+     text-decoration: none;
+     font-weight: bold;
+     font-size: 14px;
+     transition:
+         transform 0.25s ease,
+         box-shadow 0.25s ease,
+         border-color 0.25s ease;
+ }
+ .primary {
+     background:
+         linear-gradient(
+             135deg,
+             #48dfff,
+             #73ffe6
+         );
+     color: #031018;
+     box-shadow:
+         0 10px 35px
+         rgba(0, 210, 255, 0.20);
+ }
+ .primary:hover {
+     transform: translateY(-4px);
+     box-shadow:
+         0 16px 45px
+         rgba(0, 210, 255, 0.32);
+ }
+ .secondary {
+     color: #dce6ef;
+     background:
+         rgba(255,255,255,0.045);
+     border:
+         1px solid
+         rgba(255,255,255,0.12);
+ }
+ .secondary:hover {
+     transform: translateY(-4px);
+     border-color:
+         rgba(85,216,255,0.60);
+ }
+ /* ================= FOOTER ================= */
+ footer {
+     position: fixed;
+     right: 25px;
+     bottom: 18px;
+     text-align: right;
+     color: #727f8d;
+     font-size: 11px;
+     line-height: 1.7;
+     z-index: 10;
+ }
+ footer strong {
+     color: #d9e3ec;
+ }
+ footer .company {
+     color: #55d8ff;
+     font-weight: bold;
+ }
+ footer a {
+     color: #55d8ff;
+     text-decoration: none;
+ }
+ footer a:hover {
+     text-decoration: underline;
+ }
+ /* ================= RESPONSIVE ================= */
+ @media (max-width: 700px) {
+     body {
+         overflow: hidden;
+     }
+     nav {
+         width: 94%;
+         margin-top: 10px;
+     }
+     .brand img {
+         width: 44px;
+         height: 44px;
+     }
+     .brand-name {
+         font-size: 16px;
+     }
+     .brand-company {
+         font-size: 9px;
+     }
+     .hero {
+         padding:
+             35px 18px
+             125px;
+     }
+     .hero-logo {
+         width: 110px;
+         height: 110px;
+         margin-bottom: 18px;
+     }
+     .hero h1 {
+         font-size: 50px;
+     }
+     .hero h2 {
+         font-size: 20px;
+     }
+     .hero p {
+         font-size: 14px;
+         line-height: 1.7;
+     }
+     .btn {
+         width: 100%;
+         max-width: 280px;
+     }
+     footer {
+         right: 15px;
+         bottom: 10px;
+         left: 15px;
+         text-align: center;
+         font-size: 10px;
+     }
+ }

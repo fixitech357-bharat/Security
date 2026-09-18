@@ -1,0 +1,1118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 11 · Executable Generation</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #0b0f19;
+    color: #e8edf5;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .bg-glow {
+    position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(59,130,246,0.14) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(168,85,247,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(14,165,233,0.06) 0%, transparent 60%);
+    animation: pulseGlow 12s ease-in-out infinite alternate;
+  }
+  @keyframes pulseGlow {
+    0% { opacity: 0.7; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.08); }
+  }
+  .bg-grid {
+    position: fixed; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  .container { max-width: 1150px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* HERO */
+  .hero { text-align: center; padding: 4.5rem 1.5rem 2rem; }
+  .topic-pill {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(96,165,250,0.12);
+    border: 1px solid rgba(96,165,250,0.3);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    font-size: 0.72rem; font-weight: 700;
+    color: #60a5fa;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .topic-pill .num {
+    background: #60a5fa; color: #0b0f19;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 800;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.15;
+    margin-bottom: 0.8rem;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 40%, #f472b6 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 1.05rem; color: #94a3b8; max-width: 660px;
+    margin: 0 auto; animation: fadeUp 0.7s ease 0.2s both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* QUICK FACTS */
+  .facts-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+  .fact {
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1rem;
+    padding: 1rem 1.1rem;
+    text-align: center;
+    transition: all 0.25s ease;
+  }
+  .fact:hover {
+    transform: translateY(-3px);
+    border-color: rgba(96,165,250,0.3);
+  }
+  .fact .big {
+    font-size: 1.15rem; font-weight: 800;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+  .fact .label {
+    font-size: 0.68rem; color: #94a3b8;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    font-weight: 600; margin-top: 0.2rem;
+  }
+
+  /* GLASS CARD */
+  .glass-card {
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1.5rem; padding: 1.8rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.25s ease;
+  }
+  .glass-card:hover { border-color: rgba(96,165,250,0.25); }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #60a5fa; margin-bottom: 0.7rem;
+  }
+  .section-label .dot {
+    width: 6px; height: 6px; background: #60a5fa;
+    border-radius: 50%; animation: blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .glass-card h2 {
+    font-size: 1.5rem; font-weight: 700; color: #f1f5f9;
+    margin-bottom: 0.5rem; letter-spacing: -0.02em;
+  }
+  .glass-card > p { color: #94a3b8; font-size: 0.95rem; }
+
+  /* EXECUTABLE ANATOMY */
+  .exec-anatomy {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid rgba(148,163,184,0.15);
+    background: #0d1117;
+    min-height: 420px;
+  }
+
+  .section-list {
+    background: #161b22;
+    padding: 1rem 0.8rem;
+    border-right: 1px solid rgba(148,163,184,0.1);
+  }
+  .section-list .title {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin-bottom: 0.8rem;
+    padding: 0 0.4rem;
+    font-weight: 600;
+  }
+  .section-item {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 0.5rem;
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: 'Fira Code', monospace;
+    margin-bottom: 0.15rem;
+    border-left: 3px solid transparent;
+  }
+  .section-item:hover {
+    background: rgba(96,165,250,0.1);
+    color: #f1f5f9;
+  }
+  .section-item.active {
+    background: rgba(96,165,250,0.15);
+    color: #93c5fd;
+    border-left-color: var(--si-color, #60a5fa);
+    font-weight: 600;
+  }
+  .section-item .si-dot {
+    width: 8px; height: 8px; border-radius: 2px;
+    background: var(--si-color, #60a5fa);
+    flex-shrink: 0;
+  }
+
+  .section-viewer {
+    padding: 1.2rem 1.4rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: #e6edf3;
+    overflow-y: auto;
+    max-height: 480px;
+  }
+  .section-viewer .header-line {
+    color: #ffa657;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+  }
+  .section-viewer .desc {
+    color: #94a3b8;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+    font-family: 'Inter', sans-serif;
+  }
+  .section-viewer .mem-map {
+    background: rgba(30,41,59,0.5);
+    border: 1px solid rgba(148,163,184,0.1);
+    border-radius: 0.6rem;
+    padding: 0.9rem 1rem;
+    font-size: 0.78rem;
+    line-height: 1.7;
+  }
+  .section-viewer .mem-map .addr { color: #484f58; }
+  .section-viewer .mem-map .val { color: #7ee787; }
+  .section-viewer .mem-map .lbl { color: #d2a8ff; }
+  .section-viewer .mem-map .cmt { color: #8b949e; font-style: italic; }
+
+  /* LOAD PIPELINE */
+  .load-pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.5rem;
+    padding: 1.5rem 1rem;
+    background: rgba(30,41,59,0.4);
+    border-radius: 1rem;
+    border: 1px solid rgba(148,163,184,0.1);
+  }
+  .pipe-node {
+    background: rgba(15,23,42,0.8);
+    border: 1px solid rgba(148,163,184,0.2);
+    border-radius: 0.8rem;
+    padding: 0.9rem 1.1rem;
+    text-align: center;
+    min-width: 110px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+  .pipe-node:hover {
+    border-color: var(--pn-color, #60a5fa);
+    background: rgba(59,130,246,0.1);
+    transform: translateY(-3px);
+  }
+  .pipe-node.active {
+    border-color: var(--pn-color, #60a5fa);
+    background: rgba(59,130,246,0.15);
+    box-shadow: 0 0 20px -5px var(--pn-color, #60a5fa);
+  }
+  .pipe-node .pn-icon {
+    font-size: 1.3rem;
+    margin-bottom: 0.25rem;
+  }
+  .pipe-node .pn-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--pn-color, #60a5fa);
+    margin-bottom: 0.1rem;
+  }
+  .pipe-node .pn-sub {
+    font-size: 0.65rem;
+    color: #64748b;
+    font-family: 'Fira Code', monospace;
+  }
+  .pipe-arrow {
+    color: #60a5fa;
+    font-size: 1.1rem;
+    animation: pulseArrow 1.5s ease-in-out infinite;
+  }
+  @keyframes pulseArrow {
+    0%,100% { opacity: 0.5; transform: translateX(0); }
+    50% { opacity: 1; transform: translateX(3px); }
+  }
+
+  /* NODE DETAIL PANEL */
+  .node-detail {
+    margin-top: 1rem;
+    background: rgba(30,41,59,0.5);
+    border-radius: 1rem;
+    padding: 1.4rem 1.6rem;
+    border: 1px solid rgba(148,163,184,0.1);
+    min-height: 130px;
+    transition: all 0.3s ease;
+  }
+  .node-detail .nd-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.5rem;
+  }
+  .node-detail .nd-body {
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+  }
+  .node-detail .nd-body code {
+    background: rgba(255,166,87,0.15);
+    color: #ffa657;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.3rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem;
+  }
+
+  /* MEMORY MAP */
+  .memory-map {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.7rem;
+    margin-top: 1.2rem;
+  }
+  .mem-block {
+    background: rgba(30,41,59,0.7);
+    border: 1px solid rgba(148,163,184,0.15);
+    border-radius: 0.8rem;
+    padding: 0.9rem 1rem;
+    transition: all 0.22s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .mem-block::before {
+    content: '';
+    position: absolute; left: 0; top: 0;
+    width: 3px; height: 100%;
+    background: var(--mb-color, #60a5fa);
+  }
+  .mem-block:hover {
+    transform: translateY(-3px);
+    background: rgba(30,41,59,0.95);
+    border-color: var(--mb-color, #60a5fa);
+    box-shadow: 0 8px 20px -8px rgba(0,0,0,0.5);
+  }
+  .mem-block .mb-name {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--mb-color, #60a5fa);
+    font-family: 'Fira Code', monospace;
+    margin-bottom: 0.25rem;
+  }
+  .mem-block .mb-desc {
+    font-size: 0.78rem;
+    color: #94a3b8;
+    line-height: 1.5;
+  }
+  .mem-block .mb-size {
+    font-size: 0.68rem;
+    color: #64748b;
+    margin-top: 0.4rem;
+    font-family: 'Fira Code', monospace;
+  }
+
+  /* TIPS BOX */
+  .tip-box {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 0.8rem;
+    padding: 0.9rem 1.1rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    display: flex; gap: 0.6rem;
+  }
+  .tip-box .tip-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .tip-box code {
+    background: rgba(255,166,87,0.15);
+    color: #ffa657;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.3rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+  }
+
+  /* INFO CARDS */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+  .info-card {
+    background: rgba(30,41,59,0.6);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1rem;
+    padding: 1.2rem;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .info-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--ic-color, #60a5fa), transparent);
+  }
+  .info-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(96,165,250,0.35);
+    box-shadow: 0 12px 28px -10px rgba(0,0,0,0.5);
+  }
+  .info-card .ic-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+  }
+  .info-card .ic-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.4rem;
+  }
+  .info-card .ic-desc {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    line-height: 1.55;
+  }
+  .info-card .ic-code {
+    margin-top: 0.6rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.75rem;
+    color: var(--ic-color, #60a5fa);
+    background: rgba(0,0,0,0.3);
+    padding: 0.3rem 0.6rem;
+    border-radius: 0.4rem;
+    display: inline-block;
+  }
+
+  /* STEP VISUALIZER */
+  .step-viz {
+    margin-top: 1.2rem;
+    background: #0d1117;
+    border-radius: 1rem;
+    border: 1px solid rgba(148,163,184,0.15);
+    overflow: hidden;
+  }
+  .step-header {
+    padding: 0.7rem 1.2rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .step-header .title {
+    font-size: 0.8rem; color: #8b949e;
+    font-family: 'Fira Code', monospace;
+  }
+  .step-controls { display: flex; gap: 0.4rem; }
+  .step-btn {
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.3);
+    color: #60a5fa;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .step-btn:hover:not(:disabled) { background: rgba(59,130,246,0.3); }
+  .step-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .step-body { display: grid; grid-template-columns: 1.2fr 1fr; }
+  .step-code {
+    padding: 1rem 1.2rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem; line-height: 1.9;
+    border-right: 1px solid rgba(148,163,184,0.1);
+  }
+  .step-code .line {
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.3rem;
+    transition: background 0.3s, color 0.3s;
+    white-space: pre;
+  }
+  .step-code .line.active {
+    background: rgba(96,165,250,0.15);
+    color: #f1f5f9;
+    box-shadow: inset 3px 0 0 #60a5fa;
+  }
+  .step-info {
+    padding: 1rem 1.2rem;
+    background: rgba(30,41,59,0.4);
+  }
+  .step-info .explanation {
+    font-size: 0.82rem; color: #cbd5e1;
+    min-height: 4rem; margin-bottom: 0.8rem;
+    line-height: 1.55;
+  }
+  .step-info .tag-list {
+    display: flex; flex-wrap: wrap; gap: 0.35rem;
+    min-height: 1.8rem;
+  }
+  .step-info .tag {
+    background: rgba(167,139,250,0.15);
+    border: 1px solid rgba(167,139,250,0.3);
+    color: #d2a8ff;
+    border-radius: 0.4rem; padding: 0.2rem 0.55rem;
+    font-size: 0.7rem; font-family: 'Fira Code', monospace;
+  }
+  .step-progress {
+    padding: 0.6rem 1.2rem;
+    background: rgba(30,41,59,0.3);
+    border-top: 1px solid rgba(148,163,184,0.08);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .step-progress .bar {
+    flex: 1; height: 4px;
+    background: rgba(148,163,184,0.15);
+    border-radius: 999px; overflow: hidden;
+  }
+  .step-progress .bar-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    transition: width 0.35s ease;
+  }
+  .step-progress .count {
+    font-size: 0.72rem; color: #64748b;
+    font-family: 'Fira Code', monospace;
+    min-width: 3.5rem; text-align: right;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 780px) {
+    .container { padding: 0 1rem; }
+    .hero { padding: 3rem 1rem 1.5rem; }
+    .glass-card { padding: 1.3rem; border-radius: 1.2rem; }
+    .glass-card h2 { font-size: 1.25rem; }
+    .step-body { grid-template-columns: 1fr; }
+    .step-code { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.1); }
+    .exec-anatomy { grid-template-columns: 1fr; }
+    .section-list { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.1); }
+    .load-pipeline { flex-direction: column; }
+    .pipe-arrow { transform: rotate(90deg); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="topic-pill"><span class="num">11</span> Topic 11 of the C Series</div>
+    <h1><span class="gradient-text">Executable Generation</span></h1>
+    <p>
+      The linker just produced a file. But what's actually inside it? Learn how
+      an executable is organized and how the operating system brings it to life.
+    </p>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- QUICK FACTS -->
+  <div class="facts-row">
+    <div class="fact">
+      <div class="big">ELF / PE</div>
+      <div class="label">Format</div>
+    </div>
+    <div class="fact">
+      <div class="big">a.out</div>
+      <div class="label">Unix Default</div>
+    </div>
+    <div class="fact">
+      <div class="big">.exe</div>
+      <div class="label">Windows</div>
+    </div>
+    <div class="fact">
+      <div class="big">Sections</div>
+      <div class="label">Internal Structure</div>
+    </div>
+    <div class="fact">
+      <div class="big">Loader</div>
+      <div class="label">Brings It to Life</div>
+    </div>
+  </div>
+
+  <!-- ===== EXECUTABLE ANATOMY ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Inside the File</div>
+    <h2>Anatomy of an Executable</h2>
+    <p>
+      Every executable is a carefully organized file with distinct sections.
+      Click any section on the left to see what it contains.
+    </p>
+
+    <div class="exec-anatomy">
+      <div class="section-list">
+        <div class="title">📦 Sections</div>
+        <div class="section-item active" style="--si-color:#60a5fa;" onclick="showSection('elf', this)">
+          <span class="si-dot"></span>
+          <span>ELF Header</span>
+        </div>
+        <div class="section-item" style="--si-color:#f472b6;" onclick="showSection('text', this)">
+          <span class="si-dot"></span>
+          <span>.text</span>
+        </div>
+        <div class="section-item" style="--si-color:#34d399;" onclick="showSection('data', this)">
+          <span class="si-dot"></span>
+          <span>.data</span>
+        </div>
+        <div class="section-item" style="--si-color:#facc15;" onclick="showSection('bss', this)">
+          <span class="si-dot"></span>
+          <span>.bss</span>
+        </div>
+        <div class="section-item" style="--si-color:#a78bfa;" onclick="showSection('rodata', this)">
+          <span class="si-dot"></span>
+          <span>.rodata</span>
+        </div>
+        <div class="section-item" style="--si-color:#fb923c;" onclick="showSection('symtab', this)">
+          <span class="si-dot"></span>
+          <span>.symtab</span>
+        </div>
+        <div class="section-item" style="--si-color:#818cf8;" onclick="showSection('reloc', this)">
+          <span class="si-dot"></span>
+          <span>.reloc</span>
+        </div>
+      </div>
+
+      <div class="section-viewer" id="sectionViewer"></div>
+    </div>
+
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <div>
+        <strong>Fun fact:</strong> The default name <code>a.out</code> stands for
+        "assembler output" — it's a historical leftover from the 1970s. Most
+        modern compilers still produce an <code>a.out</code> file if you don't
+        specify a name with <code>-o</code>.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LOAD PIPELINE ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> From Disk to Running</div>
+    <h2>How the OS Loads an Executable</h2>
+    <p>
+      An executable sitting on disk is inert. The OS <strong>loader</strong>
+      reads it, maps its sections into memory, and hands control to
+      <code>main()</code>. Click any node to learn more.
+    </p>
+
+    <div class="load-pipeline" id="loadPipeline">
+      <div class="pipe-node active" style="--pn-color:#60a5fa;" onclick="showLoaderNode('type')">
+        <div class="pn-icon">⌨️</div>
+        <div class="pn-title">You Type</div>
+        <div class="pn-sub">./program</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-node" style="--pn-color:#ffa657;" onclick="showLoaderNode('shell')">
+        <div class="pn-icon">🐚</div>
+        <div class="pn-title">Shell Calls</div>
+        <div class="pn-sub">execve()</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-node" style="--pn-color:#a78bfa;" onclick="showLoaderNode('kernel')">
+        <div class="pn-icon">🧠</div>
+        <div class="pn-title">Kernel Loader</div>
+        <div class="pn-sub">reads ELF</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-node" style="--pn-color:#f472b6;" onclick="showLoaderNode('map')">
+        <div class="pn-icon">🗺️</div>
+        <div class="pn-title">Map Sections</div>
+        <div class="pn-sub">into memory</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-node" style="--pn-color:#34d399;" onclick="showLoaderNode('run')">
+        <div class="pn-icon">🚀</div>
+        <div class="pn-title">Jump to Entry</div>
+        <div class="pn-sub">call _start</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-node" style="--pn-color:#facc15;" onclick="showLoaderNode('main')">
+        <div class="pn-icon">▶️</div>
+        <div class="pn-title">main() Runs</div>
+        <div class="pn-sub">your code</div>
+      </div>
+    </div>
+
+    <div class="node-detail" id="loaderNodeDetail">
+      <div class="nd-title">⌨️ Step 1: You Type a Command</div>
+      <div class="nd-body">
+        You type <code>./program</code> in your terminal. The shell receives
+        the command but cannot run it directly — it needs the OS kernel to
+        actually load and execute the file.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== MEMORY LAYOUT ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Memory Layout</div>
+    <h2>Where Sections Live at Runtime</h2>
+    <p>
+      Once loaded, the executable's sections are mapped into the process's
+      virtual memory in a specific order. This is the classic "memory layout
+      of a C program."
+    </p>
+
+    <div class="memory-map">
+      <div class="mem-block" style="--mb-color:#f87171;">
+        <div class="mb-name">Stack</div>
+        <div class="mb-desc">Local variables and function calls. Grows downward.</div>
+        <div class="mb-size">high addresses ↓</div>
+      </div>
+      <div class="mem-block" style="--mb-color:#facc15;">
+        <div class="mb-name">Heap</div>
+        <div class="mb-desc">Dynamically allocated memory (malloc, calloc). Grows upward.</div>
+        <div class="mb-size">↑ grows up</div>
+      </div>
+      <div class="mem-block" style="--mb-color:#facc15;">
+        <div class="mb-name">.bss</div>
+        <div class="mb-desc">Uninitialized global and static variables. Zero-filled at load.</div>
+        <div class="mb-size">zero-filled</div>
+      </div>
+      <div class="mem-block" style="--mb-color:#34d399;">
+        <div class="mb-name">.data</div>
+        <div class="mb-desc">Initialized global and static variables.</div>
+        <div class="mb-size">read + write</div>
+      </div>
+      <div class="mem-block" style="--mb-color:#a78bfa;">
+        <div class="mb-name">.rodata</div>
+        <div class="mb-desc">Read-only data: string literals, constants.</div>
+        <div class="mb-size">read-only</div>
+      </div>
+      <div class="mem-block" style="--mb-color:#f472b6;">
+        <div class="mb-name">.text</div>
+        <div class="mb-desc">Machine code — the actual instructions. Read-only + executable.</div>
+        <div class="mb-size">low addresses ↑</div>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <span class="tip-icon">🔍</span>
+      <div>
+        <strong>Try it yourself:</strong> On Linux, run
+        <code>size ./program</code> to see the byte sizes of text, data, and bss.
+        Or use <code>readelf -S ./program</code> to list every section.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EXECUTABLE FORMATS ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> File Formats</div>
+    <h2>Common Executable Formats</h2>
+    <p>
+      Different operating systems use different executable formats. They all
+      do the same thing — just with slightly different internal layouts.
+    </p>
+
+    <div class="info-grid">
+      <div class="info-card" style="--ic-color:#60a5fa;">
+        <div class="ic-icon">🐧</div>
+        <div class="ic-title">ELF</div>
+        <div class="ic-desc">
+          Executable and Linkable Format. Used by Linux, BSD, Solaris, and
+          most Unix systems. Also used for object files and shared libraries.
+        </div>
+        <div class="ic-code">libc.so.6</div>
+      </div>
+
+      <div class="info-card" style="--ic-color:#a78bfa;">
+        <div class="ic-icon">🪟</div>
+        <div class="ic-title">PE</div>
+        <div class="ic-desc">
+          Portable Executable. Used by Windows for <code>.exe</code>,
+          <code>.dll</code>, and <code>.sys</code> files. Derived from COFF.
+        </div>
+        <div class="ic-code">program.exe</div>
+      </div>
+
+      <div class="info-card" style="--ic-color:#f472b6;">
+        <div class="ic-icon">🍎</div>
+        <div class="ic-title">Mach-O</div>
+        <div class="ic-desc">
+          Mach Object. Used by macOS and iOS. Handles executables, shared
+          libraries, and object files with a flexible segment layout.
+        </div>
+        <div class="ic-code">program.app</div>
+      </div>
+
+      <div class="info-card" style="--ic-color:#34d399;">
+        <div class="ic-icon">📀</div>
+        <div class="ic-title">a.out</div>
+        <div class="ic-desc">
+          The original Unix format (1970s). Simple but limited. Replaced by
+          ELF on nearly all modern systems.
+        </div>
+        <div class="ic-code">a.out (legacy)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP-BY-STEP ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Watch It Load</div>
+    <h2>Step-by-Step: From Disk to main()</h2>
+    <p>
+      Click <strong>Next Step</strong> to follow the OS as it loads an
+      executable from disk and starts running your code.
+    </p>
+
+    <div class="step-viz">
+      <div class="step-header">
+        <span class="title">loader_walkthrough</span>
+        <div class="step-controls">
+          <button class="step-btn" id="prevBtn" onclick="stepPrev()" disabled>← Prev</button>
+          <button class="step-btn" id="nextBtn" onclick="stepNext()">Next Step →</button>
+          <button class="step-btn" id="resetBtn" onclick="stepReset()">↺ Reset</button>
+        </div>
+      </div>
+
+      <div class="step-body">
+        <div class="step-code" id="stepCode">
+          <div class="line" data-line="0">$ ./program</div>
+          <div class="line" data-line="1"> </div>
+          <div class="line" data-line="2">[shell] execve("./program", ...)</div>
+          <div class="line" data-line="3"> </div>
+          <div class="line" data-line="4">[kernel] read ELF header</div>
+          <div class="line" data-line="5">[kernel] verify magic number</div>
+          <div class="line" data-line="6"> </div>
+          <div class="line" data-line="7">[kernel] mmap .text  (r-x)</div>
+          <div class="line" data-line="8">[kernel] mmap .rodata (r--)</div>
+          <div class="line" data-line="9">[kernel] mmap .data  (rw-)</div>
+          <div class="line" data-line="10">[kernel] zero-fill .bss</div>
+          <div class="line" data-line="11"> </div>
+          <div class="line" data-line="12">[kernel] jump to _start</div>
+          <div class="line" data-line="13">[_start] call main()</div>
+          <div class="line" data-line="14">[main] your code runs</div>
+        </div>
+
+        <div class="step-info">
+          <div class="explanation" id="stepExplanation">
+            Click <strong>Next Step</strong> to begin.
+          </div>
+          <div class="tag-list" id="stepTags">
+            <span style="font-size:0.72rem;color:#484f58;">Waiting to start</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-progress">
+        <div class="bar"><div class="bar-fill" id="stepBarFill"></div></div>
+        <div class="count" id="stepCount">0 / 15</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RECAP ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Recap</div>
+    <h2>What You Just Learned</h2>
+    <p>
+      An executable is not a black box — it is a structured file with clearly
+      defined parts. Here's the summary:
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.8rem;margin-top:1rem;">
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #60a5fa;">
+        <div style="font-size:0.72rem;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:0.06em;">ELF / PE / Mach-O</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Every OS has its own executable format. They all serve the same purpose.</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #a78bfa;">
+        <div style="font-size:0.72rem;font-weight:700;color:#a78bfa;text-transform:uppercase;letter-spacing:0.06em;">Sections Inside</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">.text (code), .data (init globals), .bss (zero globals), .rodata (constants).</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #f472b6;">
+        <div style="font-size:0.72rem;font-weight:700;color:#f472b6;text-transform:uppercase;letter-spacing:0.06em;">The Loader</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">The OS kernel reads the ELF header, maps sections into memory, and jumps to _start.</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #34d399;">
+        <div style="font-size:0.72rem;font-weight:700;color:#34d399;text-transform:uppercase;letter-spacing:0.06em;">_start → main</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">The real entry is <code style="color:#6ee7b7;">_start</code>, which sets up and then calls <code style="color:#6ee7b7;">main()</code>.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   SECTION DATA
+   ============================================================ */
+const sectionData = {
+  elf: {
+    header: '📘 ELF Header',
+    desc: 'The very first bytes of an ELF file. It tells the OS "this is an ELF file, here is the architecture, here is where the program entry point is." The magic number <code style="color:#ffa657;">0x7F E L F</code> identifies the format.',
+    map: `<span class="cmt">/* ELF Header — first 64 bytes */</span>
+<span class="addr">0x00:</span> <span class="val">7F 45 4C 46</span>   <span class="cmt">/* magic: \\x7F ELF */</span>
+<span class="addr">0x04:</span> <span class="val">02</span>            <span class="cmt">/* 64-bit */</span>
+<span class="addr">0x05:</span> <span class="val">01</span>            <span class="cmt">/* little-endian */</span>
+<span class="addr">0x06:</span> <span class="val">01</span>            <span class="cmt">/* version */</span>
+<span class="addr">0x10:</span> <span class="val">02 00</span>         <span class="cmt">/* type: EXEC */</span>
+<span class="addr">0x12:</span> <span class="val">3E 00</span>         <span class="cmt">/* machine: x86-64 */</span>
+<span class="addr">0x18:</span> <span class="val">40 10 40 00</span>   <span class="cmt">/* entry point: 0x401040 */</span>`
+  },
+  text: {
+    header: '🔴 .text — Machine Code',
+    desc: 'The actual CPU instructions for your program. This section is marked <strong>read-only</strong> and <strong>executable</strong> (<code style="color:#ffa657;">r-x</code>), so the process can run it but not modify it. Contains the compiled machine code for every function in your program, including <code>main</code>.',
+    map: `<span class="lbl">.text</span> <span class="cmt">/* your compiled code */</span>
+
+<span class="cmt">/* main: */</span>
+<span class="addr">0x401040:</span> <span class="val">55</span>                <span class="cmt">push   %rbp</span>
+<span class="addr">0x401041:</span> <span class="val">48 89 e5</span>          <span class="cmt">mov    %rsp,%rbp</span>
+<span class="addr">0x401044:</span> <span class="val">48 8d 3d ...</span>      <span class="cmt">lea    msg(%rip),%rdi</span>
+<span class="addr">0x40104b:</span> <span class="val">e8 ...</span>            <span class="cmt">call   puts@plt</span>
+<span class="addr">0x401050:</span> <span class="val">b8 00 00 00 00</span>    <span class="cmt">mov    $0x0,%eax</span>
+<span class="addr">0x401055:</span> <span class="val">5d</span>                <span class="cmt">pop    %rbp</span>
+<span class="addr">0x401056:</span> <span class="val">c3</span>                <span class="cmt">ret</span>`
+  },
+  data: {
+    header: '🟢 .data — Initialized Globals',
+    desc: 'Contains global and static variables that have a non-zero initial value. These are copied from the executable file into memory at load time, and the process can read and write them (<code style="color:#ffa657;">rw-</code>).',
+    map: `<span class="lbl">.data</span> <span class="cmt">/* initialized globals */</span>
+
+<span class="cmt">/* int counter = 42; */</span>
+<span class="addr">0x404020:</span> <span class="val">2A 00 00 00</span>      <span class="cmt">= 42</span>
+
+<span class="cmt">/* const char *name = "Alice"; */</span>
+<span class="addr">0x404028:</span> <span class="val">B0 20 40 00</span>      <span class="cmt">= pointer to "Alice"</span>`
+  },
+  bss: {
+    header: '🟡 .bss — Zero-initialized Globals',
+    desc: 'Contains global and static variables that are uninitialized (or initialized to zero). It takes <strong>no space in the file</strong> — the OS just zero-fills this region at load time. That\'s why <code>int counter;</code> doesn\'t make your binary bigger.',
+    map: `<span class="lbl">.bss</span> <span class="cmt">/* zero-filled at load */</span>
+
+<span class="cmt">/* int buffer[1024]; // 4KB, but 0 bytes in file */</span>
+<span class="addr">0x404100:</span> <span class="val">00 00 00 00 00 00 ...</span>  <span class="cmt">/* zeroed */</span>
+
+<span class="cmt">/* static int cache;  // also here */</span>
+<span class="addr">0x405100:</span> <span class="val">00 00 00 00</span>              <span class="cmt">/* zeroed */</span>`
+  },
+  rodata: {
+    header: '🟣 .rodata — Read-only Data',
+    desc: 'Contains string literals and <code>const</code> data. Marked <strong>read-only</strong> (<code style="color:#ffa657;">r--</code>) so it cannot be accidentally overwritten. This is why writing to a string literal like <code>char *s = "hi"; s[0] = \'H\';</code> causes a crash.',
+    map: `<span class="lbl">.rodata</span> <span class="cmt">/* read-only data */</span>
+
+<span class="cmt">/* "Hello, World!\\n" */</span>
+<span class="addr">0x402010:</span> <span class="val">48 65 6C 6C 6F 2C 20 ...</span>  <span class="cmt">Hello, World!\\n</span>
+
+<span class="cmt">/* const int MAX = 100; */</span>
+<span class="addr">0x402020:</span> <span class="val">64 00 00 00</span>              <span class="cmt">= 100</span>`
+  },
+  symtab: {
+    header: '🟠 .symtab — Symbol Table',
+    desc: 'A list of all the names (functions, variables) defined or referenced in the object file. Used during linking and by debuggers. Usually stripped from release executables to save space — that\'s what the <code>strip</code> command does.',
+    map: `<span class="lbl">.symtab</span> <span class="cmt">/* symbol table */</span>
+
+<span class="cmt">/* name          type    section   address */</span>
+main            FUNC    .text     <span class="val">0x401040</span>
+counter         OBJECT  .data     <span class="val">0x404020</span>
+buffer          OBJECT  .bss      <span class="val">0x404100</span>
+printf          FUNC    UND       <span class="val">0x000000</span>
+message         OBJECT  .rodata   <span class="val">0x402010</span>`
+  },
+  reloc: {
+    header: '🔵 .reloc — Relocation Info',
+    desc: 'Tells the linker which addresses need to be patched when the executable is loaded. In modern position-independent executables (PIE), this data helps the loader adjust addresses to wherever the program landed in memory.',
+    map: `<span class="lbl">.reloc</span> <span class="cmt">/* relocation entries */</span>
+
+<span class="cmt">/* offset    type         symbol */</span>
+<span class="addr">0x401045:</span> <span class="val">R_X86_64_PC32</span>  message
+<span class="addr">0x40104c:</span> <span class="val">R_X86_64_PLT32</span> puts
+<span class="addr">0x404028:</span> <span class="val">R_X86_64_64</span>    message`
+  }
+};
+
+function showSection(key, el) {
+  document.querySelectorAll('.section-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+  const d = sectionData[key];
+  document.getElementById('sectionViewer').innerHTML =
+    `<div class="header-line">${d.header}</div>
+     <div class="desc">${d.desc}</div>
+     <div class="mem-map">${d.map}</div>`;
+}
+
+/* Init first section */
+showSection('elf', document.querySelector('.section-item.active'));
+
+/* ============================================================
+   LOADER NODE DATA
+   ============================================================ */
+const loaderData = {
+  type: {
+    title: '⌨️ Step 1: You Type a Command',
+    body: 'You type <code>./program</code> in your terminal. The shell receives the command but cannot run it directly — it needs the OS kernel to actually load and execute the file.'
+  },
+  shell: {
+    title: '🐚 Step 2: Shell Calls execve()',
+    body: 'The shell calls the <code>execve()</code> system call, passing the path to your executable. This is the standard way on Unix to say "replace my process with this program."'
+  },
+  kernel: {
+    title: '🧠 Step 3: Kernel Loader Reads ELF',
+    body: 'The kernel opens the file, reads the ELF header, and verifies the magic number and architecture. It reads the program headers to learn which segments to load and at what virtual addresses.'
+  },
+  map: {
+    title: '🗺️ Step 4: Map Sections into Memory',
+    body: 'The kernel maps the executable\'s sections into the process\'s virtual address space using <code>mmap()</code>. Code (.text) is marked read+execute, read-only data (.rodata) is marked read-only, and writable sections (.data, .bss) are set to read+write.'
+  },
+  run: {
+    title: '🚀 Step 5: Jump to Entry Point',
+    body: 'The kernel reads the entry point address from the ELF header (usually the <code>_start</code> symbol) and jumps there. Setup code in <code>_start</code> prepares the environment and calls <code>main()</code>.'
+  },
+  main: {
+    title: '▶️ Step 6: main() Runs',
+    body: 'Control reaches <code>main()</code>, and your code finally runs. When main returns, <code>_start</code> calls <code>exit()</code> to cleanly terminate the process with the return code as the exit status.'
+  }
+};
+
+function showLoaderNode(key) {
+  document.querySelectorAll('.pipe-node').forEach(n => n.classList.remove('active'));
+  const nodes = document.querySelectorAll('.pipe-node');
+  const keys = ['type', 'shell', 'kernel', 'map', 'run', 'main'];
+  const idx = keys.indexOf(key);
+  if (idx >= 0) nodes[idx].classList.add('active');
+
+  const d = loaderData[key];
+  document.getElementById('loaderNodeDetail').innerHTML =
+    `<div class="nd-title">${d.title}</div><div class="nd-body">${d.body}</div>`;
+}
+
+/* ============================================================
+   STEP-BY-STEP VISUALIZER
+   ============================================================ */
+
+const executionSteps = [
+  { line: 0, explanation: '<strong>You type a command.</strong> The shell sees <code>./program</code> — the dot-slash tells it to run the file in the current directory.', tags: ['User'] },
+  { line: 2, explanation: '<strong>Shell calls execve.</strong> This system call asks the kernel to replace the current process image with a new one loaded from the executable file.', tags: ['System Call'] },
+  { line: 4, explanation: '<strong>Kernel reads ELF header.</strong> The first 64 bytes tell the kernel this is a valid executable and which architecture it targets.', tags: ['Kernel'] },
+  { line: 5, explanation: '<strong>Magic number verified.</strong> The bytes <code>0x7F E L F</code> confirm the format. If they were wrong, the kernel would return an error like "Exec format error."', tags: ['Verify'] },
+  { line: 7, explanation: '<strong>Map .text.</strong> The kernel maps the code section into memory with permissions <code>r-x</code> — readable and executable, but not writable.', tags: ['Memory Map'] },
+  { line: 8, explanation: '<strong>Map .rodata.</strong> Read-only data (strings, constants) is mapped <code>r--</code>. Writing to it would cause a segmentation fault.', tags: ['Memory Map'] },
+  { line: 9, explanation: '<strong>Map .data.</strong> Initialized globals are mapped <code>rw-</code> — readable and writable.', tags: ['Memory Map'] },
+  { line: 10, explanation: '<strong>Zero-fill .bss.</strong> Because .bss isn\'t stored in the file, the kernel allocates the right amount of memory and fills it with zeros.', tags: ['Memory Map'] },
+  { line: 12, explanation: '<strong>Jump to _start.</strong> The kernel reads the entry point from the ELF header and transfers control there. This is the first real instruction the CPU runs.', tags: ['Entry Point'] },
+  { line: 13, explanation: '<strong>_start calls main()</strong>. The startup code sets up the stack, environment, and then calls your main() function.', tags: ['Startup'] },
+  { line: 14, explanation: '<strong>Your code runs.</strong> main() executes — prints output, does work, and eventually returns a status code back to _start.', tags: ['Execution'] }
+];
+
+let currentStep = -1;
+
+function updateStepUI() {
+  const total = executionSteps.length;
+  document.querySelectorAll('#stepCode .line').forEach(el => el.classList.remove('active'));
+
+  if (currentStep < 0) {
+    document.getElementById('stepExplanation').innerHTML = 'Click <strong>Next Step</strong> to begin.';
+    document.getElementById('stepTags').innerHTML = '<span style="font-size:0.72rem;color:#484f58;">Waiting to start</span>';
+    document.getElementById('stepBarFill').style.width = '0%';
+    document.getElementById('stepCount').textContent = `0 / ${total}`;
+    document.getElementById('prevBtn').disabled = true;
+    document.getElementById('nextBtn').disabled = false;
+    return;
+  }
+
+  const step = executionSteps[currentStep];
+  const lineEl = document.querySelector(`#stepCode .line[data-line="${step.line}"]`);
+  if (lineEl) lineEl.classList.add('active');
+
+  document.getElementById('stepExplanation').innerHTML = step.explanation;
+
+  const tagList = document.getElementById('stepTags');
+  tagList.innerHTML = step.tags.map(t =>
+    `<span class="tag">${t}</span>`
+  ).join('');
+
+  const pct = ((currentStep + 1) / total) * 100;
+  document.getElementById('stepBarFill').style.width = pct + '%';
+  document.getElementById('stepCount').textContent = `${currentStep + 1} / ${total}`;
+  document.getElementById('prevBtn').disabled = currentStep <= 0;
+  document.getElementById('nextBtn').disabled = currentStep >= total - 1;
+}
+
+function stepNext() {
+  if (currentStep < executionSteps.length - 1) {
+    currentStep++;
+    updateStepUI();
+  }
+}
+
+function stepPrev() {
+  if (currentStep > 0) {
+    currentStep--;
+    updateStepUI();
+  }
+}
+
+function stepReset() {
+  currentStep = -1;
+  updateStepUI();
+}
+
+updateStepUI();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,776 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 2 · History of C</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #0b0f19;
+    color: #e8edf5;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .bg-glow {
+    position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(59,130,246,0.14) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(168,85,247,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(14,165,233,0.06) 0%, transparent 60%);
+    animation: pulseGlow 12s ease-in-out infinite alternate;
+  }
+  @keyframes pulseGlow {
+    0% { opacity: 0.7; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.08); }
+  }
+  .bg-grid {
+    position: fixed; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  .container { max-width: 1150px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* HERO */
+  .hero { text-align: center; padding: 4.5rem 1.5rem 2rem; }
+  .topic-pill {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(96,165,250,0.12);
+    border: 1px solid rgba(96,165,250,0.3);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    font-size: 0.72rem; font-weight: 700;
+    color: #60a5fa;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .topic-pill .num {
+    background: #60a5fa; color: #0b0f19;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 800;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.15;
+    margin-bottom: 0.8rem;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 40%, #f472b6 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 1.05rem; color: #94a3b8; max-width: 620px;
+    margin: 0 auto; animation: fadeUp 0.7s ease 0.2s both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* QUICK FACTS ROW */
+  .facts-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+  .fact {
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1rem;
+    padding: 1rem 1.1rem;
+    text-align: center;
+    transition: all 0.25s ease;
+  }
+  .fact:hover {
+    transform: translateY(-3px);
+    border-color: rgba(96,165,250,0.3);
+  }
+  .fact .big {
+    font-size: 1.3rem; font-weight: 800;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+  .fact .label {
+    font-size: 0.72rem; color: #94a3b8;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    font-weight: 600; margin-top: 0.2rem;
+  }
+
+  /* GLASS CARD */
+  .glass-card {
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1.5rem; padding: 1.8rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.25s ease;
+  }
+  .glass-card:hover { border-color: rgba(96,165,250,0.25); }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #60a5fa; margin-bottom: 0.7rem;
+  }
+  .section-label .dot {
+    width: 6px; height: 6px; background: #60a5fa;
+    border-radius: 50%; animation: blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .glass-card h2 {
+    font-size: 1.5rem; font-weight: 700; color: #f1f5f9;
+    margin-bottom: 0.5rem; letter-spacing: -0.02em;
+  }
+  .glass-card > p { color: #94a3b8; font-size: 0.95rem; }
+
+  /* TIMELINE */
+  .timeline-wrap {
+    position: relative;
+    margin-top: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  .timeline-wrap::before {
+    content: '';
+    position: absolute; left: 7px; top: 0; bottom: 0;
+    width: 2px;
+    background: linear-gradient(180deg, #60a5fa, #a78bfa, #f472b6, #34d399);
+    border-radius: 999px;
+  }
+  .tl-item {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: 1.5rem;
+    cursor: pointer;
+    transition: all 0.22s ease;
+  }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: '';
+    position: absolute; left: -1.5rem; top: 0.4rem;
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    background: #0b0f19;
+    border: 3px solid var(--tl-color, #60a5fa);
+    transition: all 0.22s ease;
+    z-index: 1;
+  }
+  .tl-item:hover::before {
+    transform: scale(1.3);
+    box-shadow: 0 0 12px var(--tl-color, #60a5fa);
+  }
+  .tl-item.active::before {
+    background: var(--tl-color, #60a5fa);
+    box-shadow: 0 0 16px var(--tl-color, #60a5fa);
+    transform: scale(1.2);
+  }
+  .tl-item .tl-year {
+    font-size: 0.78rem; font-weight: 700;
+    color: var(--tl-color, #60a5fa);
+    text-transform: uppercase; letter-spacing: 0.06em;
+  }
+  .tl-item .tl-title {
+    font-size: 1rem; font-weight: 700;
+    color: #f1f5f9; margin: 0.15rem 0 0.3rem;
+  }
+  .tl-item .tl-desc {
+    font-size: 0.85rem; color: #94a3b8;
+    line-height: 1.55;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease;
+    opacity: 0;
+  }
+  .tl-item.active .tl-desc {
+    max-height: 200px;
+    opacity: 1;
+  }
+  .tl-item .tl-hint {
+    font-size: 0.72rem; color: #484f58;
+    font-style: italic; margin-top: 0.1rem;
+  }
+  .tl-item.active .tl-hint { display: none; }
+
+  /* EVOLUTION FLOW */
+  .evo-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.2rem;
+  }
+  .evo-node {
+    background: rgba(30,41,59,0.8);
+    border: 1px solid rgba(148,163,184,0.15);
+    border-radius: 0.8rem;
+    padding: 0.8rem 1.1rem;
+    text-align: center;
+    min-width: 100px;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+  .evo-node:hover, .evo-node.active {
+    border-color: var(--evo-color, #60a5fa);
+    background: rgba(59,130,246,0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px -6px rgba(0,0,0,0.4);
+  }
+  .evo-node .evo-name {
+    font-size: 1rem; font-weight: 700;
+    color: var(--evo-color, #60a5fa);
+  }
+  .evo-node .evo-year {
+    font-size: 0.68rem; color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .evo-node .evo-desc {
+    font-size: 0.72rem; color: #94a3b8;
+    margin-top: 0.25rem;
+  }
+  .evo-arrow {
+    color: #60a5fa;
+    font-size: 1.2rem;
+    animation: pulseArrow 1.5s ease-in-out infinite;
+  }
+  @keyframes pulseArrow {
+    0%,100% { opacity: 0.5; transform: translateX(0); }
+    50% { opacity: 1; transform: translateX(4px); }
+  }
+
+  /* STEP VISUALIZER */
+  .step-viz {
+    margin-top: 1.2rem;
+    background: #0d1117;
+    border-radius: 1rem;
+    border: 1px solid rgba(148,163,184,0.15);
+    overflow: hidden;
+  }
+  .step-header {
+    padding: 0.7rem 1.2rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .step-header .title {
+    font-size: 0.8rem; color: #8b949e;
+    font-family: 'Fira Code', monospace;
+  }
+  .step-controls { display: flex; gap: 0.4rem; }
+  .step-btn {
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.3);
+    color: #60a5fa;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .step-btn:hover:not(:disabled) { background: rgba(59,130,246,0.3); }
+  .step-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+  .step-body { display: grid; grid-template-columns: 1.2fr 1fr; }
+  .step-code {
+    padding: 1rem 1.2rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem; line-height: 1.9;
+    border-right: 1px solid rgba(148,163,184,0.1);
+  }
+  .step-code .line {
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.3rem;
+    transition: background 0.3s, color 0.3s;
+    white-space: pre;
+  }
+  .step-code .line.active {
+    background: rgba(96,165,250,0.15);
+    color: #f1f5f9;
+    box-shadow: inset 3px 0 0 #60a5fa;
+  }
+  .step-info {
+    padding: 1rem 1.2rem;
+    background: rgba(30,41,59,0.4);
+  }
+  .step-info .explanation {
+    font-size: 0.82rem; color: #cbd5e1;
+    min-height: 4rem; margin-bottom: 0.8rem;
+    line-height: 1.55;
+  }
+  .step-info .tag-list {
+    display: flex; flex-wrap: wrap; gap: 0.35rem;
+    min-height: 1.8rem;
+  }
+  .step-info .tag {
+    background: rgba(167,139,250,0.15);
+    border: 1px solid rgba(167,139,250,0.3);
+    color: #d2a8ff;
+    border-radius: 0.4rem; padding: 0.2rem 0.55rem;
+    font-size: 0.7rem; font-family: 'Fira Code', monospace;
+  }
+
+  .step-progress {
+    padding: 0.6rem 1.2rem;
+    background: rgba(30,41,59,0.3);
+    border-top: 1px solid rgba(148,163,184,0.08);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .step-progress .bar {
+    flex: 1; height: 4px;
+    background: rgba(148,163,184,0.15);
+    border-radius: 999px; overflow: hidden;
+  }
+  .step-progress .bar-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    transition: width 0.35s ease;
+  }
+  .step-progress .count {
+    font-size: 0.72rem; color: #64748b;
+    font-family: 'Fira Code', monospace;
+    min-width: 3.5rem; text-align: right;
+  }
+
+  /* DID YOU KNOW */
+  .dyk-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 0.9rem;
+    margin-top: 1.2rem;
+  }
+  .dyk-card {
+    background: rgba(30,41,59,0.5);
+    border-radius: 1rem;
+    padding: 1.1rem 1.2rem;
+    border-left: 3px solid var(--dyk-color, #60a5fa);
+    transition: all 0.22s ease;
+  }
+  .dyk-card:hover {
+    background: rgba(30,41,59,0.8);
+    transform: translateX(3px);
+  }
+  .dyk-card .head {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 0.4rem;
+  }
+  .dyk-card .head .emoji { font-size: 1.1rem; }
+  .dyk-card .head .title {
+    font-size: 0.9rem; font-weight: 700; color: #f1f5f9;
+  }
+  .dyk-card p {
+    font-size: 0.82rem; color: #94a3b8; line-height: 1.55;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 780px) {
+    .container { padding: 0 1rem; }
+    .hero { padding: 3rem 1rem 1.5rem; }
+    .glass-card { padding: 1.3rem; border-radius: 1.2rem; }
+    .glass-card h2 { font-size: 1.25rem; }
+    .step-body { grid-template-columns: 1fr; }
+    .step-code { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.1); }
+    .evo-row { flex-direction: column; }
+    .evo-arrow { transform: rotate(90deg); }
+    .evo-arrow:hover { transform: rotate(90deg) translateX(4px); }
+    .dyk-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="topic-pill"><span class="num">2</span> Topic 2 of the C Series</div>
+    <h1>History of <span class="gradient-text">C Programming</span></h1>
+    <p>
+      How did a tiny language built for a phone company's computer lab become
+      the foundation of modern software? Let's find out.
+    </p>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- QUICK FACTS -->
+  <div class="facts-row">
+    <div class="fact">
+      <div class="big">1969–1973</div>
+      <div class="label">Created</div>
+    </div>
+    <div class="fact">
+      <div class="big">Dennis Ritchie</div>
+      <div class="label">Creator</div>
+    </div>
+    <div class="fact">
+      <div class="big">Bell Labs</div>
+      <div class="label">Where</div>
+    </div>
+    <div class="fact">
+      <div class="big">Unix</div>
+      <div class="label">Built For</div>
+    </div>
+    <div class="fact">
+      <div class="big">1989</div>
+      <div class="label">ANSI Standard</div>
+    </div>
+  </div>
+
+  <!-- ===== THE TIMELINE ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Interactive Timeline</div>
+    <h2>The Story of C — Click Any Event</h2>
+    <p>Tap any milestone to expand its story. Follow the journey from a failed project to the world's most influential language.</p>
+
+    <div class="timeline-wrap" id="timeline">
+
+      <div class="tl-item" style="--tl-color:#60a5fa;" onclick="toggleTimeline(this)">
+        <div class="tl-year">1969</div>
+        <div class="tl-title">Bell Labs Pulls Out of Multics</div>
+        <div class="tl-hint">Click to expand →</div>
+        <div class="tl-desc">
+          Bell Labs was a partner in the Multics project with MIT and GE. When it became too expensive and slow, they pulled out. Ken Thompson, a researcher there, began looking for alternatives — something simpler, something he could build himself.
+        </div>
+      </div>
+
+      <div class="tl-item" style="--tl-color:#a78bfa;" onclick="toggleTimeline(this)">
+        <div class="tl-year">1969</div>
+        <div class="tl-title">Ken Thompson Creates B</div>
+        <div class="tl-hint">Click to expand →</div>
+        <div class="tl-desc">
+          Thompson tried Fortran first but quickly abandoned it. Instead, he created a stripped-down version of BCPL (a language from Martin Richards) and called it <strong>B</strong>. It was typeless — everything was just a "word" in memory. B was used to write early Unix utilities but had limitations.
+        </div>
+      </div>
+
+      <div class="tl-item" style="--tl-color:#f472b6;" onclick="toggleTimeline(this)">
+        <div class="tl-year">1971</div>
+        <div class="tl-title">"New B" (NB) — A Step Toward C</div>
+        <div class="tl-hint">Click to expand →</div>
+        <div class="tl-desc">
+          Bell Labs acquired a PDP-11 computer. B couldn't take advantage of its byte-addressable memory or handle floating-point numbers. Ritchie began extending B by adding a <code>char</code> type and rewriting the compiler to generate real machine code. He called it <strong>NB</strong>, for "new B."
+        </div>
+      </div>
+
+      <div class="tl-item" style="--tl-color:#facc15;" onclick="toggleTimeline(this)">
+        <div class="tl-year">1972</div>
+        <div class="tl-title">The Language Gets Its Name: C</div>
+        <div class="tl-hint">Click to expand →</div>
+        <div class="tl-desc">
+          Ritchie added structures, the <code>&amp;&amp;</code> and <code>||</code> operators, and a preprocessor. NB no longer felt like "new B" — it was its own thing. He named it <strong>C</strong>, following the single-letter tradition. The name could mean a progression through the alphabet, or through the letters in BCPL.
+        </div>
+      </div>
+
+      <div class="tl-item" style="--tl-color:#34d399;" onclick="toggleTimeline(this)">
+        <div class="tl-year">1973</div>
+        <div class="tl-title">Unix Kernel Rewritten in C</div>
+        <div class="tl-hint">Click to expand →</div>
+        <div class="tl-desc">
+          The Unix kernel — the core of the operating system — was rewritten in C. This was a huge moment: it proved that C was powerful enough to build an entire operating system. No more writing everything in assembly language. C was ready for real work.
+        </div>
+      </div>
+
+      <div class="tl-item" style="--tl-color:#818cf8;" onclick="toggleTimeline(this)">
+        <div class="tl-year">1978</div>
+        <div class="tl-title">The K&amp;R Book Is Published</div>
+        <div class="tl-hint">Click to expand →</div>
+        <div class="tl-desc">
+          Brian Kernighan and Dennis Ritchie published <em>The C Programming Language</em>. This book — often called K&amp;R or the "white book" — became the de facto standard for C. For over a decade, it was the only real reference anyone had.
+        </div>
+      </div>
+
+      <div class="tl-item" style="--tl-color:#fb923c;" onclick="toggleTimeline(this)">
+        <div class="tl-year">1983–1989</div>
+        <div class="tl-title">ANSI Standardization</div>
+        <div class="tl-hint">Click to expand →</div>
+        <div class="tl-desc">
+          By the early 1980s, C was being used everywhere — but different compilers behaved slightly differently. ANSI formed a committee (X3J11) to create an official standard. In 1989, ANSI C was ratified. In 1990, it became an ISO international standard (C90). This is the foundation of the C we write today.
+        </div>
+      </div>
+
+      <div class="tl-item" style="--tl-color:#f87171;" onclick="toggleTimeline(this)">
+        <div class="tl-year">1999–Today</div>
+        <div class="tl-title">C99, C11, C17, C23 — C Keeps Evolving</div>
+        <div class="tl-hint">Click to expand →</div>
+        <div class="tl-desc">
+          C has been updated many times. C99 added new types and features. C11 added multi-threading support. C17 was a cleanup. C23, released in 2024, is the latest standard. Over 50 years after its creation, C is still one of the most used languages in the world.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ===== EVOLUTION CHAIN ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Evolution</div>
+    <h2>From BCPL to C — The Family Tree</h2>
+    <p>Click any node to see how each language influenced the next.</p>
+
+    <div class="evo-row">
+      <div class="evo-node" style="--evo-color:#a78bfa;" onclick="showEvo('bcpl')">
+        <div class="evo-year">1966</div>
+        <div class="evo-name">BCPL</div>
+        <div class="evo-desc">Martin Richards</div>
+      </div>
+      <div class="evo-arrow">→</div>
+      <div class="evo-node" style="--evo-color:#60a5fa;" onclick="showEvo('b')">
+        <div class="evo-year">1969</div>
+        <div class="evo-name">B</div>
+        <div class="evo-desc">Ken Thompson</div>
+      </div>
+      <div class="evo-arrow">→</div>
+      <div class="evo-node" style="--evo-color:#f472b6;" onclick="showEvo('c')">
+        <div class="evo-year">1972</div>
+        <div class="evo-name">C</div>
+        <div class="evo-desc">Dennis Ritchie</div>
+      </div>
+      <div class="evo-arrow">→</div>
+      <div class="evo-node" style="--evo-color:#34d399;" onclick="showEvo('c++')">
+        <div class="evo-year">1985</div>
+        <div class="evo-name">C++</div>
+        <div class="evo-desc">Bjarne Stroustrup</div>
+      </div>
+    </div>
+
+    <div id="evoDetail" style="margin-top:1.2rem; background:rgba(30,41,59,0.5); border-radius:0.8rem; padding:1rem 1.2rem; font-size:0.88rem; color:#cbd5e1; min-height:4rem; line-height:1.55;">
+      Click a language above to explore its role in the family tree.
+    </div>
+  </div>
+
+  <!-- ===== STEP-BY-STEP: HOW C EVOLVED ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Watch the Evolution</div>
+    <h2>Line-by-Line: How B Became C</h2>
+    <p>Click <strong>Next Step</strong> to walk through the key changes that transformed B into the C we know today.</p>
+
+    <div class="step-viz">
+      <div class="step-header">
+        <span class="title">evolution.c</span>
+        <div class="step-controls">
+          <button class="step-btn" id="prevBtn" onclick="stepPrev()" disabled>← Prev</button>
+          <button class="step-btn" id="nextBtn" onclick="stepNext()">Next Step →</button>
+          <button class="step-btn" id="resetBtn" onclick="stepReset()">↺ Reset</button>
+        </div>
+      </div>
+
+      <div class="step-body">
+        <div class="step-code" id="stepCode">
+          <div class="line" data-line="0">/* B: typeless — everything is a word */</div>
+          <div class="line" data-line="1">auto x;  /* no type needed */</div>
+          <div class="line" data-line="2"> </div>
+          <div class="line" data-line="3">/* NB: added char type */</div>
+          <div class="line" data-line="4">char c;  /* now we have types! */</div>
+          <div class="line" data-line="5"> </div>
+          <div class="line" data-line="6">/* C: int + char + arrays + pointers */</div>
+          <div class="line" data-line="7">int i;</div>
+          <div class="line" data-line="8">char name[20];</div>
+          <div class="line" data-line="9">int *ptr;</div>
+        </div>
+
+        <div class="step-info">
+          <div class="explanation" id="stepExplanation">
+            Click <strong>Next Step</strong> to begin the evolution.
+          </div>
+          <div class="tag-list" id="stepTags">
+            <span style="font-size:0.72rem;color:#484f58;">Waiting to start</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-progress">
+        <div class="bar"><div class="bar-fill" id="stepBarFill"></div></div>
+        <div class="count" id="stepCount">0 / 10</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DID YOU KNOW ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Fun Facts</div>
+    <h2>Did You Know?</h2>
+
+    <div class="dyk-grid">
+      <div class="dyk-card" style="--dyk-color:#60a5fa;">
+        <div class="head"><span class="emoji">💡</span><span class="title">The Name "C"</span></div>
+        <p>Nobody is 100% sure why it's called C. Ritchie said it could mean the next letter after B, or the next letter in BCPL. He left it open on purpose.</p>
+      </div>
+      <div class="dyk-card" style="--dyk-color:#a78bfa;">
+        <div class="head"><span class="emoji">⌨️</span><span class="title">The ++ Operator</span></div>
+        <p>Thompson invented <code>++</code> and <code>--</code> for B. He noticed that translating <code>++x</code> produced smaller code than <code>x=x+1</code>. Efficiency drove everything.</p>
+      </div>
+      <div class="dyk-card" style="--dyk-color:#f472b6;">
+        <div class="head"><span class="emoji">📖</span><span class="title">The White Book</span></div>
+        <p>The K&amp;R book was so influential that for over 10 years, it was the only real specification of C. There was no official standard until 1989.</p>
+      </div>
+      <div class="dyk-card" style="--dyk-color:#34d399;">
+        <div class="head"><span class="emoji">🏗️</span><span class="title">Built on a Tiny Machine</span></div>
+        <p>C was created on a PDP-7 with only 8K words of memory — less than a modern email. It was designed to fit in extremely tight constraints.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RECAP ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Recap</div>
+    <h2>What You Just Learned</h2>
+    <p>
+      You explored the entire history of C — from a failed project to the
+      world's most influential programming language. Here's the summary:
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.8rem;margin-top:1rem;">
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #60a5fa;">
+        <div style="font-size:0.72rem;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:0.06em;">Origin</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">C was born at Bell Labs alongside Unix, created by Dennis Ritchie between 1969–1973.</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #a78bfa;">
+        <div style="font-size:0.72rem;font-weight:700;color:#a78bfa;text-transform:uppercase;letter-spacing:0.06em;">Evolution</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">BCPL → B → NB → C. Each step added types, speed, and expressiveness.</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #f472b6;">
+        <div style="font-size:0.72rem;font-weight:700;color:#f472b6;text-transform:uppercase;letter-spacing:0.06em;">Standardization</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">ANSI C (1989) and ISO C (1990) unified the language. C99, C11, and C23 followed.</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #34d399;">
+        <div style="font-size:0.72rem;font-weight:700;color:#34d399;text-transform:uppercase;letter-spacing:0.06em;">Legacy</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">C influenced C++, Java, Python, Go, Rust — and still powers operating systems today.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   TIMELINE TOGGLE
+   ============================================================ */
+function toggleTimeline(el) {
+  const wasActive = el.classList.contains('active');
+  document.querySelectorAll('.tl-item').forEach(item => item.classList.remove('active'));
+  if (!wasActive) el.classList.add('active');
+}
+
+/* ============================================================
+   EVOLUTION CHAIN
+   ============================================================ */
+const evoData = {
+  bcpl: {
+    title: 'BCPL (1966) — Martin Richards',
+    text: 'BCPL (Basic Combined Programming Language) was designed by Martin Richards at MIT. It was typeless — everything was a "word" in memory. BCPL introduced ideas like separate compilation and was the direct ancestor of both B and C. Thompson learned BCPL while working at Bell Labs.'
+  },
+  b: {
+    title: 'B (1969) — Ken Thompson',
+    text: 'Ken Thompson created B by simplifying BCPL. It was "BCPL squeezed into 8K bytes of memory." B was typeless — no int, no char, just one data type. It was used for early Unix utilities but couldn\'t handle floating-point numbers or byte addressing on the PDP-11.'
+  },
+  c: {
+    title: 'C (1972) — Dennis Ritchie',
+    text: 'Ritchie added types (int, char), structures, and a preprocessor to B. The result was C — a typed language fast enough to rewrite the Unix kernel. C fixed B\'s limitations: it could handle floating-point math and address individual bytes in memory.'
+  },
+  'c++': {
+    title: 'C++ (1985) — Bjarne Stroustrup',
+    text: 'Bjarne Stroustrup extended C with object-oriented features like classes, inheritance, and templates. C++ kept C\'s speed and control but added higher-level abstractions. Today, C++ is used in games, browsers, and high-performance systems.'
+  }
+};
+
+function showEvo(key) {
+  document.querySelectorAll('.evo-node').forEach(n => n.classList.remove('active'));
+  const nodes = document.querySelectorAll('.evo-node');
+  const map = { bcpl: 0, b: 1, c: 2, 'c++': 3 };
+  if (map[key] !== undefined) nodes[map[key]].classList.add('active');
+
+  const d = evoData[key];
+  document.getElementById('evoDetail').innerHTML =
+    `<strong style="color:#f1f5f9;">${d.title}</strong><br>${d.text}`;
+}
+
+/* ============================================================
+   STEP-BY-STEP VISUALIZER
+   ============================================================ */
+const executionSteps = [
+  { line: 0, explanation: 'In B, there were no data types. Every variable was just a "word" in memory. The programmer had to remember what each word meant.', tags: ['B', 'typeless'] },
+  { line: 1, explanation: '<code>auto x;</code> declared a variable in B. No type needed — it was always a word. This was simple but dangerous.', tags: ['B', 'auto'] },
+  { line: 3, explanation: 'Ritchie added the <code>char</code> type in NB. Now you could store characters properly, which was essential for text processing.', tags: ['NB', 'char added'] },
+  { line: 4, explanation: '<code>char c;</code> — for the first time, you could declare a variable that holds a single character. This was the beginning of C\'s type system.', tags: ['NB', 'char type'] },
+  { line: 6, explanation: 'By 1972, the language was renamed C. It had int, char, arrays, and pointers — a complete type system.', tags: ['C', 'renamed'] },
+  { line: 7, explanation: '<code>int i;</code> — integers were now a distinct type, separate from characters. This made programs safer and more expressive.', tags: ['C', 'int'] },
+  { line: 8, explanation: '<code>char name[20];</code> — arrays let you store multiple values. In C, arrays are closely tied to pointers, a powerful combination.', tags: ['C', 'arrays'] },
+  { line: 9, explanation: '<code>int *ptr;</code> — pointers give you direct access to memory addresses. This is C\'s superpower and what makes it so fast.', tags: ['C', 'pointers'] }
+];
+
+let currentStep = -1;
+
+function updateStepUI() {
+  const total = executionSteps.length;
+  document.querySelectorAll('#stepCode .line').forEach(el => el.classList.remove('active'));
+
+  if (currentStep < 0) {
+    document.getElementById('stepExplanation').innerHTML = 'Click <strong>Next Step</strong> to begin the evolution.';
+    document.getElementById('stepTags').innerHTML = '<span style="font-size:0.72rem;color:#484f58;">Waiting to start</span>';
+    document.getElementById('stepBarFill').style.width = '0%';
+    document.getElementById('stepCount').textContent = `0 / ${total}`;
+    document.getElementById('prevBtn').disabled = true;
+    document.getElementById('nextBtn').disabled = false;
+    return;
+  }
+
+  const step = executionSteps[currentStep];
+  const lineEl = document.querySelector(`#stepCode .line[data-line="${step.line}"]`);
+  if (lineEl) lineEl.classList.add('active');
+
+  document.getElementById('stepExplanation').innerHTML = step.explanation;
+
+  const tagList = document.getElementById('stepTags');
+  tagList.innerHTML = step.tags.map(t =>
+    `<span class="tag">${t}</span>`
+  ).join('');
+
+  const pct = ((currentStep + 1) / total) * 100;
+  document.getElementById('stepBarFill').style.width = pct + '%';
+  document.getElementById('stepCount').textContent = `${currentStep + 1} / ${total}`;
+  document.getElementById('prevBtn').disabled = currentStep <= 0;
+  document.getElementById('nextBtn').disabled = currentStep >= total - 1;
+}
+
+function stepNext() {
+  if (currentStep < executionSteps.length - 1) {
+    currentStep++;
+    updateStepUI();
+  }
+}
+
+function stepPrev() {
+  if (currentStep > 0) {
+    currentStep--;
+    updateStepUI();
+  }
+}
+
+function stepReset() {
+  currentStep = -1;
+  updateStepUI();
+}
+
+updateStepUI();
+</script>
+
+</body>
+</html>

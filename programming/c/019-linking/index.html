@@ -1,0 +1,1027 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic 10 · Linking Process</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: #0b0f19;
+    color: #e8edf5;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  .bg-glow {
+    position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(59,130,246,0.14) 0%, transparent 50%),
+      radial-gradient(circle at 80% 70%, rgba(168,85,247,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 50% 50%, rgba(14,165,233,0.06) 0%, transparent 60%);
+    animation: pulseGlow 12s ease-in-out infinite alternate;
+  }
+  @keyframes pulseGlow {
+    0% { opacity: 0.7; transform: scale(1); }
+    100% { opacity: 1; transform: scale(1.08); }
+  }
+  .bg-grid {
+    position: fixed; inset: 0; z-index: -1;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 48px 48px;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
+  }
+
+  .container { max-width: 1150px; margin: 0 auto; padding: 0 1.5rem; }
+
+  /* HERO */
+  .hero { text-align: center; padding: 4.5rem 1.5rem 2rem; }
+  .topic-pill {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(96,165,250,0.12);
+    border: 1px solid rgba(96,165,250,0.3);
+    border-radius: 999px;
+    padding: 0.35rem 1rem;
+    font-size: 0.72rem; font-weight: 700;
+    color: #60a5fa;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 1.2rem;
+    animation: fadeUp 0.7s ease both;
+  }
+  .topic-pill .num {
+    background: #60a5fa; color: #0b0f19;
+    width: 18px; height: 18px; border-radius: 50%;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-size: 0.68rem; font-weight: 800;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 5.5vw, 3.6rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.15;
+    margin-bottom: 0.8rem;
+    animation: fadeUp 0.7s ease 0.1s both;
+  }
+  .hero h1 .gradient-text {
+    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 40%, #f472b6 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 1.05rem; color: #94a3b8; max-width: 660px;
+    margin: 0 auto; animation: fadeUp 0.7s ease 0.2s both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* QUICK FACTS */
+  .facts-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 0.8rem;
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.7s ease 0.3s both;
+  }
+  .fact {
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1rem;
+    padding: 1rem 1.1rem;
+    text-align: center;
+    transition: all 0.25s ease;
+  }
+  .fact:hover {
+    transform: translateY(-3px);
+    border-color: rgba(96,165,250,0.3);
+  }
+  .fact .big {
+    font-size: 1.15rem; font-weight: 800;
+    background: linear-gradient(135deg, #60a5fa, #a78bfa);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.2;
+  }
+  .fact .label {
+    font-size: 0.68rem; color: #94a3b8;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    font-weight: 600; margin-top: 0.2rem;
+  }
+
+  /* GLASS CARD */
+  .glass-card {
+    background: rgba(15,23,42,0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1.5rem; padding: 1.8rem;
+    margin-bottom: 1.5rem;
+    transition: border-color 0.25s ease;
+  }
+  .glass-card:hover { border-color: rgba(96,165,250,0.25); }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: #60a5fa; margin-bottom: 0.7rem;
+  }
+  .section-label .dot {
+    width: 6px; height: 6px; background: #60a5fa;
+    border-radius: 50%; animation: blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .glass-card h2 {
+    font-size: 1.5rem; font-weight: 700; color: #f1f5f9;
+    margin-bottom: 0.5rem; letter-spacing: -0.02em;
+  }
+  .glass-card > p { color: #94a3b8; font-size: 0.95rem; }
+
+  /* LINKER PIPELINE */
+  .linker-pipeline {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.5rem;
+    padding: 1.5rem 1rem;
+    background: rgba(30,41,59,0.4);
+    border-radius: 1rem;
+    border: 1px solid rgba(148,163,184,0.1);
+  }
+  .pipe-node {
+    background: rgba(15,23,42,0.8);
+    border: 1px solid rgba(148,163,184,0.2);
+    border-radius: 0.8rem;
+    padding: 0.9rem 1.1rem;
+    text-align: center;
+    min-width: 110px;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    position: relative;
+  }
+  .pipe-node:hover {
+    border-color: var(--pn-color, #60a5fa);
+    background: rgba(59,130,246,0.1);
+    transform: translateY(-3px);
+  }
+  .pipe-node.active {
+    border-color: var(--pn-color, #60a5fa);
+    background: rgba(59,130,246,0.15);
+    box-shadow: 0 0 20px -5px var(--pn-color, #60a5fa);
+  }
+  .pipe-node .pn-icon {
+    font-size: 1.3rem;
+    margin-bottom: 0.25rem;
+  }
+  .pipe-node .pn-title {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--pn-color, #60a5fa);
+    margin-bottom: 0.1rem;
+  }
+  .pipe-node .pn-sub {
+    font-size: 0.65rem;
+    color: #64748b;
+    font-family: 'Fira Code', monospace;
+  }
+  .pipe-plus {
+    color: #64748b;
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+  .pipe-eq {
+    color: #60a5fa;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .pipe-arrow {
+    color: #60a5fa;
+    font-size: 1.1rem;
+    animation: pulseArrow 1.5s ease-in-out infinite;
+  }
+  @keyframes pulseArrow {
+    0%,100% { opacity: 0.5; transform: translateX(0); }
+    50% { opacity: 1; transform: translateX(3px); }
+  }
+
+  /* NODE DETAIL PANEL */
+  .node-detail {
+    margin-top: 1rem;
+    background: rgba(30,41,59,0.5);
+    border-radius: 1rem;
+    padding: 1.4rem 1.6rem;
+    border: 1px solid rgba(148,163,184,0.1);
+    min-height: 130px;
+    transition: all 0.3s ease;
+  }
+  .node-detail .nd-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.5rem;
+  }
+  .node-detail .nd-body {
+    font-size: 0.9rem;
+    color: #cbd5e1;
+    line-height: 1.6;
+  }
+  .node-detail .nd-body code {
+    background: rgba(255,166,87,0.15);
+    color: #ffa657;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.3rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem;
+  }
+
+  /* STATIC VS DYNAMIC CARDS */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+  .compare-card {
+    background: rgba(30,41,59,0.6);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1rem;
+    padding: 1.4rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.25s ease;
+  }
+  .compare-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 3px;
+    background: linear-gradient(90deg, var(--cc-color, #60a5fa), transparent);
+  }
+  .compare-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(96,165,250,0.35);
+    box-shadow: 0 12px 28px -10px rgba(0,0,0,0.5);
+  }
+  .compare-card .cc-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .compare-card .cc-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #f1f5f9;
+    margin-bottom: 0.4rem;
+  }
+  .compare-card .cc-desc {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    line-height: 1.55;
+    margin-bottom: 0.8rem;
+  }
+  .compare-card .cc-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .compare-card .cc-list li {
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    padding: 0.25rem 0;
+    padding-left: 1.2rem;
+    position: relative;
+  }
+  .compare-card .cc-list li::before {
+    content: '▸';
+    position: absolute;
+    left: 0;
+    color: var(--cc-color, #60a5fa);
+  }
+
+  /* ERROR CARDS */
+  .error-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 1.2rem;
+  }
+  .error-card {
+    background: rgba(30,41,59,0.6);
+    border: 1px solid rgba(148,163,184,0.12);
+    border-radius: 1rem;
+    padding: 1.2rem;
+    transition: all 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .error-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--ec-color, #f87171);
+  }
+  .error-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(248,113,113,0.35);
+    box-shadow: 0 12px 28px -10px rgba(0,0,0,0.5);
+  }
+  .error-card .ec-title {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #f87171;
+    margin-bottom: 0.4rem;
+    font-family: 'Fira Code', monospace;
+  }
+  .error-card .ec-desc {
+    font-size: 0.82rem;
+    color: #94a3b8;
+    line-height: 1.55;
+    margin-bottom: 0.6rem;
+  }
+  .error-card .ec-fix {
+    font-size: 0.78rem;
+    color: #6ee7b7;
+    background: rgba(52,211,153,0.1);
+    border: 1px solid rgba(52,211,153,0.2);
+    border-radius: 0.4rem;
+    padding: 0.4rem 0.7rem;
+  }
+  .error-card .ec-fix::before {
+    content: '✓ Fix: ';
+    font-weight: 700;
+  }
+
+  /* SIMULATOR */
+  .simulator {
+    margin-top: 1.2rem;
+    background: #0d1117;
+    border-radius: 1rem;
+    border: 1px solid rgba(148,163,184,0.15);
+    overflow: hidden;
+  }
+  .sim-toolbar {
+    padding: 0.7rem 1rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .sim-toolbar .title {
+    font-size: 0.78rem; color: #8b949e;
+    font-family: 'Fira Code', monospace;
+  }
+  .sim-btn {
+    background: linear-gradient(135deg, #a78bfa, #8b5cf6);
+    color: white; border: none;
+    border-radius: 999px; padding: 0.4rem 1.1rem;
+    font-size: 0.78rem; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 12px -3px rgba(139,92,246,0.4);
+  }
+  .sim-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -3px rgba(139,92,246,0.55); }
+  .sim-btn:active { transform: translateY(0); }
+
+  .sim-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  .sim-panel {
+    padding: 1.2rem 1.4rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem;
+    line-height: 1.8;
+    overflow-y: auto;
+    max-height: 400px;
+    white-space: pre-wrap;
+  }
+  .sim-panel.left {
+    border-right: 1px solid rgba(148,163,184,0.12);
+    background: #0d1117;
+    color: #e6edf3;
+  }
+  .sim-panel.right {
+    background: #010409;
+    color: #7ee787;
+  }
+  .sim-panel .panel-title {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #64748b;
+    margin-bottom: 0.7rem;
+    font-weight: 600;
+  }
+  .sim-panel .cmt { color: #8b949e; font-style: italic; }
+  .sim-panel .kw { color: #ff7b72; }
+  .sim-panel .func { color: #d2a8ff; }
+  .sim-panel .str { color: #a5d6ff; }
+  .sim-panel .num { color: #79c0ff; }
+  .sim-panel .pp { color: #ffa657; }
+  .sim-panel .sym { color: #facc15; }
+  .sim-panel .err { color: #ff7b72; }
+  .sim-panel .ok { color: #6ee7b7; }
+  .sim-panel .info { color: #93c5fd; }
+
+  /* TIPS BOX */
+  .tip-box {
+    background: rgba(59,130,246,0.08);
+    border: 1px solid rgba(59,130,246,0.2);
+    border-radius: 0.8rem;
+    padding: 0.9rem 1.1rem;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #cbd5e1;
+    display: flex; gap: 0.6rem;
+  }
+  .tip-box .tip-icon { font-size: 1.1rem; flex-shrink: 0; }
+  .tip-box code {
+    background: rgba(255,166,87,0.15);
+    color: #ffa657;
+    padding: 0.1rem 0.4rem;
+    border-radius: 0.3rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.8rem;
+  }
+
+  /* STEP VISUALIZER */
+  .step-viz {
+    margin-top: 1.2rem;
+    background: #0d1117;
+    border-radius: 1rem;
+    border: 1px solid rgba(148,163,184,0.15);
+    overflow: hidden;
+  }
+  .step-header {
+    padding: 0.7rem 1.2rem;
+    background: #161b22;
+    border-bottom: 1px solid rgba(148,163,184,0.1);
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .step-header .title {
+    font-size: 0.8rem; color: #8b949e;
+    font-family: 'Fira Code', monospace;
+  }
+  .step-controls { display: flex; gap: 0.4rem; }
+  .step-btn {
+    background: rgba(59,130,246,0.15);
+    border: 1px solid rgba(59,130,246,0.3);
+    color: #60a5fa;
+    border-radius: 0.5rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.75rem; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .step-btn:hover:not(:disabled) { background: rgba(59,130,246,0.3); }
+  .step-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+  .step-body { display: grid; grid-template-columns: 1.2fr 1fr; }
+  .step-code {
+    padding: 1rem 1.2rem;
+    font-family: 'Fira Code', monospace;
+    font-size: 0.82rem; line-height: 1.9;
+    border-right: 1px solid rgba(148,163,184,0.1);
+  }
+  .step-code .line {
+    padding: 0.15rem 0.5rem;
+    border-radius: 0.3rem;
+    transition: background 0.3s, color 0.3s;
+    white-space: pre;
+  }
+  .step-code .line.active {
+    background: rgba(96,165,250,0.15);
+    color: #f1f5f9;
+    box-shadow: inset 3px 0 0 #60a5fa;
+  }
+  .step-info {
+    padding: 1rem 1.2rem;
+    background: rgba(30,41,59,0.4);
+  }
+  .step-info .explanation {
+    font-size: 0.82rem; color: #cbd5e1;
+    min-height: 4rem; margin-bottom: 0.8rem;
+    line-height: 1.55;
+  }
+  .step-info .tag-list {
+    display: flex; flex-wrap: wrap; gap: 0.35rem;
+    min-height: 1.8rem;
+  }
+  .step-info .tag {
+    background: rgba(167,139,250,0.15);
+    border: 1px solid rgba(167,139,250,0.3);
+    color: #d2a8ff;
+    border-radius: 0.4rem; padding: 0.2rem 0.55rem;
+    font-size: 0.7rem; font-family: 'Fira Code', monospace;
+  }
+  .step-progress {
+    padding: 0.6rem 1.2rem;
+    background: rgba(30,41,59,0.3);
+    border-top: 1px solid rgba(148,163,184,0.08);
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .step-progress .bar {
+    flex: 1; height: 4px;
+    background: rgba(148,163,184,0.15);
+    border-radius: 999px; overflow: hidden;
+  }
+  .step-progress .bar-fill {
+    height: 100%; width: 0%;
+    background: linear-gradient(90deg, #60a5fa, #a78bfa);
+    transition: width 0.35s ease;
+  }
+  .step-progress .count {
+    font-size: 0.72rem; color: #64748b;
+    font-family: 'Fira Code', monospace;
+    min-width: 3.5rem; text-align: right;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 780px) {
+    .container { padding: 0 1rem; }
+    .hero { padding: 3rem 1rem 1.5rem; }
+    .glass-card { padding: 1.3rem; border-radius: 1.2rem; }
+    .glass-card h2 { font-size: 1.25rem; }
+    .step-body { grid-template-columns: 1fr; }
+    .step-code { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.1); }
+    .linker-pipeline { flex-direction: column; }
+    .pipe-arrow { transform: rotate(90deg); }
+    .sim-body { grid-template-columns: 1fr; }
+    .sim-panel.left { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.12); }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg-glow"></div>
+<div class="bg-grid"></div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="topic-pill"><span class="num">10</span> Topic 10 of the C Series</div>
+    <h1>The <span class="gradient-text">Linking Process</span></h1>
+    <p>
+      After compilation, your object files are still not runnable. The linker
+      is the final step that joins everything together into a working program.
+    </p>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- QUICK FACTS -->
+  <div class="facts-row">
+    <div class="fact">
+      <div class="big">ld</div>
+      <div class="label">Linker Name</div>
+    </div>
+    <div class="fact">
+      <div class="big">.o → .exe</div>
+      <div class="label">Input → Output</div>
+    </div>
+    <div class="fact">
+      <div class="big">2</div>
+      <div class="label">Types (Static/Dyn)</div>
+    </div>
+    <div class="fact">
+      <div class="big">Symbols</div>
+      <div class="label">What It Resolves</div>
+    </div>
+    <div class="fact">
+      <div class="big">libc.a</div>
+      <div class="label">Standard Library</div>
+    </div>
+  </div>
+
+  <!-- ===== LINKER PIPELINE ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> How Linking Works</div>
+    <h2>What Does the Linker Do?</h2>
+    <p>
+      The linker takes multiple object files plus the standard library and
+      combines them into a single executable. Click any node to explore.
+    </p>
+
+    <div class="linker-pipeline" id="linkerPipeline">
+      <div class="pipe-node active" style="--pn-color:#60a5fa;" onclick="showNode('mainobj')">
+        <div class="pn-icon">📦</div>
+        <div class="pn-title">main.o</div>
+        <div class="pn-sub">your code</div>
+      </div>
+      <div class="pipe-plus">+</div>
+      <div class="pipe-node" style="--pn-color:#a78bfa;" onclick="showNode('utils')">
+        <div class="pn-icon">📦</div>
+        <div class="pn-title">utils.o</div>
+        <div class="pn-sub">helper code</div>
+      </div>
+      <div class="pipe-plus">+</div>
+      <div class="pipe-node" style="--pn-color:#ffa657;" onclick="showNode('libc')">
+        <div class="pn-icon">📚</div>
+        <div class="pn-title">libc.a</div>
+        <div class="pn-sub">standard library</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-node" style="--pn-color:#f472b6;" onclick="showNode('linker')">
+        <div class="pn-icon">🔗</div>
+        <div class="pn-title">Linker</div>
+        <div class="pn-sub">ld</div>
+      </div>
+      <div class="pipe-arrow">→</div>
+      <div class="pipe-node" style="--pn-color:#34d399;" onclick="showNode('exec')">
+        <div class="pn-icon">🚀</div>
+        <div class="pn-title">program</div>
+        <div class="pn-sub">executable</div>
+      </div>
+    </div>
+
+    <!-- NODE DETAIL PANEL -->
+    <div class="node-detail" id="nodeDetail">
+      <div class="nd-title">📦 main.o — Your Object File</div>
+      <div class="nd-body">
+        This is the object file produced by compiling <code>main.c</code>. It
+        contains the machine code for your functions, but it has
+        <strong>unresolved symbols</strong> — calls to functions like
+        <code>printf()</code> that live somewhere else. The linker's job is to
+        find them.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STATIC VS DYNAMIC ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Two Approaches</div>
+    <h2>Static vs Dynamic Linking</h2>
+    <p>
+      There are two fundamentally different ways to link a program. Each has
+      trade-offs for size, speed, and portability.
+    </p>
+
+    <div class="compare-grid">
+      <div class="compare-card" style="--cc-color:#60a5fa;">
+        <div class="cc-icon">📦</div>
+        <div class="cc-title">Static Linking</div>
+        <div class="cc-desc">
+          The library code is <strong>copied directly into</strong> the final
+          executable at link time. The result is one self-contained file.
+        </div>
+        <ul class="cc-list">
+          <li>Larger executable size</li>
+          <li>No dependencies at runtime</li>
+          <li>Faster startup (no loading)</li>
+          <li>Uses <code style="color:#ffa657;">.a</code> or <code style="color:#ffa657;">.lib</code> files</li>
+        </ul>
+      </div>
+
+      <div class="compare-card" style="--cc-color:#a78bfa;">
+        <div class="cc-icon">🔗</div>
+        <div class="cc-title">Dynamic Linking</div>
+        <div class="cc-desc">
+          The library code stays in a <strong>separate shared library</strong>.
+          The executable contains only a reference to it, resolved at runtime.
+        </div>
+        <ul class="cc-list">
+          <li>Smaller executable size</li>
+          <li>Depends on library being present</li>
+          <li>Slower startup (must load .so)</li>
+          <li>Uses <code style="color:#ffa657;">.so</code> or <code style="color:#ffa657;">.dll</code> files</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tip-box">
+      <span class="tip-icon">💡</span>
+      <div>
+        <strong>Real-world:</strong> Linux systems usually use dynamic linking
+        for the standard C library (glibc). That's why you can update glibc
+        and all programs benefit. Static linking is common for tools that need
+        to run standalone (like BusyBox or embedded systems).
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== LIVE SIMULATOR ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Simulator</div>
+    <h2>Watch the Linker Resolve Symbols</h2>
+    <p>
+      Click <strong>Run Linker</strong> to see how <code>ld</code> looks at
+      your object files, finds unresolved symbols, and matches them with
+      definitions from the library.
+    </p>
+
+    <div class="simulator">
+      <div class="sim-toolbar">
+        <span class="title">linker_simulation</span>
+        <button class="sim-btn" onclick="runLinker()">▶ Run Linker</button>
+      </div>
+      <div class="sim-body">
+        <div class="sim-panel left" id="simLeft">
+          <div class="panel-title">Object Files &amp; Symbols</div>
+<span class="cmt">/* main.o — symbols */</span>
+  <span class="sym">UNDEFINED:</span> printf, add, square
+  <span class="ok">DEFINED:  </span> main
+
+<span class="cmt">/* utils.o — symbols */</span>
+  <span class="sym">UNDEFINED:</span> (none)
+  <span class="ok">DEFINED:  </span> add, square
+
+<span class="cmt">/* libc.a — symbols */</span>
+  <span class="ok">DEFINED:  </span> printf, malloc, strlen...
+        </div>
+        <div class="sim-panel right" id="simRight">
+          <div class="panel-title">Linker Output</div>
+<span class="info">Ready to link. Click "Run Linker"...</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== COMMON ERRORS ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Troubleshooting</div>
+    <h2>Common Linker Errors</h2>
+    <p>
+      Linker errors are different from compiler errors. They happen after
+      compilation succeeds. Here are the most common ones:
+    </p>
+
+    <div class="error-grid">
+      <div class="error-card" style="--ec-color:#f87171;">
+        <div class="ec-title">undefined reference to 'foo'</div>
+        <div class="ec-desc">
+          The linker could not find the definition of <code>foo</code>. You
+          declared it, but never defined it — or forgot to compile the file
+          that defines it.
+        </div>
+        <div class="ec-fix">Compile all .c files, or check the function name for typos.</div>
+      </div>
+
+      <div class="error-card" style="--ec-color:#facc15;">
+        <div class="ec-title">multiple definition of 'bar'</div>
+        <div class="ec-desc">
+          Two different object files both define <code>bar</code>. This usually
+          happens when a variable or function is defined in a header (which is
+          included by multiple .c files).
+        </div>
+        <div class="ec-fix">Use <code>extern</code> in the header, define only once.</div>
+      </div>
+
+      <div class="error-card" style="--ec-color:#fb923c;">
+        <div class="ec-title">cannot find -lmylib</div>
+        <div class="ec-desc">
+          The linker cannot locate a library you asked it to use. Either the
+          library isn't installed, or it's in a directory the linker doesn't
+          search by default.
+        </div>
+        <div class="ec-fix">Add the path with <code>-L</code> and link with <code>-l</code>.</div>
+      </div>
+
+      <div class="error-card" style="--ec-color:#a78bfa;">
+        <div class="ec-title">relocation truncated to fit</div>
+        <div class="ec-desc">
+          The linker found a reference that's too far away for the instruction
+          being used. Rare on modern systems, but common in embedded work with
+          limited memory.
+        </div>
+        <div class="ec-fix">Adjust memory model or use <code>-mcmodel</code> flags.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== STEP-BY-STEP ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Watch the Linker</div>
+    <h2>Step-by-Step Symbol Resolution</h2>
+    <p>
+      Click <strong>Next Step</strong> to follow the linker as it resolves
+      every symbol in a real program.
+    </p>
+
+    <div class="step-viz">
+      <div class="step-header">
+        <span class="title">link_walkthrough</span>
+        <div class="step-controls">
+          <button class="step-btn" id="prevBtn" onclick="stepPrev()" disabled>← Prev</button>
+          <button class="step-btn" id="nextBtn" onclick="stepNext()">Next Step →</button>
+          <button class="step-btn" id="resetBtn" onclick="stepReset()">↺ Reset</button>
+        </div>
+      </div>
+
+      <div class="step-body">
+        <div class="step-code" id="stepCode">
+          <div class="line" data-line="0">/* main.o */</div>
+          <div class="line" data-line="1">undefined: printf, add</div>
+          <div class="line" data-line="2">defined:   main</div>
+          <div class="line" data-line="3"> </div>
+          <div class="line" data-line="4">/* utils.o */</div>
+          <div class="line" data-line="5">undefined: (none)</div>
+          <div class="line" data-line="6">defined:   add</div>
+          <div class="line" data-line="7"> </div>
+          <div class="line" data-line="8">/* libc.a */</div>
+          <div class="line" data-line="9">defined:   printf</div>
+          <div class="line" data-line="10"> </div>
+          <div class="line" data-line="11">→ output: program</div>
+        </div>
+
+        <div class="step-info">
+          <div class="explanation" id="stepExplanation">
+            Click <strong>Next Step</strong> to begin.
+          </div>
+          <div class="tag-list" id="stepTags">
+            <span style="font-size:0.72rem;color:#484f58;">Waiting to start</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="step-progress">
+        <div class="bar"><div class="bar-fill" id="stepBarFill"></div></div>
+        <div class="count" id="stepCount">0 / 10</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== RECAP ===== -->
+  <div class="glass-card">
+    <div class="section-label"><span class="dot"></span> Recap</div>
+    <h2>What You Just Learned</h2>
+    <p>
+      Linking is the final phase that turns object files into a runnable
+      program. Here's the summary:
+    </p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.8rem;margin-top:1rem;">
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #60a5fa;">
+        <div style="font-size:0.72rem;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:0.06em;">Joins Object Files</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">The linker combines all <code style="color:#93c5fd;">.o</code> files into one executable.</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #a78bfa;">
+        <div style="font-size:0.72rem;font-weight:700;color:#a78bfa;text-transform:uppercase;letter-spacing:0.06em;">Resolves Symbols</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">It matches every undefined symbol with a definition from another file or library.</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #f472b6;">
+        <div style="font-size:0.72rem;font-weight:700;color:#f472b6;text-transform:uppercase;letter-spacing:0.06em;">Static vs Dynamic</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Static copies library code into the binary; dynamic uses shared libraries at runtime.</div>
+      </div>
+      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #34d399;">
+        <div style="font-size:0.72rem;font-weight:700;color:#34d399;text-transform:uppercase;letter-spacing:0.06em;">Errors Are Different</div>
+        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Linker errors like <code style="color:#6ee7b7;">undefined reference</code> happen after compilation, not during.</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   NODE DATA
+   ============================================================ */
+const nodeData = {
+  mainobj: {
+    title: '📦 main.o — Your Object File',
+    body: 'This is the object file produced by compiling <code>main.c</code>. It contains the machine code for your functions, but it has <strong>unresolved symbols</strong> — calls to functions like <code>printf()</code> that live somewhere else. The linker\'s job is to find them.'
+  },
+  utils: {
+    title: '📦 utils.o — Helper Object File',
+    body: 'A second object file, compiled from <code>utils.c</code>. It defines helper functions like <code>add()</code> and <code>square()</code> that main.o uses. When the linker sees that main.o needs <code>add</code>, it will find the definition right here.'
+  },
+  libc: {
+    title: '📚 libc.a — Standard C Library',
+    body: 'The C standard library archive. It contains pre-compiled object files for <code>printf</code>, <code>malloc</code>, <code>strlen</code>, and hundreds of other functions. The linker pulls out only the pieces you actually use.'
+  },
+  linker: {
+    title: '🔗 The Linker (ld)',
+    body: 'The linker takes all the object files and libraries, resolves the symbol references between them, and produces a single executable. It is the final step of the build. On Linux it is usually invoked as <code>ld</code>, but GCC and Clang call it for you.'
+  },
+  exec: {
+    title: '🚀 program — The Executable',
+    body: 'The final output. This file is a complete, runnable program. On Unix, it is usually called <code>a.out</code> by default, or whatever name you gave with <code>-o</code>. You can run it directly from the terminal: <code>./program</code>'
+  }
+};
+
+function showNode(key) {
+  document.querySelectorAll('.pipe-node').forEach(n => n.classList.remove('active'));
+  const nodes = document.querySelectorAll('.pipe-node');
+  const keys = ['mainobj', 'utils', 'libc', 'linker', 'exec'];
+  const idx = keys.indexOf(key);
+  if (idx >= 0) nodes[idx].classList.add('active');
+
+  const d = nodeData[key];
+  document.getElementById('nodeDetail').innerHTML =
+    `<div class="nd-title">${d.title}</div><div class="nd-body">${d.body}</div>`;
+}
+
+/* ============================================================
+   LINKER SIMULATOR
+   ============================================================ */
+
+function runLinker() {
+  const right = document.getElementById('simRight');
+  const steps = [
+    { delay: 400, text: '<span class="info">$ ld main.o utils.o -lc -o program</span>\n' },
+    { delay: 700, text: '\n<span class="info">▸ Reading main.o...</span>\n' },
+    { delay: 500, text: '  <span class="sym">Unresolved:</span> printf, add\n' },
+    { delay: 500, text: '  <span class="ok">Defined:</span>    main\n' },
+    { delay: 700, text: '\n<span class="info">▸ Reading utils.o...</span>\n' },
+    { delay: 500, text: '  <span class="ok">Defined:</span>    add, square\n' },
+    { delay: 500, text: '  <span class="sym">Unresolved:</span> (none)\n' },
+    { delay: 700, text: '\n<span class="info">▸ Resolving symbols...</span>\n' },
+    { delay: 600, text: '  <span class="ok">✓</span> printf → libc.a\n' },
+    { delay: 600, text: '  <span class="ok">✓</span> add    → utils.o\n' },
+    { delay: 600, text: '  <span class="ok">✓</span> square → utils.o\n' },
+    { delay: 800, text: '\n<span class="info">▸ Producing executable...</span>\n' },
+    { delay: 900, text: '\n<span class="ok">✓ Linked successfully! Program created.</span>\n' },
+    { delay: 400, text: '\n<span class="info">$ ./program</span>\n' },
+    { delay: 500, text: '<span style="color:#7ee787;">Hello, World!</span>\n' },
+    { delay: 300, text: '<span style="color:#7ee787;">Sum: 25</span>\n' }
+  ];
+
+  right.innerHTML = '<div class="panel-title">Linker Output</div>';
+  let cumulative = 0;
+  steps.forEach((s, i) => {
+    cumulative += s.delay;
+    setTimeout(() => {
+      right.innerHTML += s.text;
+      right.scrollTop = right.scrollHeight;
+    }, cumulative);
+  });
+}
+
+/* ============================================================
+   STEP-BY-STEP VISUALIZER
+   ============================================================ */
+
+const executionSteps = [
+  { line: 0, explanation: '<strong>Object file main.o</strong> is read. It contains the compiled code for <code>main()</code>.', tags: ['Read'] },
+  { line: 1, explanation: '<strong>Unresolved symbols found:</strong> <code>printf</code> and <code>add</code>. The linker notes these down — it needs to find them later.', tags: ['Symbols', 'Undefined'] },
+  { line: 2, explanation: '<strong>Defined symbol:</strong> <code>main</code>. This is the entry point. Other files can call main() if they want (though usually they do not).', tags: ['Symbols', 'Defined'] },
+  { line: 4, explanation: '<strong>Object file utils.o</strong> is read. It was compiled separately from <code>utils.c</code>.', tags: ['Read'] },
+  { line: 5, explanation: '<strong>No unresolved symbols</strong> in utils.o. It is self-contained.', tags: ['Symbols'] },
+  { line: 6, explanation: '<strong>Defined symbols:</strong> <code>add</code> and <code>square</code>. These match the unresolved symbols from main.o!', tags: ['Symbols', 'Defined'] },
+  { line: 8, explanation: '<strong>The standard C library</strong> is consulted. It contains thousands of pre-compiled functions.', tags: ['Library'] },
+  { line: 9, explanation: '<strong>printf is found</strong> in libc.a. The linker extracts just this function and links it in.', tags: ['Symbols', 'Resolved'] },
+  { line: 11, explanation: '<strong>All symbols resolved.</strong> The linker is ready to produce the final output.', tags: ['Ready'] },
+  { line: 11, explanation: '<strong>Final executable created.</strong> The file <code>program</code> is a complete, runnable program — with all functions connected.', tags: ['Output', 'Complete'] }
+];
+
+let currentStep = -1;
+
+function updateStepUI() {
+  const total = executionSteps.length;
+  document.querySelectorAll('#stepCode .line').forEach(el => el.classList.remove('active'));
+
+  if (currentStep < 0) {
+    document.getElementById('stepExplanation').innerHTML = 'Click <strong>Next Step</strong> to begin.';
+    document.getElementById('stepTags').innerHTML = '<span style="font-size:0.72rem;color:#484f58;">Waiting to start</span>';
+    document.getElementById('stepBarFill').style.width = '0%';
+    document.getElementById('stepCount').textContent = `0 / ${total}`;
+    document.getElementById('prevBtn').disabled = true;
+    document.getElementById('nextBtn').disabled = false;
+    return;
+  }
+
+  const step = executionSteps[currentStep];
+  const lineEl = document.querySelector(`#stepCode .line[data-line="${step.line}"]`);
+  if (lineEl) lineEl.classList.add('active');
+
+  document.getElementById('stepExplanation').innerHTML = step.explanation;
+
+  const tagList = document.getElementById('stepTags');
+  tagList.innerHTML = step.tags.map(t =>
+    `<span class="tag">${t}</span>`
+  ).join('');
+
+  const pct = ((currentStep + 1) / total) * 100;
+  document.getElementById('stepBarFill').style.width = pct + '%';
+  document.getElementById('stepCount').textContent = `${currentStep + 1} / ${total}`;
+  document.getElementById('prevBtn').disabled = currentStep <= 0;
+  document.getElementById('nextBtn').disabled = currentStep >= total - 1;
+}
+
+function stepNext() {
+  if (currentStep < executionSteps.length - 1) {
+    currentStep++;
+    updateStepUI();
+  }
+}
+
+function stepPrev() {
+  if (currentStep > 0) {
+    currentStep--;
+    updateStepUI();
+  }
+}
+
+function stepReset() {
+  currentStep = -1;
+  updateStepUI();
+}
+
+updateStepUI();
+</script>
+
+</body>
+</html>

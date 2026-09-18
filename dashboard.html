@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>XTutiRaiseUp Dashboard</title>
+
+    <link
+        rel="icon"
+        type="image/jpeg"
+        href="./assets/logo.jpg"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./assets/dashboard.css"
+    >
+
+</head>
+
+<body>
+
+<nav>
+    <div class="nav-inner">
+
+        <div class="logo">
+            🛡️ Security Lab
+        </div>
+
+        <div class="nav-links">
+            <a href="./index.html">Home</a>
+            <a href="#programming">Programming</a>
+            <a href="#security">Security</a>
+            <a href="#documentation">Docs</a>
+        </div>
+
+    </div>
+</nav>
+
+
+<section class="hero">
+
+    <h1>Developer Security Hub</h1>
+
+    <p>
+        A central learning dashboard for programming languages,
+        cybersecurity concepts, secure development, technical
+        documentation, cheat sheets and developer references.
+    </p>
+
+</section>
+
+
+<main class="container">
+
+
+    <!-- SEARCH -->
+
+    <div class="search">
+
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="🔍 Search programming, security, documentation..."
+            onkeyup="searchCards()"
+        >
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <section class="stats">
+
+        <div class="stat">
+            <strong>12+</strong>
+            <span>Programming Languages</span>
+        </div>
+
+        <div class="stat">
+            <strong>10+</strong>
+            <span>Security Categories</span>
+        </div>
+
+        <div class="stat">
+            <strong>100+</strong>
+            <span>Learning Topics</span>
+        </div>
+
+        <div class="stat">
+            <strong>∞</strong>
+            <span>Expandable Resources</span>
+        </div>
+
+    </section>
+
+
+    <!-- PROGRAMMING -->
+
+    <section class="section" id="programming">
+
+        <h2>💻 Programming Languages</h2>
+
+        <p>
+            Programming language documentation, concepts,
+            syntax, examples, algorithms and interview material.
+        </p>
+
+        <div class="grid">
+
+
+            <a class="card searchable"
+               href="./programming/java/">
+
+                <div class="icon">☕</div>
+
+                <h3>Java</h3>
+
+                <p>
+                    Core Java, OOP, Collections,
+                    Multithreading, JVM and more.
+                </p>
+
+            </a>
+
+         <a class="card searchable"
+               href="./programming/c/index.html">
+
+                <div class="icon">🔧</div>
+
+                <h3>C Programming</h3>
+
+                <p>
+                    C fundamentals, pointers,
+                    memory, structures and algorithms.
+                </p>
+
+            </a>
+
+            <a class="card searchable"
+               href="./programming/csharp/index.html">
+
+                <div class="icon">#️⃣</div>
+
+                <h3>C#</h3>
+
+                <p>
+                    C#, .NET, OOP, LINQ and application development.
+                </p>
+            </a>
+
+            <a href="./programming/java/index.html" class="card searchable" >
+                #️⃣java
+            </a>
+         <a href="./programming/dotnet/index.html"class="card searchable">🔷 .NET</a>
+         <a href="./APP-DEV/WinForms/index.html" class="card searchable">🔷 WinForms</a>
+            <a class="card searchable"
+               href="./programming/cpp/index.html">
+
+                <div class="icon">⚙️</div>
+
+                <h3>C++</h3>
+
+                <p>
+                    C++, STL, OOP, memory,
+                    algorithms and competitive programming.
+                </p>
+
+            </a>
+
+            <a class="card searchable"
+               href="./programming/python/">
+
+                <div class="icon">🐍</div>
+
+                <h3>Python</h3>
+
+                <p>
+                    Python fundamentals, data structures,
+                    scripting and development.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./programming/javascript/">
+
+                <div class="icon">🟨</div>
+
+                <h3>JavaScript</h3>
+
+                <p>
+                    JavaScript, DOM, asynchronous programming,
+                    browser concepts and web development.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./programming/typescript/">
+
+                <div class="icon">🔷</div>
+
+                <h3>TypeScript</h3>
+
+                <p>
+                    Types, interfaces, generics,
+                    advanced TypeScript and web applications.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./programming/csharp/">
+
+                <div class="icon">#️⃣</div>
+
+                <h3>C#</h3>
+
+                <p>
+                    C#, .NET, OOP, LINQ and application development.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./programming/go/">
+
+                <div class="icon">🔵</div>
+
+                <h3>Go</h3>
+
+                <p>
+                    Go syntax, concurrency, networking
+                    and backend development.
+                </p>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- SECURITY -->
+
+    <section class="section" id="security">
+
+        <h2>🔐 Cybersecurity</h2>
+
+        <p>
+            Security concepts, vulnerability awareness,
+            secure development and defensive techniques.
+        </p>
+
+        <div class="grid">
+
+
+            <a class="card searchable"
+               href="./security/basics/">
+
+                <div class="icon">🛡️</div>
+
+                <h3>Security Basics</h3>
+
+                <p>
+                    Core cybersecurity terminology,
+                    threats and defensive concepts.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./security/web-security/">
+
+                <div class="icon">🌐</div>
+
+                <h3>Web Security</h3>
+
+                <p>
+                    Web application security,
+                    browser security and common risks.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./security/xss/">
+
+                <div class="icon">⚠️</div>
+
+                <h3>XSS Security</h3>
+
+                <p>
+                    Cross-site scripting awareness,
+                    prevention and safe testing.
+                </p>
+
+            </a>
+
+            <a class="card searchable"
+               href="./security-tests/globalsecurity.html">
+            
+                <div class="icon">🌐</div>
+            
+                <h3>Global Security</h3>
+            
+                <p>
+                    Global cybersecurity concepts, threats,
+                    protection strategies and security awareness.
+                </p>
+            
+            </a>
+             <a class="card searchable"
+               href="./security-tests/cybersecurityrisk.html">
+            
+                <div class="icon">🛡️</div>
+            
+                <h3>Cybersecurity Risk</h3>
+            
+                <p>
+                    Global cybersecurity concepts, threats,
+                    protection strategies and security awareness.
+                </p>
+            
+            </a>
+            <a class="card searchable"
+               href="./security/svg-security/">
+
+                <div class="icon">🖼️</div>
+
+                <h3>SVG Security</h3>
+
+                <p>
+                    SVG security risks, validation,
+                    sanitization and secure handling.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./security/authentication/">
+
+                <div class="icon">🔑</div>
+
+                <h3>Authentication</h3>
+
+                <p>
+                    Login security, sessions,
+                    tokens and identity management.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./security/api-security/">
+
+                <div class="icon">🔌</div>
+
+                <h3>API Security</h3>
+
+                <p>
+                    API validation, authentication,
+                    authorization and secure APIs.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./security/cryptography/">
+
+                <div class="icon">🔐</div>
+
+                <h3>Cryptography</h3>
+
+                <p>
+                    Encryption, hashing, digital signatures
+                    and cryptographic concepts.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./security/secure-coding/">
+
+                <div class="icon">💻</div>
+
+                <h3>Secure Coding</h3>
+
+                <p>
+                    Defensive programming and
+                    security-focused development practices.
+                </p>
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <!-- DOCUMENTATION -->
+
+    <section class="section" id="documentation">
+
+        <h2>📚 Documentation & Resources</h2>
+
+        <p>
+            Technical references and learning material
+            organized for quick access.
+        </p>
+
+        <div class="grid">
+
+
+            <a class="card searchable"
+               href="./documentation/cheat-sheets/">
+
+                <div class="icon">📋</div>
+
+                <h3>Cheat Sheets</h3>
+
+                <p>
+                    Quick references for programming,
+                    SQL, Git, Linux and security.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./documentation/interview/">
+
+                <div class="icon">🎯</div>
+
+                <h3>Interview Preparation</h3>
+
+                <p>
+                    Programming, DSA, system design
+                    and security interview material.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./documentation/references/">
+
+                <div class="icon">📖</div>
+
+                <h3>References</h3>
+
+                <p>
+                    Technical references, specifications
+                    and useful resources.
+                </p>
+
+            </a>
+
+
+            <a class="card searchable"
+               href="./documentation/notes/">
+
+                <div class="icon">📝</div>
+
+                <h3>Notes</h3>
+
+                <p>
+                    Personal learning notes,
+                    explanations and technical documentation.
+                </p>
+
+            </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+
+    Developer Security Hub © 2026
+
+    <br><br>
+
+    Programming • Cybersecurity • Documentation
+
+</footer>
+
+
+<script src="./assets/dashboard.js"></script>
+
+</body>
+</html>
