@@ -19,6 +19,34 @@
         href="../../course.css"
     >
 
+
+<style id="content-enhancement">
+.content-simple,.content-analogy{padding:1.1rem 1.3rem;border-radius:12px;margin:1rem 0;border-left:4px solid}
+.content-simple{background:rgba(124,58,237,.08);border-left-color:#7c3aed}
+.content-analogy{background:rgba(251,191,36,.08);border-left-color:#fbbf24}
+.cs-label,.ca-label{font-size:.68rem;font-weight:800;text-transform:uppercase;letter-spacing:.12em;margin-bottom:.45rem}
+.cs-label{color:#c4b5fd}
+.ca-label{color:#fbbf24}
+.content-simple p,.content-analogy p{color:#e2e8f0;font-size:.95rem;line-height:1.7;margin:0}
+.content-analogy p{font-style:italic}
+.content-visual{margin:1.2rem 0;padding:1.3rem;background:rgba(10,10,30,.5);border:1px solid rgba(148,163,184,.12);border-radius:14px;display:flex;justify-content:center;align-items:center}
+.content-visual svg{width:100%;max-width:400px;height:auto}
+.content-flow{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;align-items:center;padding:1.1rem;background:rgba(15,16,36,.5);border:1px solid rgba(148,163,184,.1);border-radius:12px;margin:1.2rem 0}
+.cf-step{display:flex;flex-direction:column;align-items:center;gap:.3rem}
+.cf-num{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#0ea5e9);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.75rem}
+.cf-label{font-size:.66rem;font-weight:700;color:#c4b5fd;text-transform:uppercase;letter-spacing:.05em;text-align:center;max-width:100px;line-height:1.3}
+.cf-arrow{color:#7c3aed;font-weight:900;font-size:1.1rem}
+.content-facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:.6rem;margin:1.2rem 0}
+.cfact{background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.12);border-radius:12px;padding:.9rem .8rem;text-align:center;transition:all .25s}
+.cfact:hover{transform:translateY(-2px);border-color:rgba(124,58,237,.4)}
+.cfact-big{font-size:.95rem;font-weight:900;background:linear-gradient(135deg,#c4b5fd,#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+.cfact-lbl{font-size:.6rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.08em;font-weight:700;margin-top:.35rem}
+.content-sections{margin:1.2rem 0}
+.cs-card{background:rgba(15,16,36,.6);border:1px solid rgba(148,163,184,.1);border-radius:12px;padding:1.1rem 1.3rem;margin-bottom:.7rem;border-left:3px solid #0ea5e9;transition:all .2s}
+.cs-card:hover{transform:translateX(3px);border-left-color:#7c3aed}
+.cs-card h3{font-size:.98rem;font-weight:800;color:#c4b5fd;margin-bottom:.35rem}
+.cs-card p{color:#cbd5e1;font-size:.9rem;line-height:1.65;margin:0}
+</style>
 </head>
 
 <body>
@@ -73,15 +101,7 @@
                 Prime-Number Checker
             </h1>
 
-            <p>
-                This learning page covers
-                <strong>Prime-Number Checker</strong>
-                as part of the
-                <strong>Day 06 — Loops & Logic</strong>
-                programming fundamentals course.
-            </p>
-
-            <div class="topic-nav">
+            <div class="content-simple"><div class="cs-label">💡 In Simple Words</div><p>Prime Number Checker is a data concept — how information is stored, measured, or represented on computers.</p></div><div class="content-analogy"><div class="ca-label">🎯 Real-World Analogy</div><p>Like measuring distance in meters — data has its own units and rules.</p></div><div class="content-visual"><svg viewBox="0 0 400 240" xmlns="http://www.w3.org/2000/svg"><text x="200" y="80" text-anchor="middle" fill="#fbbf24" font-family="monospace" font-weight="bold" font-size="40">1 0 1 0</text><text x="200" y="130" text-anchor="middle" fill="#c4b5fd" font-family="monospace" font-size="12">BINARY DATA</text><text x="200" y="170" text-anchor="middle" fill="#4ade80" font-family="monospace" font-size="11">0s AND 1s · STORED EVERYWHERE</text></svg></div><div class="content-flow"><div class="cf-step"><div class="cf-num">1</div><div class="cf-label">BITS</div></div><div class="cf-arrow">→</div><div class="cf-step"><div class="cf-num">2</div><div class="cf-label">BYTES</div></div><div class="cf-arrow">→</div><div class="cf-step"><div class="cf-num">3</div><div class="cf-label">FORMAT</div></div><div class="cf-arrow">→</div><div class="cf-step"><div class="cf-num">4</div><div class="cf-label">MEANING</div></div></div><div class="content-facts"><div class="cfact"><div class="cfact-big">Data</div><div class="cfact-lbl">Category</div></div><div class="cfact"><div class="cfact-big">Binary</div><div class="cfact-lbl">Representation</div></div><div class="cfact"><div class="cfact-big">Bits</div><div class="cfact-lbl">Smallest Unit</div></div><div class="cfact"><div class="cfact-big">Precision</div><div class="cfact-lbl">Important</div></div><div class="cfact"><div class="cfact-big">Universal</div><div class="cfact-lbl">Concept</div></div></div><div class="content-sections"><div class="cs-card"><h3>What is Prime Number Checker?</h3><p>Prime Number Checker describes how computers store and represent information.</p></div><div class="cs-card"><h3>How It Works</h3><p>Everything is stored as binary 0s and 1s, then interpreted based on rules.</p></div><div class="cs-card"><h3>Why It Matters</h3><p>Understanding data representation is essential for programming and IT.</p></div><div class="cs-card"><h3>Example</h3><p>Text, images, and videos are all stored using Prime Number Checker.</p></div></div><div class="topic-nav">
 
                 <a href="../multiplication-table-generator/index.html">
                     ← Multiplication Table Generator
