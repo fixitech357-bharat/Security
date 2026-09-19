@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us · Fixitech7</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background:#05060f;color:#f1f5f9;line-height:1.65;
+    overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+  /* BACKGROUND */
+  .space-base{position:fixed;inset:0;z-index:0;
+    background:
+      radial-gradient(ellipse at 50% 0%, #141530 0%, #0a0b1e 45%, #05060f 85%),
+      radial-gradient(ellipse at 0% 100%, #130a22 0%, transparent 55%),
+      radial-gradient(ellipse at 100% 100%, #081828 0%, transparent 55%)}
+  .orbs{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;
+    mix-blend-mode:screen;opacity:.42}
+  .orb{position:absolute;border-radius:50%;filter:blur(90px);will-change:transform}
+  .orb-1{width:520px;height:520px;top:-10%;left:-8%;
+    background:radial-gradient(circle,#6d28d9,transparent 70%);
+    animation:drift1 26s ease-in-out infinite}
+  .orb-2{width:460px;height:460px;top:45%;right:-10%;
+    background:radial-gradient(circle,#db2777,transparent 70%);
+    animation:drift2 30s ease-in-out infinite}
+  .orb-3{width:600px;height:600px;bottom:-18%;left:18%;
+    background:radial-gradient(circle,#0891b2,transparent 70%);
+    animation:drift3 34s ease-in-out infinite}
+  @keyframes drift1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
+  @keyframes drift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,-50px) scale(1.2)}}
+  @keyframes drift3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-60px) scale(1.1)}}
+  .grid-bg{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.22;
+    background-image:
+      linear-gradient(rgba(99,102,241,.14) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(99,102,241,.14) 1px,transparent 1px);
+    background-size:80px 80px;
+    transform:perspective(500px) rotateX(60deg);
+    animation:gridFlow 22s linear infinite;
+    mask-image:radial-gradient(ellipse at 50% 50%, black 20%, transparent 70%);
+    -webkit-mask-image:radial-gradient(ellipse at 50% 50%, black 20%, transparent 70%)}
+  @keyframes gridFlow{from{background-position:0 0}to{background-position:0 80px}}
+  .vignette{position:fixed;inset:0;z-index:3;pointer-events:none;
+    background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.72) 100%)}
+
+  /* PAGE */
+  .page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column}
+  .container{max-width:1150px;margin:0 auto;padding:0 1.5rem;width:100%}
+
+  /* NAV */
+  nav{position:sticky;top:0;z-index:100;
+    background:rgba(5,6,15,.7);backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    border-bottom:1px solid rgba(148,163,184,.08)}
+  .nav-inner{max-width:1150px;margin:0 auto;padding:1rem 1.5rem;
+    display:flex;align-items:center;justify-content:space-between;gap:1rem}
+  .brand{display:flex;align-items:center;gap:.65rem;
+    font-weight:800;font-size:1rem;color:#f1f5f9;text-decoration:none}
+  .brand-mark{width:36px;height:36px;border-radius:10px;
+    background:linear-gradient(135deg,#f59e0b,#ec4899,#8b5cf6);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:.9rem;color:#fff;
+    box-shadow:0 8px 20px -6px rgba(236,72,153,.55)}
+  .nav-links{display:flex;gap:.2rem}
+  .nav-links a{color:#94a3b8;text-decoration:none;font-size:.83rem;font-weight:600;
+    padding:.5rem .9rem;border-radius:8px;transition:all .2s}
+  .nav-links a:hover{color:#fff;background:rgba(139,92,246,.12)}
+  @media(max-width:700px){.nav-links{display:none}}
+
+  /* HERO */
+  .hero{padding:5rem 1.5rem 3rem;text-align:center}
+  .badge{display:inline-flex;align-items:center;gap:.55rem;
+    background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.35);
+    border-radius:999px;padding:.45rem 1.1rem;font-size:.72rem;font-weight:800;
+    letter-spacing:.14em;text-transform:uppercase;color:#c4b5fd;
+    margin-bottom:1.6rem;backdrop-filter:blur(8px)}
+  .badge .dot{width:8px;height:8px;background:#a78bfa;border-radius:50%;
+    box-shadow:0 0 12px #a78bfa;animation:blink 1.4s ease-in-out infinite}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+  .hero h1{font-size:clamp(2.4rem,6vw,4rem);font-weight:900;
+    letter-spacing:-.04em;line-height:1.08;margin-bottom:1.2rem}
+  .hero h1 .grad{background:linear-gradient(135deg,#fbbf24 0%,#ec4899 45%,#8b5cf6 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    background-clip:text;background-size:200% 200%;
+    animation:gradShift 7s ease-in-out infinite}
+  @keyframes gradShift{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .hero p{color:#a1a1aa;font-size:1.1rem;max-width:660px;
+    margin:0 auto;line-height:1.75}
+
+  /* SECTIONS */
+  section{padding:4rem 0;position:relative}
+  .sec-head{text-align:center;margin-bottom:3rem}
+  .sec-tag{display:inline-flex;align-items:center;gap:.5rem;
+    background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);
+    border-radius:999px;padding:.4rem 1rem;font-size:.68rem;font-weight:800;
+    letter-spacing:.14em;text-transform:uppercase;color:#c4b5fd;margin-bottom:1rem}
+  .sec-tag .d{width:5px;height:5px;background:#c4b5fd;border-radius:50%}
+  .sec-head h2{font-size:clamp(1.8rem,4.2vw,2.8rem);font-weight:900;
+    letter-spacing:-.03em;line-height:1.15;margin-bottom:.7rem}
+  .sec-head h2 .grad{background:linear-gradient(135deg,#a78bfa,#ec4899);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .sec-head p{color:#94a3b8;font-size:1rem;max-width:640px;margin:0 auto}
+
+  /* STORY */
+  .story{max-width:780px;margin:0 auto;text-align:center}
+  .story p{color:#cbd5e1;font-size:1.05rem;line-height:1.85;margin-bottom:1.2rem}
+  .story p strong{color:#f1f5f9;font-weight:700}
+  .story .highlight{background:linear-gradient(135deg,#fbbf24,#ec4899);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    font-weight:700}
+
+  /* STATS */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+    gap:1px;max-width:900px;margin:0 auto;
+    background:rgba(148,163,184,.1);border:1px solid rgba(148,163,184,.1);
+    border-radius:18px;overflow:hidden;backdrop-filter:blur(8px)}
+  .stats > div{background:rgba(10,11,30,.75);padding:1.6rem 1rem;text-align:center}
+  .stats .n{font-size:2rem;font-weight:900;line-height:1;
+    background:linear-gradient(135deg,#a78bfa,#ec4899);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .stats .l{font-size:.68rem;color:#71717a;text-transform:uppercase;
+    letter-spacing:.14em;font-weight:800;margin-top:.5rem}
+
+  /* MISSION/VISION */
+  .mv-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:1.5rem}
+  .mv-card{background:linear-gradient(155deg,rgba(24,25,50,.85),rgba(12,13,30,.6));
+    border:1px solid rgba(148,163,184,.12);border-radius:22px;padding:2.2rem;
+    position:relative;overflow:hidden;transition:all .35s cubic-bezier(.4,0,.2,1)}
+  .mv-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--c1),var(--c2),transparent)}
+  .mv-card:hover{transform:translateY(-6px);border-color:var(--c1);
+    box-shadow:0 30px 60px -25px var(--c1)}
+  .mv-icon{width:64px;height:64px;border-radius:18px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.8rem;margin-bottom:1.3rem;
+    background:linear-gradient(135deg,var(--c1),var(--c2));
+    box-shadow:0 12px 30px -8px var(--c1);
+    animation:iconFloat 5s ease-in-out infinite}
+  @keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .mv-card h3{font-size:1.35rem;font-weight:800;margin-bottom:.7rem;color:#f1f5f9}
+  .mv-card p{color:#a1a1aa;font-size:.94rem;line-height:1.7}
+
+  /* VALUES */
+  .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.1rem}
+  .value-card{background:linear-gradient(155deg,rgba(24,25,50,.8),rgba(12,13,30,.6));
+    border:1px solid rgba(148,163,184,.1);border-radius:18px;padding:1.6rem;
+    transition:all .3s;position:relative;overflow:hidden}
+  .value-card:hover{transform:translateY(-4px);border-color:var(--vc);
+    box-shadow:0 20px 40px -18px var(--vc)}
+  .value-ico{width:48px;height:48px;border-radius:12px;
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.4rem;margin-bottom:1rem;
+    background:rgba(139,92,246,.12);
+    border:1px solid rgba(139,92,246,.25);color:var(--vc)}
+  .value-card h4{font-size:1rem;font-weight:800;margin-bottom:.4rem;color:#f1f5f9}
+  .value-card p{font-size:.85rem;color:#94a3b8;line-height:1.6}
+
+  /* WHAT WE DO */
+  .what-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.1rem}
+  .what-card{background:linear-gradient(155deg,rgba(24,25,50,.8),rgba(12,13,30,.6));
+    border:1px solid rgba(148,163,184,.1);border-radius:18px;padding:1.8rem;
+    transition:all .3s;position:relative;overflow:hidden}
+  .what-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,var(--wc),transparent)}
+  .what-card:hover{transform:translateY(-4px);border-color:var(--wc);
+    box-shadow:0 20px 40px -18px var(--wc)}
+  .what-num{font-size:.7rem;font-weight:900;color:var(--wc);
+    letter-spacing:.14em;text-transform:uppercase;margin-bottom:.7rem}
+  .what-card h4{font-size:1.08rem;font-weight:800;margin-bottom:.5rem;color:#f1f5f9}
+  .what-card p{font-size:.88rem;color:#94a3b8;line-height:1.6}
+  .what-card .tags{margin-top:1rem;display:flex;flex-wrap:wrap;gap:.35rem}
+  .what-card .tags span{font-size:.68rem;font-weight:700;
+    padding:.2rem .6rem;border-radius:999px;
+    background:rgba(139,92,246,.12);color:#c4b5fd;
+    border:1px solid rgba(139,92,246,.25)}
+
+  /* TIMELINE */
+  .timeline{position:relative;padding-left:2.8rem;max-width:760px;margin:0 auto}
+  .timeline::before{content:'';position:absolute;left:12px;top:0;bottom:0;width:2px;
+    background:linear-gradient(180deg,#8b5cf6,#ec4899,#f59e0b,#06b6d4)}
+  .tl-item{position:relative;padding-bottom:2rem}
+  .tl-item::before{content:'';position:absolute;left:-2.8rem;top:.4rem;
+    width:22px;height:22px;border-radius:50%;background:#05060f;
+    border:3px solid var(--tc);box-shadow:0 0 16px var(--tc);transition:all .3s}
+  .tl-item:hover::before{transform:scale(1.3);background:var(--tc)}
+  .tl-item .y{font-size:.78rem;font-weight:900;color:var(--tc);
+    text-transform:uppercase;letter-spacing:.12em;margin-bottom:.3rem}
+  .tl-item h4{font-size:1.08rem;font-weight:800;color:#f1f5f9;margin-bottom:.35rem}
+  .tl-item p{color:#94a3b8;font-size:.88rem;line-height:1.6}
+
+  /* FOUNDER */
+  .founder{max-width:780px;margin:0 auto;
+    background:linear-gradient(155deg,rgba(24,25,50,.85),rgba(12,13,30,.6));
+    border:1px solid rgba(148,163,184,.12);border-radius:24px;
+    padding:2.8rem;position:relative;overflow:hidden;backdrop-filter:blur(12px)}
+  .founder::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,#f59e0b,#ec4899,#8b5cf6,#06b6d4)}
+  .founder-inner{display:flex;gap:2rem;align-items:flex-start}
+  @media(max-width:640px){
+    .founder{padding:2rem}
+    .founder-inner{flex-direction:column;gap:1.2rem;align-items:center;text-align:center}}
+  .founder-avatar{width:110px;height:110px;border-radius:24px;flex-shrink:0;
+    background:linear-gradient(135deg,#f59e0b,#ec4899,#8b5cf6);
+    display:flex;align-items:center;justify-content:center;
+    font-size:2.4rem;font-weight:900;color:#fff;
+    box-shadow:0 16px 40px -12px rgba(236,72,153,.6)}
+  .founder-info h3{font-size:1.4rem;font-weight:900;letter-spacing:-.02em;margin-bottom:.3rem}
+  .founder-info .role{font-size:.85rem;color:#c4b5fd;font-weight:700;
+    margin-bottom:1rem;letter-spacing:.06em;text-transform:uppercase}
+  .founder-info p{color:#a1a1aa;font-size:.94rem;line-height:1.7;margin-bottom:1rem}
+  .founder-quote{border-left:3px solid #a78bfa;padding-left:1rem;
+    font-style:italic;color:#cbd5e1;font-size:.92rem;line-height:1.7}
+
+  /* WHY US */
+  .why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.1rem}
+  .why-card{background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.1);
+    border-radius:18px;padding:1.6rem;text-align:center;transition:all .3s;
+    backdrop-filter:blur(8px)}
+  .why-card:hover{transform:translateY(-4px);border-color:rgba(139,92,246,.4);
+    background:rgba(20,21,48,.85)}
+  .why-card .icon{font-size:2rem;margin-bottom:.7rem;display:block}
+  .why-card h4{font-size:1rem;font-weight:800;margin-bottom:.4rem;color:#f1f5f9}
+  .why-card p{font-size:.85rem;color:#94a3b8;line-height:1.6}
+
+  /* CTA */
+  .cta-card{text-align:center;padding:3.5rem 2rem;border-radius:24px;
+    background:linear-gradient(135deg,rgba(251,191,36,.1),rgba(236,72,153,.08),rgba(139,92,246,.08));
+    border:1px solid rgba(236,72,153,.25);position:relative;overflow:hidden;
+    backdrop-filter:blur(20px)}
+  .cta-card::before{content:'';position:absolute;inset:-2px;border-radius:24px;padding:1px;
+    background:linear-gradient(135deg,#fbbf24,#ec4899,#8b5cf6);
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;opacity:.5;pointer-events:none}
+  .cta-card h2{font-size:clamp(1.6rem,3.8vw,2.4rem);font-weight:900;
+    letter-spacing:-.03em;margin-bottom:.9rem}
+  .cta-card h2 .grad{background:linear-gradient(135deg,#fbbf24,#ec4899);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .cta-card p{color:#94a3b8;max-width:540px;margin:0 auto 1.8rem;font-size:1rem}
+  .cta-row{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:center}
+  .btn{display:inline-flex;align-items:center;gap:.55rem;
+    padding:.9rem 1.9rem;border-radius:999px;font-size:.92rem;font-weight:700;
+    text-decoration:none;cursor:pointer;border:none;font-family:inherit;
+    transition:all .25s ease}
+  .btn-primary{background:linear-gradient(135deg,#f59e0b,#ec4899);color:#fff;
+    box-shadow:0 12px 30px -8px rgba(236,72,153,.6)}
+  .btn-primary:hover{transform:translateY(-2px);
+    box-shadow:0 20px 40px -10px rgba(236,72,153,.85)}
+  .btn-ghost{background:rgba(255,255,255,.04);color:#e2e8f0;
+    border:1px solid rgba(148,163,184,.18);backdrop-filter:blur(8px)}
+  .btn-ghost:hover{background:rgba(255,255,255,.08);
+    border-color:rgba(139,92,246,.5);transform:translateY(-2px)}
+
+  /* CONTACT */
+  .contact-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:1rem;max-width:900px;margin:0 auto}
+  .contact-card{background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.1);
+    border-radius:16px;padding:1.5rem;text-align:center;text-decoration:none;
+    color:inherit;transition:all .3s;backdrop-filter:blur(8px)}
+  .contact-card:hover{transform:translateY(-4px);border-color:var(--cc);
+    box-shadow:0 20px 40px -18px var(--cc);background:rgba(20,21,48,.85)}
+  .contact-ico{width:52px;height:52px;border-radius:14px;
+    display:inline-flex;align-items:center;justify-content:center;
+    font-size:1.4rem;margin-bottom:.8rem;
+    background:linear-gradient(135deg,var(--cc),var(--cc2));
+    box-shadow:0 10px 24px -8px var(--cc)}
+  .contact-card h4{font-size:.95rem;font-weight:800;margin-bottom:.25rem}
+  .contact-card p{font-size:.82rem;color:#94a3b8}
+
+  /* FOOTER */
+  footer{text-align:center;padding:3rem 1.5rem;
+    border-top:1px solid rgba(148,163,184,.08);
+    color:#52525b;font-size:.82rem;margin-top:auto}
+  footer a{color:#a78bfa;text-decoration:none}
+  footer a:hover{text-decoration:underline}
+
+  /* REVEAL */
+  .reveal{opacity:0;transform:translateY(24px);
+    transition:opacity .8s ease,transform .8s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
+
+  /* ============================================================
+     CHATBOT
+     ============================================================ */
+  .chat-launcher{
+    position:fixed;
+    bottom:1.5rem;
+    right:1.5rem;
+    width:62px;height:62px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#f59e0b,#ec4899,#8b5cf6);
+    background-size:200% 200%;
+    animation:gradShift 4s ease-in-out infinite,launcherPulse 2.4s ease-in-out infinite;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    box-shadow:0 12px 30px -8px rgba(236,72,153,.7),
+               0 0 0 0 rgba(236,72,153,.6);
+    z-index:1000;
+    transition:transform .25s ease}
+  @keyframes launcherPulse{
+    0%,100%{box-shadow:0 12px 30px -8px rgba(236,72,153,.7),0 0 0 0 rgba(236,72,153,.5)}
+    50%{box-shadow:0 12px 30px -8px rgba(236,72,153,.7),0 0 0 14px rgba(236,72,153,0)}
+  }
+  .chat-launcher:hover{transform:scale(1.08)}
+  .chat-launcher svg{width:28px;height:28px;fill:#fff;transition:all .25s ease}
+  .chat-launcher.open svg.icon-chat{display:none}
+  .chat-launcher svg.icon-close{display:none}
+  .chat-launcher.open svg.icon-close{display:block}
+  .chat-badge{
+    position:absolute;top:-3px;right:-3px;
+    min-width:22px;height:22px;
+    border-radius:11px;
+    background:#ef4444;
+    color:#fff;
+    font-size:.68rem;font-weight:800;
+    display:flex;align-items:center;justify-content:center;
+    border:2px solid #05060f;
+    padding:0 .3rem;
+    animation:badgePulse 2s ease-in-out infinite}
+  @keyframes badgePulse{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+  .chat-launcher.open .chat-badge{display:none}
+
+  /* Chat window */
+  .chat-window{
+    position:fixed;
+    bottom:5.5rem;
+    right:1.5rem;
+    width:380px;
+    max-width:calc(100vw - 2rem);
+    height:560px;
+    max-height:calc(100vh - 8rem);
+    background:linear-gradient(155deg,rgba(15,16,36,.98),rgba(8,9,22,.98));
+    border:1px solid rgba(148,163,184,.18);
+    border-radius:20px;
+    box-shadow:0 30px 80px -20px rgba(0,0,0,.9),
+               0 0 0 1px rgba(255,255,255,.03) inset;
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    z-index:999;
+    opacity:0;
+    transform:translateY(20px) scale(.96);
+    pointer-events:none;
+    transition:all .35s cubic-bezier(.4,0,.2,1)}
+  .chat-window.open{
+    opacity:1;
+    transform:translateY(0) scale(1);
+    pointer-events:auto}
+
+  /* Chat header */
+  .chat-header{
+    display:flex;align-items:center;gap:.75rem;
+    padding:1rem 1.1rem;
+    background:linear-gradient(135deg,rgba(245,158,11,.12),rgba(236,72,153,.12));
+    border-bottom:1px solid rgba(148,163,184,.12);
+    flex-shrink:0}
+  .chat-avatar{
+    width:40px;height:40px;border-radius:50%;
+    background:linear-gradient(135deg,#f59e0b,#ec4899,#8b5cf6);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:900;font-size:.9rem;color:#fff;
+    flex-shrink:0;
+    position:relative}
+  .chat-avatar::after{
+    content:'';position:absolute;bottom:0;right:0;
+    width:11px;height:11px;border-radius:50%;
+    background:#22c55e;border:2px solid #0a0b1e}
+  .chat-header-info{flex:1;min-width:0}
+  .chat-header-info h4{font-size:.92rem;font-weight:800;
+    color:#f1f5f9;margin-bottom:.1rem}
+  .chat-header-info p{font-size:.72rem;color:#94a3b8;
+    display:flex;align-items:center;gap:.3rem}
+  .chat-header-info .live-dot{
+    width:6px;height:6px;background:#22c55e;border-radius:50%;
+    box-shadow:0 0 8px #22c55e;
+    animation:blink 1.6s ease-in-out infinite}
+  .chat-header-actions{display:flex;gap:.3rem}
+  .chat-btn-icon{
+    width:32px;height:32px;border-radius:8px;
+    background:transparent;border:1px solid rgba(148,163,184,.15);
+    color:#94a3b8;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s;font-family:inherit;font-size:.9rem}
+  .chat-btn-icon:hover{background:rgba(255,255,255,.06);
+    color:#f1f5f9;border-color:rgba(148,163,184,.3)}
+
+  /* Messages */
+  .chat-messages{
+    flex:1;
+    overflow-y:auto;
+    padding:1.1rem 1rem;
+    display:flex;
+    flex-direction:column;
+    gap:.7rem;
+    scroll-behavior:smooth}
+  .chat-messages::-webkit-scrollbar{width:6px}
+  .chat-messages::-webkit-scrollbar-track{background:transparent}
+  .chat-messages::-webkit-scrollbar-thumb{
+    background:rgba(139,92,246,.3);border-radius:3px}
+  .chat-messages::-webkit-scrollbar-thumb:hover{
+    background:rgba(139,92,246,.5)}
+
+  .msg{
+    max-width:82%;
+    padding:.7rem 1rem;
+    border-radius:14px;
+    font-size:.86rem;
+    line-height:1.55;
+    word-wrap:break-word;
+    animation:msgIn .3s ease-out;
+    position:relative}
+  @keyframes msgIn{
+    from{opacity:0;transform:translateY(8px)}
+    to{opacity:1;transform:translateY(0)}}
+  .msg.bot{
+    align-self:flex-start;
+    background:rgba(30,41,59,.85);
+    border:1px solid rgba(148,163,184,.12);
+    color:#e2e8f0;
+    border-bottom-left-radius:4px}
+  .msg.user{
+    align-self:flex-end;
+    background:linear-gradient(135deg,#8b5cf6,#ec4899);
+    color:#fff;
+    border-bottom-right-radius:4px;
+    box-shadow:0 8px 20px -8px rgba(139,92,246,.6)}
+  .msg.bot strong{color:#c4b5fd;font-weight:700}
+  .msg.bot a{color:#a78bfa;text-decoration:underline}
+
+  /* Typing indicator */
+  .typing{
+    align-self:flex-start;
+    display:flex;gap:4px;
+    padding:.8rem 1.1rem;
+    background:rgba(30,41,59,.85);
+    border:1px solid rgba(148,163,184,.12);
+    border-radius:14px;
+    border-bottom-left-radius:4px}
+  .typing span{
+    width:7px;height:7px;
+    background:#94a3b8;
+    border-radius:50%;
+    animation:typingDot 1.2s ease-in-out infinite}
+  .typing span:nth-child(2){animation-delay:.15s}
+  .typing span:nth-child(3){animation-delay:.3s}
+  @keyframes typingDot{
+    0%,60%,100%{transform:translateY(0);opacity:.5}
+    30%{transform:translateY(-6px);opacity:1}}
+
+  /* Quick replies */
+  .quick-replies{
+    padding:0 1rem .6rem;
+    display:flex;
+    flex-wrap:wrap;
+    gap:.4rem;
+    flex-shrink:0}
+  .quick-btn{
+    font-size:.74rem;font-weight:700;
+    padding:.4rem .8rem;
+    background:rgba(139,92,246,.1);
+    border:1px solid rgba(139,92,246,.3);
+    color:#c4b5fd;
+    border-radius:999px;
+    cursor:pointer;
+    transition:all .2s;
+    font-family:inherit}
+  .quick-btn:hover{
+    background:rgba(139,92,246,.22);
+    border-color:rgba(139,92,246,.5);
+    color:#fff;
+    transform:translateY(-1px)}
+
+  /* Input */
+  .chat-input{
+    display:flex;
+    gap:.5rem;
+    padding:.8rem 1rem 1rem;
+    border-top:1px solid rgba(148,163,184,.1);
+    background:rgba(8,9,22,.6);
+    flex-shrink:0}
+  .chat-input input{
+    flex:1;
+    background:rgba(15,16,36,.9);
+    border:1px solid rgba(148,163,184,.18);
+    border-radius:12px;
+    padding:.7rem .9rem;
+    color:#f1f5f9;
+    font-family:inherit;
+    font-size:.85rem;
+    outline:none;
+    transition:all .2s}
+  .chat-input input::placeholder{color:#64748b}
+  .chat-input input:focus{
+    border-color:#8b5cf6;
+    box-shadow:0 0 0 2px rgba(139,92,246,.2)}
+  .chat-send{
+    width:42px;height:42px;
+    border-radius:12px;
+    background:linear-gradient(135deg,#f59e0b,#ec4899);
+    border:none;
+    cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s;
+    flex-shrink:0;
+    box-shadow:0 6px 16px -4px rgba(236,72,153,.6)}
+  .chat-send:hover{transform:translateY(-1px) scale(1.05);
+    box-shadow:0 10px 22px -6px rgba(236,72,153,.8)}
+  .chat-send svg{width:18px;height:18px;fill:#fff}
+
+  /* Mobile */
+  @media(max-width:480px){
+    .chat-window{
+      bottom:0;right:0;left:0;top:0;
+      width:100%;height:100%;
+      max-width:100%;max-height:100%;
+      border-radius:0;
+      border:none}
+    .chat-window.open{transform:none}
+    .chat-launcher{bottom:1rem;right:1rem}
+  }
+
+  /* Footer padding so chat doesn't cover content */
+  footer{padding-bottom:6rem}
+</style>
+</head>
+<body>
+
+<!-- BACKGROUND -->
+<div class="space-base"></div>
+<div class="orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+<div class="grid-bg"></div>
+<div class="vignette"></div>
+
+<div class="page">
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="brand">
+        <div class="brand-mark">F7</div>
+        Fixitech7
+      </a>
+      <div class="nav-links">
+        <a href="#story">Our Story</a>
+        <a href="#mission">Mission</a>
+        <a href="#what">What We Do</a>
+        <a href="#journey">Journey</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="badge"><span class="dot"></span> About Fixitech7</div>
+    <h1>We Make <span class="grad">Technology Simple</span><br>for Everyone</h1>
+    <p>Fixitech7 is a tech education platform on a mission to help people master their devices, tools, and digital skills — one clear tutorial at a time.</p>
+  </div>
+
+  <!-- STORY -->
+  <section id="story">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-tag"><span class="d"></span> Our Story</div>
+        <h2>How It <span class="grad">Started</span></h2>
+      </div>
+      <div class="story reveal">
+        <p><strong>Fixitech7</strong> began with a simple observation: technology is powerful, but most people are never taught how to use it properly.</p>
+        <p>So we built something different. <span class="highlight">Short, clear, practical tech content</span> that solves real problems — from fixing a slow laptop to understanding cybersecurity.</p>
+        <p>Today, Fixitech7 reaches <strong>thousands of people every day</strong> and continues to grow into a full learning ecosystem.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section>
+    <div class="container">
+      <div class="stats reveal">
+        <div><div class="n" data-count="500">0</div><div class="l">Posts Published</div></div>
+        <div><div class="n" data-count="10" data-suffix="K+">0</div><div class="l">Community</div></div>
+        <div><div class="n" data-count="100" data-suffix="+">0</div><div class="l">Tech Topics</div></div>
+        <div><div class="n" data-count="5" data-suffix="+">0</div><div class="l">Years Learning</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section id="mission">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-tag"><span class="d"></span> Purpose</div>
+        <h2>Our Mission &amp; <span class="grad">Vision</span></h2>
+      </div>
+      <div class="mv-grid">
+        <div class="mv-card reveal" style="--c1:#f59e0b;--c2:#fbbf24">
+          <div class="mv-icon">🎯</div>
+          <h3>Our Mission</h3>
+          <p>To make technology accessible to everyone — by creating simple, accurate, and practical content that solves real problems.</p>
+        </div>
+        <div class="mv-card reveal" style="--c1:#8b5cf6;--c2:#a78bfa">
+          <div class="mv-icon">🔭</div>
+          <h3>Our Vision</h3>
+          <p>A world where nobody feels confused or left behind by technology. Everyone has the knowledge to use it fully.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT WE DO -->
+  <section id="what">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-tag"><span class="d"></span> What We Do</div>
+        <h2>Content That <span class="grad">Actually Helps</span></h2>
+      </div>
+      <div class="what-grid">
+        <div class="what-card reveal" style="--wc:#f59e0b">
+          <div class="what-num">01</div>
+          <h4>Tech Tips &amp; Tutorials</h4>
+          <p>Short, clear guides that help you fix problems and master your devices.</p>
+          <div class="tags"><span>How-to</span><span>Fixes</span></div>
+        </div>
+        <div class="what-card reveal" style="--wc:#ec4899">
+          <div class="what-num">02</div>
+          <h4>Cybersecurity Awareness</h4>
+          <p>Practical ways to stay safe online — phishing, passwords, privacy.</p>
+          <div class="tags"><span>Privacy</span><span>Safety</span></div>
+        </div>
+        <div class="what-card reveal" style="--wc:#8b5cf6">
+          <div class="what-num">03</div>
+          <h4>Programming &amp; Code</h4>
+          <p>Beginner-friendly lessons on C, C++, Python, Java, SQL, and more.</p>
+          <div class="tags"><span>C / C++</span><span>Python</span></div>
+        </div>
+        <div class="what-card reveal" style="--wc:#06b6d4">
+          <div class="what-num">04</div>
+          <h4>Gadget Guides</h4>
+          <p>Honest, no-nonsense breakdowns of useful tools and devices.</p>
+          <div class="tags"><span>Reviews</span><span>Setup</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section>
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-tag"><span class="d"></span> Values</div>
+        <h2>The Principles That <span class="grad">Guide Us</span></h2>
+      </div>
+      <div class="values-grid">
+        <div class="value-card reveal" style="--vc:#f59e0b">
+          <div class="value-ico">💡</div>
+          <h4>Simplicity First</h4>
+          <p>If it can be explained simpler, we do it. No jargon.</p>
+        </div>
+        <div class="value-card reveal" style="--vc:#ec4899">
+          <div class="value-ico">✅</div>
+          <h4>Accuracy Always</h4>
+          <p>Every tip is tested before publishing.</p>
+        </div>
+        <div class="value-card reveal" style="--vc:#8b5cf6">
+          <div class="value-ico">🎓</div>
+          <h4>Teach, Don't Sell</h4>
+          <p>Value comes first — not promotions or ads.</p>
+        </div>
+        <div class="value-card reveal" style="--vc:#06b6d4">
+          <div class="value-ico">🌍</div>
+          <h4>Accessible to All</h4>
+          <p>Free, mobile-friendly, for everyone.</p>
+        </div>
+        <div class="value-card reveal" style="--vc:#10b981">
+          <div class="value-ico">🔒</div>
+          <h4>Privacy Matters</h4>
+          <p>We promote tools that respect your data.</p>
+        </div>
+        <div class="value-card reveal" style="--vc:#f472b6">
+          <div class="value-ico">🚀</div>
+          <h4>Always Learning</h4>
+          <p>Technology changes — we stay current.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- JOURNEY -->
+  <section id="journey">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-tag"><span class="d"></span> Our Journey</div>
+        <h2>The Fixitech7 <span class="grad">Timeline</span></h2>
+      </div>
+      <div class="timeline">
+        <div class="tl-item reveal" style="--tc:#8b5cf6">
+          <div class="y">The Beginning</div>
+          <h4>Fixitech7 Is Born</h4>
+          <p>Started as a personal mission to share simple tech tips.</p>
+        </div>
+        <div class="tl-item reveal" style="--tc:#ec4899">
+          <div class="y">First 1K</div>
+          <h4>Community Takes Off</h4>
+          <p>Reached our first 1,000 followers on Instagram.</p>
+        </div>
+        <div class="tl-item reveal" style="--tc:#f59e0b">
+          <div class="y">Expansion</div>
+          <h4>Beyond Just Tips</h4>
+          <p>Added cybersecurity, programming, and in-depth tutorials.</p>
+        </div>
+        <div class="tl-item reveal" style="--tc:#06b6d4">
+          <div class="y">Today</div>
+          <h4>Growing Every Day</h4>
+          <p>Thousands learn from Fixitech7 every day.</p>
+        </div>
+        <div class="tl-item reveal" style="--tc:#10b981">
+          <div class="y">Next</div>
+          <h4>The Learning Platform</h4>
+          <p>Building a full ecosystem of free courses and tools.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section>
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-tag"><span class="d"></span> Behind the Channel</div>
+        <h2>Meet the <span class="grad">Founder</span></h2>
+      </div>
+      <div class="founder reveal">
+        <div class="founder-inner">
+          <div class="founder-avatar">F7</div>
+          <div class="founder-info">
+            <h3>Founder &amp; Creator</h3>
+            <div class="role">Fixitech7</div>
+            <p>A tech enthusiast, self-taught developer, and problem-solver. Fixitech7 was started as a way to give back — to share what took years to learn.</p>
+            <div class="founder-quote">"The best technology is the one you understand. My goal is to make sure no one feels left behind."</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section>
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-tag"><span class="d"></span> Why Choose Us</div>
+        <h2>What Makes <span class="grad">Fixitech7 Different</span></h2>
+      </div>
+      <div class="why-grid">
+        <div class="why-card reveal"><span class="icon">🎯</span><h4>No Fluff</h4><p>Straight to the point.</p></div>
+        <div class="why-card reveal"><span class="icon">✅</span><h4>Always Tested</h4><p>Verified before it goes live.</p></div>
+        <div class="why-card reveal"><span class="icon">🌍</span><h4>Free Forever</h4><p>Knowledge should be free.</p></div>
+        <div class="why-card reveal"><span class="icon">📱</span><h4>Mobile-First</h4><p>Learn on the go.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section>
+    <div class="container">
+      <div class="cta-card reveal">
+        <h2>Join the <span class="grad">Fixitech7 Community</span></h2>
+        <p>Thousands of people are learning to master technology with us.</p>
+        <div class="cta-row">
+          <a href="https://www.instagram.com/fixitech7/" target="_blank" rel="noopener" class="btn btn-primary">📷 Follow on Instagram</a>
+          <a href="#contact" class="btn btn-ghost">✉️ Contact Us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="container">
+      <div class="sec-head reveal">
+        <div class="sec-tag"><span class="d"></span> Get in Touch</div>
+        <h2>Connect With <span class="grad">Fixitech7</span></h2>
+      </div>
+      <div class="contact-grid">
+        <a href="https://www.instagram.com/fixitech7/" target="_blank" rel="noopener" class="contact-card reveal" style="--cc:#ec4899;--cc2:#f472b6">
+          <div class="contact-ico">📷</div>
+          <h4>Instagram</h4>
+          <p>@fixitech7</p>
+        </a>
+        <a href="mailto:fixitechsolution.com" class="contact-card reveal" style="--cc:#f59e0b;--cc2:#fbbf24">
+          <div class="contact-ico">✉️</div>
+          <h4>Email</h4>
+          <p>fixitechsolution.com</p>
+        </a>
+        <a href="https://www.youtube.com/@fixitech7" target="_blank" rel="noopener" class="contact-card reveal" style="--cc:#ef4444;--cc2:#f87171">
+          <div class="contact-ico">▶️</div>
+          <h4>YouTube</h4>
+          <p>@fixitech7</p>
+        </a>
+        <a href="#" onclick="openChat();return false" class="contact-card reveal" style="--cc:#8b5cf6;--cc2:#a78bfa">
+          <div class="contact-ico">💬</div>
+          <h4>Live Chat</h4>
+          <p>Chat with us now</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© <span id="year"></span> Fixitech7 · Making technology simple for everyone</p>
+  </footer>
+
+</div>
+
+<!-- ============================================================
+     CHATBOT LAUNCHER
+     ============================================================ -->
+<button class="chat-launcher" id="chatLauncher" onclick="toggleChat()" aria-label="Open chat">
+  <svg class="icon-chat" viewBox="0 0 24 24">
+    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM7 9h10v2H7V9zm6 5H7v-2h6v2zm4-6H7V6h10v2z"/>
+  </svg>
+  <svg class="icon-close" viewBox="0 0 24 24">
+    <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+  </svg>
+  <span class="chat-badge" id="chatBadge">1</span>
+</button>
+
+<!-- ============================================================
+     CHAT WINDOW
+     ============================================================ -->
+<div class="chat-window" id="chatWindow" role="dialog" aria-label="Chat window">
+  <div class="chat-header">
+    <div class="chat-avatar">F7</div>
+    <div class="chat-header-info">
+      <h4>Fixitech7 Assistant</h4>
+      <p><span class="live-dot"></span> Online · Replies instantly</p>
+    </div>
+    <div class="chat-header-actions">
+      <button class="chat-btn-icon" onclick="clearChat()" title="Clear chat">↻</button>
+      <button class="chat-btn-icon" onclick="toggleChat()" title="Close">✕</button>
+    </div>
+  </div>
+
+  <div class="chat-messages" id="chatMessages"></div>
+
+  <div class="quick-replies" id="quickReplies"></div>
+
+  <form class="chat-input" onsubmit="handleSend(event)">
+    <input type="text" id="chatInput" placeholder="Ask me anything..." autocomplete="off">
+    <button class="chat-send" type="submit" aria-label="Send">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </form>
+</div>
+
+<script>
+/* ============================================================
+   YEAR + COUNTERS + REVEAL
+   ============================================================ */
+document.getElementById('year').textContent = new Date().getFullYear();
+
+(function(){
+  const counters = document.querySelectorAll('[data-count]');
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const el = e.target;
+        const target = parseInt(el.dataset.count);
+        const suffix = el.dataset.suffix || '';
+        let cur = 0;
+        const step = target / 50;
+        const t = setInterval(() => {
+          cur += step;
+          if(cur >= target){ cur = target; clearInterval(t); }
+          el.textContent = Math.floor(cur) + suffix;
+        }, 16);
+        io.unobserve(el);
+      }
+    });
+  }, {threshold: .3});
+  counters.forEach(c => io.observe(c));
+})();
+
+(function(){
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold: .1, rootMargin: '0px 0px -40px 0px'});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+
+/* ============================================================
+   CHATBOT
+   ============================================================ */
+const chatWindow = document.getElementById('chatWindow');
+const chatLauncher = document.getElementById('chatLauncher');
+const chatMessages = document.getElementById('chatMessages');
+const chatInput = document.getElementById('chatInput');
+const quickReplies = document.getElementById('quickReplies');
+const chatBadge = document.getElementById('chatBadge');
+
+let chatOpen = false;
+let greeted = false;
+
+/* ---------- KNOWLEDGE BASE ---------- */
+const KB = [
+  {
+    keywords: ['hi', 'hello', 'hey', 'yo', 'good morning', 'good evening', 'good afternoon'],
+    reply: "Hey there! 👋 Welcome to **Fixitech7**. How can I help you today?",
+    quick: ['About Fixitech7', 'Tech tips', 'Cybersecurity', 'Programming', 'Contact']
+  },
+  {
+    keywords: ['about', 'who', 'what is fixitech', 'company', 'you do'],
+    reply: "**Fixitech7** is a tech education platform. We create simple, practical content that helps people master their devices, tools, and digital skills. Our mission: make technology easy for everyone. 🚀",
+    quick: ['What do you teach?', 'Follow on Instagram', 'Contact']
+  },
+  {
+    keywords: ['mission', 'vision', 'goal', 'purpose'],
+    reply: "🎯 **Mission:** Make technology accessible to everyone with simple, accurate, practical content.\n\n🔭 **Vision:** A world where nobody feels left behind by technology.",
+    quick: ['What do you teach?', 'Follow on Instagram']
+  },
+  {
+    keywords: ['teach', 'learn', 'content', 'topic', 'cover', 'course', 'lesson'],
+    reply: "We cover 4 main areas:\n\n• 💡 Tech Tips & Tutorials\n• 🔒 Cybersecurity Awareness\n• 💻 Programming (C, C++, Python, Java, SQL)\n• 📱 Gadget Guides & Reviews",
+    quick: ['Programming', 'Cybersecurity', 'Tech tips']
+  },
+  {
+    keywords: ['programming', 'coding', 'code', 'python', 'c++', 'java', 'sql', 'developer'],
+    reply: "We teach **C, C++, Python, Java, SQL** and more — all from scratch. Beginner-friendly, no jargon. Perfect for anyone starting their coding journey. 💻",
+    quick: ['All courses', 'Follow on Instagram']
+  },
+  {
+    keywords: ['security', 'cyber', 'hacker', 'hacking', 'phishing', 'privacy', 'safe', 'security tips'],
+    reply: "🔒 Our cybersecurity content covers:\n• Spotting phishing\n• Strong passwords & MFA\n• Safe browsing\n• Privacy protection\n\nPractical, easy-to-apply tips for real life.",
+    quick: ['Tech tips', 'Contact']
+  },
+  {
+    keywords: ['tech tip', 'tips', 'tutorial', 'how to', 'guide', 'fix', 'slow laptop'],
+    reply: "💡 We publish short, actionable tech tips almost daily — from fixing a slow laptop to setting up home WiFi. Follow us on Instagram to catch them all!",
+    quick: ['Follow on Instagram', 'Programming']
+  },
+  {
+    keywords: ['instagram', 'follow', 'social', 'handle', '@'],
+    reply: "Follow us on Instagram 👉 **@fixitech7**\n\nWe post daily tech tips, fixes, and tutorials!\n\n<a href='https://www.instagram.com/fixitech7/' target='_blank'>instagram.com/fixitech7</a>",
+    quick: ['YouTube', 'Contact']
+  },
+  {
+    keywords: ['youtube', 'video', 'channel'],
+    reply: "🎥 Find us on YouTube at **@fixitech7** for longer tutorials and walkthroughs!",
+    quick: ['Instagram', 'Contact']
+  },
+  {
+    keywords: ['contact', 'email', 'reach', 'message', 'talk', 'support', 'help me'],
+    reply: "📬 Reach us at:\n\n• **Instagram:** @fixitech7\n• **Email:** hello@fixitech7.com\n• **YouTube:** @fixitech7\n\nOr just keep chatting with me! 💬",
+    quick: ['Instagram', 'Email']
+  },
+  {
+    keywords: ['email', 'mail'],
+    reply: "✉️ Our email is **hello@fixitech7.com**\n\nWe usually reply within 24 hours.",
+    quick: ['Instagram', 'Support']
+  },
+  {
+    keywords: ['collab', 'collaboration', 'partner', 'sponsor', 'business'],
+    reply: "🤝 We love collaborating! For partnerships, sponsorships, or business inquiries, email us at **hello@fixitech7.com** with details.",
+    quick: ['Contact', 'Instagram']
+  },
+  {
+    keywords: ['price', 'cost', 'pay', 'subscription', 'free'],
+    reply: "🎉 Everything on Fixitech7 is **100% FREE**. No paywalls, no subscriptions. Knowledge should be accessible to everyone.",
+    quick: ['What do you teach?', 'Follow on Instagram']
+  },
+  {
+    keywords: ['beginner', 'start', 'new', 'learn from scratch'],
+    reply: "Perfect! 🚀 We're built for beginners. Our content assumes zero background — just curiosity. Start with our Programming or Cybersecurity guides.",
+    quick: ['Programming', 'Cybersecurity']
+  },
+  {
+    keywords: ['thank', 'thanks', 'thx', 'appreciate'],
+    reply: "You're welcome! 😊 Anything else I can help with?",
+    quick: ['About Fixitech7', 'Contact']
+  },
+  {
+    keywords: ['bye', 'goodbye', 'see you', 'later'],
+    reply: "Goodbye! 👋 Thanks for stopping by Fixitech7. Follow us on Instagram @fixitech7 to keep learning!",
+    quick: ['Follow on Instagram']
+  },
+  {
+    keywords: ['founder', 'owner', 'who made', 'who created', 'who started'],
+    reply: "Fixitech7 was founded by a tech enthusiast and self-taught developer who wanted to share what took years to learn — in a simple, accessible way. 🙌",
+    quick: ['About Fixitech7', 'Contact']
+  },
+  {
+    keywords: ['story', 'history', 'when'],
+    reply: "Our story started with a simple observation: technology is powerful, but most people are never taught how to use it properly. So we started sharing short, clear tech tips — and grew into a full education platform. 📈",
+    quick: ['Timeline', 'Follow on Instagram']
+  }
+];
+
+const DEFAULT_REPLY = "Hmm, I'm not sure about that one. 🤔 I can help with:\n\n• About Fixitech7\n• What we teach\n• Cybersecurity\n• Programming\n• Contact info\n\nJust ask!";
+
+/* ---------- INITIAL QUICK REPLIES ---------- */
+const INITIAL_QUICK = ['About Fixitech7', 'What do you teach?', 'Cybersecurity', 'Programming', 'Contact'];
+
+/* ---------- TOGGLE ---------- */
+function toggleChat(){
+  chatOpen = !chatOpen;
+  chatWindow.classList.toggle('open', chatOpen);
+  chatLauncher.classList.toggle('open', chatOpen);
+
+  if(chatOpen){
+    chatBadge.style.display = 'none';
+    setTimeout(() => chatInput.focus(), 300);
+    if(!greeted){
+      greeted = true;
+      setTimeout(() => {
+        addBotMessage("Hi! 👋 I'm the Fixitech7 assistant. Ask me anything about our mission, content, or how to get in touch!", INITIAL_QUICK);
+      }, 400);
+    }
+  }
+}
+
+function openChat(){
+  if(!chatOpen) toggleChat();
+}
+
+/* ---------- SEND HANDLER ---------- */
+function handleSend(e){
+  e.preventDefault();
+  const text = chatInput.value.trim();
+  if(!text) return;
+  addUserMessage(text);
+  chatInput.value = '';
+  respondTo(text);
+}
+
+/* ---------- ADD MESSAGES ---------- */
+function addUserMessage(text){
+  const msg = document.createElement('div');
+  msg.className = 'msg user';
+  msg.textContent = text;
+  chatMessages.appendChild(msg);
+  scrollToBottom();
+}
+
+function addBotMessage(text, quick){
+  // Show typing indicator
+  const typing = document.createElement('div');
+  typing.className = 'typing';
+  typing.innerHTML = '<span></span><span></span><span></span>';
+  chatMessages.appendChild(typing);
+  scrollToBottom();
+
+  setTimeout(() => {
+    typing.remove();
+    const msg = document.createElement('div');
+    msg.className = 'msg bot';
+    msg.innerHTML = formatText(text);
+    chatMessages.appendChild(msg);
+    scrollToBottom();
+    if(quick && quick.length) renderQuickReplies(quick);
+  }, 600);
+}
+
+/* ---------- TEXT FORMATTING ---------- */
+function formatText(text){
+  // Escape HTML
+  let safe = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+  // Allow specific <a> tags (un-escape them)
+  safe = safe
+    .replace(/&lt;a href='([^']+)' target='_blank'&gt;/g, "<a href='$1' target='_blank' rel='noopener'>")
+    .replace(/&lt;\/a&gt;/g, '</a>');
+  // Bold **text**
+  safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+  // Line breaks
+  safe = safe.replace(/\n/g, '<br>');
+  return safe;
+}
+
+/* ---------- RESPOND ---------- */
+function respondTo(text){
+  const lower = text.toLowerCase();
+  let best = null;
+  let bestScore = 0;
+
+  for(const entry of KB){
+    let score = 0;
+    for(const kw of entry.keywords){
+      if(lower.includes(kw)) score += kw.length;
+    }
+    if(score > bestScore){
+      bestScore = score;
+      best = entry;
+    }
+  }
+
+  if(best){
+    addBotMessage(best.reply, best.quick);
+  } else {
+    addBotMessage(DEFAULT_REPLY, INITIAL_QUICK);
+  }
+}
+
+/* ---------- QUICK REPLIES ---------- */
+function renderQuickReplies(list){
+  quickReplies.innerHTML = '';
+  list.forEach(label => {
+    const btn = document.createElement('button');
+    btn.className = 'quick-btn';
+    btn.textContent = label;
+    btn.type = 'button';
+    btn.onclick = () => {
+      addUserMessage(label);
+      respondTo(label);
+      quickReplies.innerHTML = '';
+    };
+    quickReplies.appendChild(btn);
+  });
+}
+
+/* ---------- HELPERS ---------- */
+function scrollToBottom(){
+  requestAnimationFrame(() => {
+    chatMessages.scrollTop = chatMessages.scrollHeight;
+  });
+}
+
+function clearChat(){
+  chatMessages.innerHTML = '';
+  quickReplies.innerHTML = '';
+  greeted = false;
+  addBotMessage("Chat cleared! 🔄 Ask me anything about Fixitech7.", INITIAL_QUICK);
+  greeted = true;
+}
+
+/* ---------- OPTIONAL: OPEN ON LOAD AFTER DELAY ---------- */
+// Uncomment to auto-open chat after 8s
+// setTimeout(() => { if(!chatOpen) toggleChat(); }, 8000);
+</script>
+
+</body>
+</html>
