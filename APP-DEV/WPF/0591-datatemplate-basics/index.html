@@ -1,165 +1,409 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        0591 - DataTemplate Basics | WPF | XTutiRaiseUp
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="../assets/wpf.css"
-    >
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0591 · Datatemplate Basics</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Inter",system-ui,sans-serif;background:#05060f;color:#f1f5f9;line-height:1.65;overflow-x:hidden}
+.space-base{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 0%,#1a0a2e 0%,#0a0a20 45%,#05060f 85%),radial-gradient(ellipse at 100% 100%,#0a1a30 0%,transparent 55%)}
+.orbs{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;mix-blend-mode:screen;opacity:.45}
+.orb{position:absolute;border-radius:50%;filter:blur(90px)}
+.orb-1{width:520px;height:520px;top:-10%;left:-8%;background:radial-gradient(circle,#7c3aed,transparent 70%);animation:d1 26s ease-in-out infinite}
+.orb-2{width:460px;height:460px;top:45%;right:-10%;background:radial-gradient(circle,#0078d4,transparent 70%);animation:d2 30s ease-in-out infinite}
+.orb-3{width:600px;height:600px;bottom:-18%;left:18%;background:radial-gradient(circle,#ec4899,transparent 70%);animation:d3 34s ease-in-out infinite}
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
+@keyframes d2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,-50px) scale(1.2)}}
+@keyframes d3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-60px) scale(1.1)}}
+.grid-bg{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.22;background-image:linear-gradient(rgba(124,58,237,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.14) 1px,transparent 1px);background-size:80px 80px;transform:perspective(500px) rotateX(60deg);animation:gf 22s linear infinite;mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%)}
+@keyframes gf{from{background-position:0 0}to{background-position:0 80px}}
+.vig{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.72) 100%)}
+.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:1150px;margin:0 auto;padding:0 1.5rem;width:100%}
+nav{position:sticky;top:0;z-index:100;background:rgba(5,6,15,.7);backdrop-filter:blur(20px);border-bottom:1px solid rgba(148,163,184,.08)}
+.nav-inner{max-width:1150px;margin:0 auto;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.65rem;font-weight:800;font-size:1rem;color:#f1f5f9;text-decoration:none}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#0078d4);display:flex;align-items:center;justify-content:center;font-size:1rem;color:#fff;box-shadow:0 8px 20px -6px rgba(124,58,237,.6)}
+.hero{padding:4.5rem 1.5rem 3rem;text-align:center}
+.tpill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.35);border-radius:999px;padding:.45rem 1.1rem;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#c4b5fd;margin-bottom:1.5rem}
+.tpill .n{background:#7c3aed;color:#fff;min-width:26px;height:22px;border-radius:11px;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;padding:0 .4rem}
+.hero h1{font-size:clamp(1.7rem,4.4vw,2.8rem);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin-bottom:1.2rem}
+.hero h1 .grad{background:linear-gradient(135deg,#c4b5fd 0%,#7c3aed 45%,#0078d4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gs 7s ease-in-out infinite}
+@keyframes gs{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero p{color:#a1a1aa;font-size:1.05rem;max-width:660px;margin:0 auto;line-height:1.7}
+section{padding:3rem 0}
+.sec-head{text-align:center;margin-bottom:2.5rem}
+.stag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);border-radius:999px;padding:.4rem 1rem;font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#c4b5fd;margin-bottom:1rem}
+.sec-head h2{font-size:clamp(1.6rem,3.8vw,2.3rem);font-weight:900;letter-spacing:-.03em;line-height:1.15;margin-bottom:.6rem}
+.sec-head h2 .grad{background:linear-gradient(135deg,#c4b5fd,#0078d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sec-head p{color:#94a3b8;font-size:.95rem;max-width:620px;margin:0 auto}
+.facts-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.8rem;margin-bottom:2rem}
+.fact{background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.12);border-radius:14px;padding:1.05rem 1rem;text-align:center;transition:all .25s}
+.fact:hover{transform:translateY(-3px);border-color:rgba(124,58,237,.4)}
+.fact .big{font-size:1.05rem;font-weight:900;background:linear-gradient(135deg,#c4b5fd,#0078d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+.fact .lbl{font-size:.66rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-top:.4rem}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.concept{position:relative;padding:1.5rem;border-radius:18px;background:linear-gradient(155deg,rgba(24,25,50,.8),rgba(12,13,30,.6));border:1px solid rgba(148,163,184,.1);transition:all .3s;overflow:hidden}
+.concept::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),transparent)}
+.concept:hover{transform:translateY(-4px);border-color:var(--c1);box-shadow:0 20px 40px -18px var(--c1)}
+.c-ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--c1),var(--c2));display:flex;align-items:center;justify-content:center;font-size:1.45rem;margin-bottom:.9rem;box-shadow:0 10px 24px -8px var(--c1)}
+.concept h3{font-size:1.05rem;font-weight:800;margin-bottom:.4rem;color:#f1f5f9}
+.concept p{color:#94a3b8;font-size:.85rem;line-height:1.6}
+.preview-stage{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1rem}
+@media(max-width:900px){.preview-stage{grid-template-columns:1fr}}
+.preview-panel{background:linear-gradient(155deg,rgba(15,16,36,.7),rgba(10,11,28,.5));border:1px solid rgba(148,163,184,.12);border-radius:16px;padding:1.2rem;display:flex;align-items:center;justify-content:center;overflow:auto;min-height:420px}
+.code-panel{background:#0d1117;border:1px solid rgba(148,163,184,.15);border-radius:16px;overflow:hidden}
+.code-panel-header{padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);font-size:.72rem;color:#8b949e;font-family:"JetBrains Mono",monospace;display:flex;align-items:center;gap:.5rem}
+.code-panel-header .dot{width:8px;height:8px;border-radius:50%;background:#a78bfa;box-shadow:0 0 8px #a78bfa}
+.code-panel pre{margin:0;padding:1rem 1.2rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;line-height:1.7;color:#e6edf3;overflow-x:auto;white-space:pre}
+.wf-window{width:520px;max-width:100%;background:#f5f5f5;border-radius:10px;box-shadow:0 30px 60px -20px rgba(0,0,0,.6),0 0 0 1px rgba(124,58,237,.3);overflow:hidden;font-family:"Segoe UI",Tahoma,sans-serif;color:#1a1a1a;user-select:none}
+.wf-titlebar{background:linear-gradient(180deg,#f0f0f0,#e8e8e8);padding:8px 12px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #d0d0d0;font-size:13px}
+.wf-titlebar-left{display:flex;align-items:center;gap:6px;font-weight:600;color:#1a1a1a}
+.wf-icon{font-size:12px}
+.wf-title{font-size:12.5px}
+.wf-controls{display:flex;gap:2px}
+.wf-ctrl{background:transparent;border:none;width:32px;height:26px;font-family:"Segoe UI",sans-serif;font-size:11px;color:#444;cursor:pointer;border-radius:4px;transition:background .12s}
+.wf-ctrl:hover{background:rgba(0,0,0,.06)}
+.wf-ctrl-close:hover{background:#e81123;color:#fff}
+.wf-body{position:relative;background:#fff;min-height:340px;background-image:linear-gradient(rgba(124,58,237,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.025) 1px,transparent 1px);background-size:10px 10px}
+.wf-label{font-family:"Segoe UI",Tahoma,sans-serif;font-size:13px;color:#1a1a1a;display:flex;align-items:center}
+.wf-label-title{font-size:18px;font-weight:700;color:#5b21b6}
+.wf-label-success{color:#0f9d58;font-weight:600}
+.wf-label-small{font-size:11.5px;color:#666}
+.wf-label-layer1{background:#7c3aed;color:#fff;padding:0 12px;border-radius:6px;justify-content:center;font-weight:600}
+.wf-label-layer2{background:#5b21b6;color:#fff;padding:0 12px;border-radius:6px;justify-content:center;font-weight:600}
+.wf-label-layer3{background:#0078d4;color:#fff;padding:0 12px;border-radius:6px;justify-content:center;font-weight:600}
+.wf-label-layer4{background:#0ea5e9;color:#fff;padding:0 12px;border-radius:6px;justify-content:center;font-weight:600}
+.wf-input{font-family:"Segoe UI",Tahoma,sans-serif;font-size:13px;border:1px solid #c8c8c8;background:#fff;padding:3px 8px;border-radius:4px;color:#1a1a1a;outline:none;transition:border-color .15s,box-shadow .15s}
+.wf-input::placeholder{color:#999}
+.wf-input:focus{border-color:#7c3aed;box-shadow:0 0 0 2px rgba(124,58,237,.2)}
+.wf-button{font-family:"Segoe UI",Tahoma,sans-serif;font-size:13px;background:linear-gradient(180deg,#fff,#f0f0f0);border:1px solid #d0d0d0;border-radius:6px;cursor:pointer;color:#1a1a1a;padding:0;transition:all .15s;font-weight:500}
+.wf-button:hover{border-color:#7c3aed;background:linear-gradient(180deg,#faf5ff,#f3e8ff)}
+.wf-button:active{background:linear-gradient(180deg,#ede9fe,#ddd6fe)}
+.wf-button-primary{background:linear-gradient(180deg,#8b5cf6,#7c3aed);border-color:#6d28d9;color:#fff;font-weight:600}
+.wf-button-primary:hover{background:linear-gradient(180deg,#a78bfa,#8b5cf6);border-color:#7c3aed}
+.wf-button-danger{background:linear-gradient(180deg,#ef4444,#dc2626);border-color:#b91c1c;color:#fff;font-weight:600}
+.wf-button-success{background:linear-gradient(180deg,#22c55e,#16a34a);border-color:#15803d;color:#fff;font-weight:600}
+.wf-check,.wf-radio{font-family:"Segoe UI",Tahoma,sans-serif;font-size:13px;color:#1a1a1a;display:flex;align-items:center;gap:6px;cursor:pointer}
+.wf-check input,.wf-radio input{cursor:pointer;accent-color:#7c3aed}
+.wf-combo{font-family:"Segoe UI",Tahoma,sans-serif;font-size:13px;border:1px solid #c8c8c8;background:#fff;padding:3px 8px;border-radius:4px;color:#1a1a1a;outline:none;cursor:pointer}
+.wf-listbox{font-family:"Segoe UI",Tahoma,sans-serif;font-size:13px;list-style:none;border:1px solid #c8c8c8;background:#fff;border-radius:6px;overflow-y:auto;margin:0;padding:2px}
+.wf-listbox li{padding:4px 8px;color:#1a1a1a;border-radius:4px;cursor:default}
+.wf-listbox li:hover{background:#f3e8ff}
+.wf-listbox li:not(:last-child){border-bottom:1px solid #f5f5f5}
+.wf-progress{background:#e6e6e6;border:1px solid #d0d0d0;border-radius:6px;overflow:hidden}
+.wf-progress-fill{height:100%;background:linear-gradient(180deg,#8b5cf6,#7c3aed);transition:width .3s}
+.wf-border{border:2px dashed #7c3aed;border-radius:6px;position:relative;background:rgba(124,58,237,.03)}
+.wf-border-label{position:absolute;top:-10px;left:12px;background:#fff;padding:0 6px;font-size:11px;color:#7c3aed;font-weight:600}
+.wf-coloredbox{border-radius:6px;display:flex;align-items:flex-end;justify-content:center;color:#fff;font-size:11px;font-weight:700;padding:6px;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+.wf-animbox{background:linear-gradient(135deg,#7c3aed,#0078d4);border-radius:12px;box-shadow:0 10px 24px -6px rgba(124,58,237,.6)}
+.step-viz{margin-top:1.2rem;background:#0d1117;border-radius:16px;border:1px solid rgba(148,163,184,.15);overflow:hidden}
+.step-header{padding:.7rem 1.2rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.step-header .title{font-size:.8rem;color:#8b949e;font-family:"JetBrains Mono",monospace}
+.step-controls{display:flex;gap:.4rem}
+.step-btn{background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:#c4b5fd;border-radius:8px;padding:.35rem .9rem;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.step-btn:hover:not(:disabled){background:rgba(124,58,237,.3)}
+.step-btn:disabled{opacity:.35;cursor:not-allowed}
+.step-body{display:grid;grid-template-columns:1.2fr 1fr}
+@media(max-width:800px){.step-body{grid-template-columns:1fr}}
+.step-code{padding:1rem 1.2rem;font-family:"JetBrains Mono",monospace;font-size:.82rem;line-height:1.9;border-right:1px solid rgba(148,163,184,.1);overflow-x:auto}
+@media(max-width:800px){.step-code{border-right:none;border-bottom:1px solid rgba(148,163,184,.1)}}
+.step-line{padding:.15rem .5rem;border-radius:5px;transition:background .3s;white-space:pre}
+.step-line.active{background:rgba(124,58,237,.18);box-shadow:inset 3px 0 0 #7c3aed;color:#fff}
+.step-info{padding:1.1rem 1.3rem;background:rgba(30,41,59,.4)}
+.explain{font-size:.85rem;color:#cbd5e1;min-height:4rem;margin-bottom:.9rem;line-height:1.6}
+.explain code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:"JetBrains Mono",monospace;font-size:.82em}
+.tag-list{display:flex;flex-wrap:wrap;gap:.35rem}
+.tag{background:rgba(196,181,253,.15);border:1px solid rgba(196,181,253,.3);color:#c4b5fd;border-radius:6px;padding:.25rem .65rem;font-size:.7rem;font-family:"JetBrains Mono",monospace;font-weight:600}
+.step-progress{padding:.6rem 1.2rem;background:rgba(30,41,59,.3);border-top:1px solid rgba(148,163,184,.08);display:flex;align-items:center;gap:.6rem}
+.bar{flex:1;height:4px;background:rgba(148,163,184,.15);border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#0078d4);border-radius:999px;transition:width .35s}
+.count{font-size:.72rem;color:#64748b;font-family:"JetBrains Mono",monospace;min-width:3.5rem;text-align:right}
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;margin-top:1.2rem}
+.recap{background:rgba(30,41,59,.6);border-radius:14px;padding:1.1rem 1.2rem;border-left:3px solid var(--rc,#7c3aed)}
+.recap .t{font-size:.72rem;font-weight:800;color:var(--rc,#7c3aed);text-transform:uppercase;letter-spacing:.08em}
+.recap .d{font-size:.85rem;color:#cbd5e1;margin-top:.35rem;line-height:1.55}
+.recap .d code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:"JetBrains Mono",monospace;font-size:.82em}
+footer{text-align:center;padding:3rem 1.5rem;border-top:1px solid rgba(148,163,184,.08);color:#52525b;font-size:.82rem;margin-top:auto}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:translateY(0)}
+</style>
 </head>
-
 <body>
+<div class="space-base"></div>
+<div class="orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="grid-bg"></div>
+<div class="vig"></div>
 
-<header class="topbar">
-
-    <div class="brand">
-        <span class="brand-icon">⚡</span>
-        XTutiRaiseUp
+<div class="page">
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="brand"><div class="brand-mark">🎨</div> WPF Series</a>
     </div>
+  </nav>
 
-    <div class="top-actions">
+  <div class="hero">
+    <div class="tpill"><span class="n">0591</span> Topic 0591</div>
+    <h1>Datatemplate Basics: <span class="grad">Styles &amp; Templates</span></h1>
+    <p>Customizing WPF appearance with Datatemplate Basics.</p>
+  </div>
 
-        <a
-            href="../index.html"
-            class="nav-btn"
-        >
-            ← WPF Topics
-        </a>
+  <div class="container">
+    <div class="facts-row reveal"><div class="fact"><div class="big">Style</div><div class="lbl">Reusable</div></div><div class="fact"><div class="big">ControlTemplate</div><div class="lbl">Full</div></div><div class="fact"><div class="big">DataTemplate</div><div class="lbl">Item</div></div><div class="fact"><div class="big">Trigger</div><div class="lbl">Conditional</div></div><div class="fact"><div class="big">Setter</div><div class="lbl">Property</div></div></div>
 
-        <a
-            href="../../../dashboard.html"
-            class="nav-btn"
-        >
-            🏠 Dashboard
-        </a>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Live Preview</div>
+        <h2>See It <span class="grad">In Action</span></h2>
+        <p>This is a real interactive mockup of a WPF window. Click, type, and explore.</p>
+      </div>
+      <div class="preview-stage reveal">
+        <div class="preview-panel"><div class="wf-window"><div class="wf-titlebar"><div class="wf-titlebar-left"><span class="wf-icon">🎨</span><span class="wf-title">Styling Demo — WPF</span></div><div class="wf-controls"><button class="wf-ctrl" title="Minimize">─</button><button class="wf-ctrl" title="Maximize">□</button><button class="wf-ctrl wf-ctrl-close" title="Close">✕</button></div></div><div class="wf-body"><div class="wf-label wf-label-title" style="position:absolute;left:24px;top:20px;width:400px;height:34px;">WPF Styling</div><div class="wf-label wf-label-small" style="position:absolute;left:24px;top:70px;width:460px;height:22px;">Hover over the buttons below — triggers change their look.</div><button type="button" class="wf-button" style="position:absolute;left:24px;top:110px;width:200px;height:42px;">Default Style</button><button type="button" id="wf-styledPrimary" class="wf-button wf-button-primary" style="position:absolute;left:240px;top:110px;width:200px;height:42px;">Primary Button</button><button type="button" id="wf-styledDanger" class="wf-button wf-button-danger" style="position:absolute;left:24px;top:170px;width:200px;height:42px;">Danger Button</button><button type="button" id="wf-styledSuccess" class="wf-button wf-button-success" style="position:absolute;left:240px;top:170px;width:200px;height:42px;">Success Button</button></div></div></div>
+        <div class="code-panel">
+          <div class="code-panel-header"><span class="dot"></span> MainWindow.xaml</div>
+          <pre>&lt;Window.Resources&gt;
+    &lt;Style x:Key=&quot;PrimaryButton&quot; TargetType=&quot;Button&quot;&gt;
+        &lt;Setter Property=&quot;Background&quot; Value=&quot;#0078D4&quot; /&gt;
+        &lt;Setter Property=&quot;Foreground&quot; Value=&quot;White&quot; /&gt;
+        &lt;Setter Property=&quot;Padding&quot; Value=&quot;20,10&quot; /&gt;
+        &lt;Style.Triggers&gt;
+            &lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;
+                &lt;Setter Property=&quot;Background&quot; Value=&quot;#106EBE&quot; /&gt;
+            &lt;/Trigger&gt;
+        &lt;/Style.Triggers&gt;
+    &lt;/Style&gt;
+&lt;/Window.Resources&gt;
 
-    </div>
-
-</header>
-
-<main class="container">
-
-<section class="hero">
-
-    <div class="hero-icon">
-        🪟
-    </div>
-
-    <div class="hero-stats">
-
-        <div class="stat">
-            <strong>0591</strong>
-            <span>Topic</span>
+&lt;Button Style=&quot;{StaticResource PrimaryButton}&quot; Content=&quot;Click&quot; /&gt;</pre>
         </div>
+      </div>
+    </section>
 
-        <div class="stat">
-            <strong>WPF</strong>
-            <span>Framework</span>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Core Concepts</div>
+        <h2>What You Need to <span class="grad">Know</span></h2>
+      </div>
+      <div class="concept-grid"><div class="concept" style="--c1:#7c3aed;--c2:#a78bfa"><div class="c-ico">🎨</div><h3>Style</h3><p>Reusable set of property values for a control type.</p></div><div class="concept" style="--c1:#0078d4;--c2:#00a4ef"><div class="c-ico">🧬</div><h3>ControlTemplate</h3><p>Completely redefine how a control looks.</p></div><div class="concept" style="--c1:#ec4899;--c2:#f472b6"><div class="c-ico">⚡</div><h3>Triggers</h3><p>Change appearance based on state (hover, focused).</p></div><div class="concept" style="--c1:#22c55e;--c2:#4ade80"><div class="c-ico">📦</div><h3>Resources</h3><p>Store styles globally or per-window.</p></div></div>
+    </section>
+
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Walkthrough</div>
+        <h2>Step-by-Step <span class="grad">Explanation</span></h2>
+      </div>
+      <div class="step-viz reveal">
+        <div class="step-header">
+          <span class="title">MainWindow.xaml</span>
+          <div class="step-controls">
+            <button class="step-btn" id="prevBtn" onclick="stepPrev()" disabled>← Prev</button>
+            <button class="step-btn" id="nextBtn" onclick="stepNext()">Next Step →</button>
+            <button class="step-btn" onclick="stepReset()">↺ Reset</button>
+          </div>
         </div>
-
-        <div class="stat">
-            <strong>1000</strong>
-            <span>Total Topics</span>
+        <div class="step-body">
+          <div class="step-code" id="stepCode"><div class="step-line" data-line="0">&lt;Window.Resources&gt;</div><div class="step-line" data-line="1">    &lt;Style x:Key=&quot;PrimaryButton&quot; TargetType=&quot;Button&quot;&gt;</div><div class="step-line" data-line="2">        &lt;Setter Property=&quot;Background&quot; Value=&quot;#0078D4&quot; /&gt;</div><div class="step-line" data-line="3">        &lt;Setter Property=&quot;Foreground&quot; Value=&quot;White&quot; /&gt;</div><div class="step-line" data-line="4">        &lt;Style.Triggers&gt;</div><div class="step-line" data-line="5">            &lt;Trigger Property=&quot;IsMouseOver&quot; Value=&quot;True&quot;&gt;</div><div class="step-line" data-line="6">                &lt;Setter Property=&quot;Background&quot; Value=&quot;#106EBE&quot; /&gt;</div><div class="step-line" data-line="7">            &lt;/Trigger&gt;</div><div class="step-line" data-line="8">        &lt;/Style.Triggers&gt;</div><div class="step-line" data-line="9">    &lt;/Style&gt;</div><div class="step-line" data-line="10">&lt;/Window.Resources&gt;</div></div>
+          <div class="step-info">
+            <div class="explain" id="stepExplain">Click <strong>Next Step</strong> to begin.</div>
+            <div class="tag-list" id="stepTags"><span style="font-size:.72rem;color:#484f58;">Waiting to start</span></div>
+          </div>
         </div>
+        <div class="step-progress">
+          <div class="bar"><div class="bar-fill" id="stepBar"></div></div>
+          <div class="count" id="stepCount">0 / 4</div>
+        </div>
+      </div>
+    </section>
 
-    </div>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Recap</div>
+        <h2>Key <span class="grad">Takeaways</span></h2>
+      </div>
+      <div class="recap-grid"><div class="recap" style="--rc:#7c3aed"><div class="t">Style</div><div class="d">Reusable property bundles.</div></div><div class="recap" style="--rc:#0078d4"><div class="t">Templates</div><div class="d">Full control over visuals.</div></div><div class="recap" style="--rc:#ec4899"><div class="t">Triggers</div><div class="d">Conditional styling — hover, focus, etc.</div></div><div class="recap" style="--rc:#22c55e"><div class="t">Resources</div><div class="d">Define once, use everywhere.</div></div></div>
+    </section>
+  </div>
 
-    <h1>
-        DataTemplate Basics
-    </h1>
-
-    <p>
-        WPF learning topic 0591.
-    </p>
-
-</section>
-
-<div class="lesson-card">
-
-    <h2>
-        DataTemplate Basics
-    </h2>
-
-    <p>
-        This is topic 0591 in the XTutiRaiseUp
-        WPF learning roadmap.
-    </p>
-
-    <br>
-
-    <p>
-        This page is ready for complete documentation,
-        XAML examples, C# source code, UI demonstrations,
-        diagrams, exercises, interview questions,
-        best practices and real-world WPF applications.
-    </p>
-
+  <footer>
+    <p>🎨 Datatemplate Basics · WPF Series</p>
+  </footer>
 </div>
 
-<div class="navigation">
+<script>
+var STEPS = [{"line":1,"text":"<code>Style</code> with <code>x:Key</code> — a reusable named style.","tags":["Style"]},{"line":2,"text":"<code>Setter</code> assigns a property value.","tags":["Setter"]},{"line":4,"text":"<code>Style.Triggers</code> — conditional setters.","tags":["Trigger"]},{"line":5,"text":"<code>IsMouseOver</code> — change background on hover.","tags":["Hover"]}];
+(function(){
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold:0.1});
+  document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+})();
 
-    <a
-        href="../0591-template-design/index.html"
-        class="nav-btn"
-    >
-        ← Previous
-    </a>
+(function(){
+  document.querySelectorAll(".wf-button").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var id = btn.id.replace("wf-", "");
+      handleButtonClick(id);
+    });
+  });
+  var bind = document.querySelector("#wf-bindInput");
+  if(bind){
+    bind.addEventListener("input", function(){
+      var out = document.querySelector("#wf-bindOutput");
+      if(out) out.textContent = bind.value || "(nothing yet)";
+    });
+  }
+  var cmd = document.querySelector("#wf-cmdInput");
+  if(cmd){
+    cmd.addEventListener("input", function(){
+      var btn = document.querySelector("#wf-cmdBtn");
+      if(btn) btn.style.opacity = cmd.value.length >= 3 ? "1" : "0.5";
+    });
+  }
+})();
 
-    <a
-        href="../index.html"
-        class="nav-btn"
-    >
-        📚 All WPF Topics
-    </a>
+function handleButtonClick(id){
+  switch(id){
+    case "greetBtn": {
+      var input = document.querySelector("#wf-nameInput");
+      var result = document.querySelector("#wf-result");
+      if(!input || !result) return;
+      var name = input.value.trim();
+      if(!name){ result.textContent = "Please enter a name."; result.style.color = "#c0392b"; }
+      else { result.textContent = "Hello, " + name + "! Welcome to WPF."; result.style.color = "#0f9d58"; }
+      break;
+    }
+    case "themeBtn": {
+      var win = document.querySelector(".wf-window");
+      if(!win) return;
+      var dark = win.dataset.dark === "1";
+      win.dataset.dark = dark ? "0" : "1";
+      win.style.background = dark ? "#f5f5f5" : "#1e1e2e";
+      var body = win.querySelector(".wf-body");
+      if(body) body.style.background = dark ? "#ffffff" : "#252540";
+      break;
+    }
+    case "animBtn": {
+      var result2 = document.querySelector("#wf-result");
+      if(result2){ result2.textContent = "Animation would play here"; result2.style.color = "#7c3aed"; }
+      break;
+    }
+    case "clearBind": {
+      var bind = document.querySelector("#wf-bindInput");
+      if(bind){ bind.value = ""; bind.dispatchEvent(new Event("input")); }
+      break;
+    }
+    case "cmdBtn": {
+      var input = document.querySelector("#wf-cmdInput");
+      var result3 = document.querySelector("#wf-cmdResult");
+      if(!input || !result3) return;
+      var v = input.value.trim();
+      if(v.length < 3){ result3.textContent = "Command cannot execute — min 3 chars"; result3.style.color = "#c0392b"; }
+      else { result3.textContent = "Command executed: " + v; result3.style.color = "#0f9d58"; }
+      break;
+    }
+    case "cmdReset": {
+      var input2 = document.querySelector("#wf-cmdInput");
+      var result4 = document.querySelector("#wf-cmdResult");
+      if(input2) input2.value = "";
+      if(result4) result4.textContent = "";
+      break;
+    }
+    case "playAnim": {
+      var box = document.querySelector("#wf-animBox");
+      if(!box) return;
+      var state = 0;
+      var iv = setInterval(function(){
+        state++;
+        box.style.transition = "left .4s ease-in-out, transform .4s ease-in-out";
+        if(state % 4 === 1) box.style.left = "380px";
+        if(state % 4 === 2) { box.style.left = "380px"; box.style.transform = "rotate(180deg)"; }
+        if(state % 4 === 3) { box.style.left = "24px"; box.style.transform = "rotate(180deg)"; }
+        if(state % 4 === 0) { box.style.left = "24px"; box.style.transform = "rotate(0deg)"; clearInterval(iv); }
+      }, 500);
+      break;
+    }
+    case "fadeAnim": {
+      var box2 = document.querySelector("#wf-animBox");
+      if(!box2) return;
+      box2.style.transition = "opacity .5s";
+      box2.style.opacity = box2.style.opacity === "0.3" ? "1" : "0.3";
+      break;
+    }
+    case "rotateAnim": {
+      var box3 = document.querySelector("#wf-animBox");
+      if(!box3) return;
+      box3.style.transition = "transform .5s ease-in-out";
+      var current = box3.style.transform || "rotate(0deg)";
+      var match = current.match(/rotate\((\d+)/);
+      var deg = match ? parseInt(match[1]) + 90 : 90;
+      box3.style.transform = "rotate(" + deg + "deg)";
+      break;
+    }
+    case "changeTheme": {
+      var colors = ["#0078d4", "#8661c5", "#22c55e", "#f59e0b", "#ec4899"];
+      var idx = Math.floor(Math.random() * colors.length);
+      document.querySelectorAll(".wf-coloredbox").forEach(function(el, i){
+        el.style.background = colors[(idx + i) % colors.length];
+      });
+      break;
+    }
+    case "cbtn": {
+      var list = document.querySelector("#wf-clist");
+      if(list){
+        var li = document.createElement("li");
+        li.textContent = "Clicked at " + new Date().toLocaleTimeString();
+        list.appendChild(li);
+      }
+      break;
+    }
+    case "genBtn": {
+      var pin = document.querySelector("#wf-genInput");
+      var pout = document.querySelector("#wf-genResult");
+      var plist = document.querySelector("#wf-genList");
+      if(!pin || !pout) return;
+      var v2 = pin.value.trim();
+      if(!v2){ pout.textContent = "Please enter something."; pout.style.color = "#c0392b"; }
+      else {
+        pout.textContent = "Processed: " + v2;
+        pout.style.color = "#0f9d58";
+        if(plist){
+          var li2 = document.createElement("li");
+          li2.textContent = "[" + new Date().toLocaleTimeString() + "] " + v2;
+          plist.appendChild(li2);
+        }
+      }
+      break;
+    }
+  }
+}
 
-    <button
-        onclick="history.back()"
-        class="nav-btn"
-        style="cursor:pointer;"
-    >
-        ↩ Back
-    </button>
-
-    <a
-        href="../0592-datatemplate-visual-tree/index.html"
-        class="nav-btn"
-    >
-        Next →
-    </a>
-
-    <a
-        href="../../../dashboard.html"
-        class="nav-btn"
-    >
-        🏠 Dashboard
-    </a>
-
-</div>
-
-</main>
-
-<footer>
-
-    XTutiRaiseUp by XSympan Technologies<br>
-    Developed with ❤️<br>
-    Support: fixitechsolution@gmail.com
-
-</footer>
-
-<script src="../assets/wpf.js"></script>
-
+var cur = -1;
+function update(){
+  document.querySelectorAll(".step-line").forEach(function(el){ el.classList.remove("active"); });
+  if(cur < 0){
+    document.getElementById("stepExplain").innerHTML = "Click <strong>Next Step</strong> to begin.";
+    document.getElementById("stepTags").innerHTML = "<span style=\"font-size:.72rem;color:#484f58;\">Waiting to start</span>";
+    document.getElementById("stepBar").style.width = "0%";
+    document.getElementById("stepCount").textContent = "0 / " + STEPS.length;
+    document.getElementById("prevBtn").disabled = true;
+    document.getElementById("nextBtn").disabled = false;
+    return;
+  }
+  var s = STEPS[cur];
+  var el = document.querySelector(".step-line[data-line=\"" + s.line + "\"]");
+  if(el) el.classList.add("active");
+  document.getElementById("stepExplain").innerHTML = s.text;
+  document.getElementById("stepTags").innerHTML = (s.tags||[]).map(function(t){ return "<span class=\"tag\">"+t+"</span>"; }).join("");
+  document.getElementById("stepBar").style.width = ((cur+1)/STEPS.length*100) + "%";
+  document.getElementById("stepCount").textContent = (cur+1) + " / " + STEPS.length;
+  document.getElementById("prevBtn").disabled = cur <= 0;
+  document.getElementById("nextBtn").disabled = cur >= STEPS.length-1;
+}
+function stepNext(){ if(cur < STEPS.length-1){ cur++; update(); } }
+function stepPrev(){ if(cur > 0){ cur--; update(); } }
+function stepReset(){ cur = -1; update(); }
+update();
+</script>
 </body>
 </html>

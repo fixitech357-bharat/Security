@@ -1,1516 +1,200 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Basics | XTutiRaiseUp Security</title>
+<meta name="description" content="Learn the foundational concepts of Security Basics — what it is, why it matters, and how it fits in modern cybersecurity.">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:"Inter",system-ui,sans-serif;background:#05060f;color:#f1f5f9;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.space-base{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 0%,#0a0a1e 0%,#08081a 45%,#05060f 85%),radial-gradient(ellipse at 100% 100%,#1a0a0a 0%,transparent 55%)}
+.orbs{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;mix-blend-mode:screen;opacity:.4}
+.orb{position:absolute;border-radius:50%;filter:blur(90px)}
+.orb-1{width:520px;height:520px;top:-10%;left:-8%;background:radial-gradient(circle,#7c3aed,transparent 70%);animation:d1 26s ease-in-out infinite}
+.orb-2{width:460px;height:460px;top:45%;right:-10%;background:radial-gradient(circle,#dc2626,transparent 70%);animation:d2 30s ease-in-out infinite}
+.orb-3{width:600px;height:600px;bottom:-18%;left:18%;background:radial-gradient(circle,#0ea5e9,transparent 70%);animation:d3 34s ease-in-out infinite}
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
+@keyframes d2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,-50px) scale(1.2)}}
+@keyframes d3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-60px) scale(1.1)}}
+.grid-bg{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(124,58,237,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.14) 1px,transparent 1px);background-size:80px 80px;transform:perspective(500px) rotateX(60deg);animation:gf 22s linear infinite;mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%)}
+@keyframes gf{from{background-position:0 0}to{background-position:0 80px}}
+.vig{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.75) 100%)}
+.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem;width:100%}
 
-    <meta charset="UTF-8">
+nav{position:sticky;top:0;z-index:100;background:rgba(5,6,15,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(148,163,184,.08)}
+.nav-inner{max-width:1100px;margin:0 auto;padding:.9rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1rem;color:#f1f5f9;text-decoration:none}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#dc2626);display:flex;align-items:center;justify-content:center;font-size:1rem;box-shadow:0 8px 20px -6px rgba(124,58,237,.6)}
+.nav-actions{display:flex;gap:.4rem}
+.nav-btn{color:#94a3b8;text-decoration:none;font-size:.8rem;font-weight:600;padding:.5rem .9rem;border-radius:8px;border:1px solid rgba(148,163,184,.15);transition:all .2s}
+.nav-btn:hover{color:#fff;border-color:rgba(124,58,237,.5);background:rgba(124,58,237,.1)}
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+.hero{padding:4rem 1.5rem 2.5rem;text-align:center}
+.topic-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.4);border-radius:999px;padding:.45rem 1.1rem;font-size:.7rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#c4b5fd;margin-bottom:1.5rem}
+.topic-badge .icon{font-size:1rem}
+.topic-num{font-size:.8rem;font-weight:800;color:#7c3aed;letter-spacing:.2em;margin-bottom:.5rem}
+.hero h1{font-size:clamp(1.9rem,4.8vw,3rem);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin-bottom:1rem}
+.hero h1 .grad{background:linear-gradient(135deg,#c4b5fd 0%,#7c3aed 45%,#dc2626 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gs 7s ease-in-out infinite}
+@keyframes gs{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero p{color:#a1a1aa;font-size:1.05rem;max-width:680px;margin:0 auto;line-height:1.7}
 
-    <title>Security Basics | XTutiRaiseUp</title>
+section{padding:2.5rem 0}
+.sec-head{text-align:center;margin-bottom:2rem}
+.stag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);border-radius:999px;padding:.4rem 1rem;font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#c4b5fd;margin-bottom:.9rem}
+.sec-head h2{font-size:clamp(1.5rem,3.5vw,2.1rem);font-weight:900;letter-spacing:-.03em;line-height:1.2;margin-bottom:.5rem}
+.sec-head h2 .grad{background:linear-gradient(135deg,#c4b5fd,#dc2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
-    <meta
-        name="description"
-        content="Complete Security Basics cybersecurity roadmap with 100 foundational topics.">
+.facts-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.7rem;margin-bottom:2rem}
+.fact{background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.12);border-radius:14px;padding:1rem .9rem;text-align:center;transition:all .25s}
+.fact:hover{transform:translateY(-3px);border-color:rgba(124,58,237,.4)}
+.fact .big{font-size:1rem;font-weight:900;background:linear-gradient(135deg,#c4b5fd,#dc2626);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+.fact .lbl{font-size:.64rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-top:.4rem}
 
-    <link
-        rel="icon"
-        type="image/jpeg"
-        href="../../assets/logo.jpg">
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.concept{position:relative;padding:1.4rem;border-radius:16px;background:linear-gradient(155deg,rgba(24,25,50,.8),rgba(12,13,30,.6));border:1px solid rgba(148,163,184,.1);transition:all .3s;overflow:hidden}
+.concept::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),transparent)}
+.concept:hover{transform:translateY(-4px);border-color:var(--c1);box-shadow:0 20px 40px -18px var(--c1)}
+.c-ico{width:50px;height:50px;border-radius:13px;background:linear-gradient(135deg,var(--c1),var(--c2));display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:.85rem;box-shadow:0 10px 24px -8px var(--c1)}
+.concept h3{font-size:1rem;font-weight:800;margin-bottom:.35rem;color:#f1f5f9}
+.concept p{color:#94a3b8;font-size:.84rem;line-height:1.6}
 
-    <link
-        rel="stylesheet"
-        href="./assets/security-basics.css">
+.sim-panel{background:#0d1117;border:1px solid rgba(148,163,184,.15);border-radius:16px;overflow:hidden}
+.sim-header{padding:.7rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);display:flex;align-items:center;gap:.5rem;font-family:"JetBrains Mono",monospace;font-size:.75rem;color:#8b949e}
+.sim-dot{width:9px;height:9px;border-radius:50%;background:#dc2626;box-shadow:0 0 10px #dc2626;animation:pulse 1.5s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sim-body{padding:1.2rem 1.4rem;font-family:"JetBrains Mono",monospace;font-size:.8rem;line-height:1.85;color:#e6edf3;overflow-x:auto;white-space:pre;max-height:520px;overflow-y:auto}
+.code-line{padding:.05rem 0}
 
+.steps-list{display:flex;flex-direction:column;gap:.6rem}
+.step-item{display:flex;gap:1rem;padding:1rem 1.2rem;background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.1);border-radius:12px;border-left:3px solid #7c3aed;transition:all .25s}
+.step-item:hover{border-left-color:#dc2626;transform:translateX(4px)}
+.step-num{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#dc2626);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.85rem;flex-shrink:0}
+.step-body{flex:1}
+.step-text{color:#cbd5e1;font-size:.9rem;line-height:1.6;margin-bottom:.4rem}
+.step-text code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:"JetBrains Mono",monospace;font-size:.82em}
+.step-tags{display:flex;flex-wrap:wrap;gap:.3rem}
+.step-tag{background:rgba(196,181,253,.12);border:1px solid rgba(196,181,253,.28);color:#c4b5fd;border-radius:5px;padding:.15rem .55rem;font-size:.68rem;font-family:"JetBrains Mono",monospace;font-weight:600}
+
+.dodont{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:700px){.dodont{grid-template-columns:1fr}}
+.do-box,.dont-box{background:rgba(15,16,36,.7);border-radius:14px;padding:1.3rem 1.4rem;border:1px solid rgba(148,163,184,.1)}
+.do-box{border-left:3px solid #22c55e}
+.dont-box{border-left:3px solid #dc2626}
+.do-box h4,.dont-box h4{font-size:.85rem;font-weight:800;margin-bottom:.8rem;display:flex;align-items:center;gap:.5rem;text-transform:uppercase;letter-spacing:.06em}
+.do-box h4{color:#4ade80}
+.dont-box h4{color:#f87171}
+.do-box ul,.dont-box ul{list-style:none;padding:0}
+.do-box li,.dont-box li{padding:.4rem 0 .4rem 1.4rem;position:relative;font-size:.86rem;color:#cbd5e1;line-height:1.5}
+.do-box li::before{content:"✓";position:absolute;left:0;color:#22c55e;font-weight:900}
+.dont-box li::before{content:"✕";position:absolute;left:0;color:#dc2626;font-weight:900}
+
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.8rem}
+.recap{background:rgba(30,41,59,.6);border-radius:14px;padding:1rem 1.1rem;border-left:3px solid var(--rc,#7c3aed)}
+.recap .t{font-size:.7rem;font-weight:800;color:var(--rc,#7c3aed);text-transform:uppercase;letter-spacing:.08em}
+.recap .d{font-size:.84rem;color:#cbd5e1;margin-top:.3rem;line-height:1.55}
+
+.subfolders-section{margin-top:1rem}
+.subfolders-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.7rem}
+.subfolder-card{display:flex;align-items:center;gap:.8rem;padding:1rem 1.2rem;background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.12);border-radius:12px;text-decoration:none;color:inherit;transition:all .2s}
+.subfolder-card:hover{transform:translateX(4px);border-color:rgba(124,58,237,.5);background:rgba(124,58,237,.08)}
+.sf-icon{font-size:1.2rem}
+.sf-title{flex:1;font-size:.88rem;font-weight:600;color:#e2e8f0}
+.sf-arrow{color:#7c3aed;font-weight:800}
+
+.topic-navigation{display:flex;justify-content:space-between;gap:.8rem;margin:2.5rem 0 1rem;flex-wrap:wrap}
+.nav-button{flex:1;min-width:150px;text-align:center;padding:.9rem 1.4rem;background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.15);border-radius:12px;color:#cbd5e1;text-decoration:none;font-size:.85rem;font-weight:700;transition:all .25s}
+.nav-button:hover{background:rgba(124,58,237,.12);border-color:rgba(124,58,237,.5);color:#fff;transform:translateY(-2px)}
+.nav-button.primary{background:linear-gradient(135deg,#7c3aed,#dc2626);color:#fff;border-color:transparent;box-shadow:0 12px 30px -8px rgba(124,58,237,.5)}
+.nav-button.primary:hover{box-shadow:0 20px 40px -10px rgba(124,58,237,.7)}
+.nav-button.disabled{opacity:.35;cursor:not-allowed;pointer-events:none}
+
+footer{text-align:center;padding:2.5rem 1.5rem;border-top:1px solid rgba(148,163,184,.08);color:#52525b;font-size:.82rem;margin-top:auto}
+footer span{display:block;margin:.2rem 0}
+
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .7s,transform .7s}
+.reveal.in{opacity:1;transform:translateY(0)}
+</style>
 </head>
-
 <body>
+<div class="space-base"></div>
+<div class="orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="grid-bg"></div>
+<div class="vig"></div>
 
-<header class="topbar">
-
-    <a
-        class="brand"
-        href="../index.html">
-
-        <img
-            src="../../assets/logo.jpg"
-            alt="XTutiRaiseUp">
-
-        <span>
-            XTutiRaiseUp
-        </span>
-
-    </a>
-
-
-    <div class="header-actions">
-
-        <a
-            class="nav-btn"
-            href="../../dashboard.html">
-            🏠 Dashboard
-        </a>
-
-        <a
-            class="nav-btn"
-            href="../index.html">
-            ← Cybersecurity
-        </a>
-
+<div class="page">
+  <nav>
+    <div class="nav-inner">
+      <a href="../../index.html" class="brand"><div class="brand-mark">🛡️</div> XTutiRaiseUp</a>
+      <div class="nav-actions">
+        <a href="../dashboard.html" class="nav-btn">🏠 Dashboard</a>
+        <a href="../index.html" class="nav-btn">📚 All Topics</a>
+      </div>
     </div>
+  </nav>
 
-</header>
+  <div class="hero">
+    <div class="topic-badge"><span class="icon">🛡️</span> FOUNDATION</div>
+    <div class="topic-num">TOPIC —</div>
+    <h1>Security Basics</h1>
+    <p>Learn the foundational concepts of Security Basics — what it is, why it matters, and how it fits in modern cybersecurity.</p>
+  </div>
 
+  <div class="container">
+    <div class="facts-row reveal"><div class="fact"><div class="big">CIA</div><div class="lbl">Triad</div></div><div class="fact"><div class="big">1970s</div><div class="lbl">Origin</div></div><div class="fact"><div class="big">ISO 27001</div><div class="lbl">Standard</div></div><div class="fact"><div class="big">NIST</div><div class="lbl">Framework</div></div><div class="fact"><div class="big">24/7</div><div class="lbl">Monitoring</div></div></div>
 
-<main>
-
-    <section class="hero">
-
-        <div class="hero-label">
-            🛡️ SECURITY BASICS
-        </div>
-
-        <h1>
-            Security Basics
-        </h1>
-
-        <p>
-            Build a strong cybersecurity foundation covering
-            security concepts, assets, threats, vulnerabilities,
-            risk, controls, defense principles and security operations.
-        </p>
-
-
-        <div class="stats">
-
-            <div class="stat-card">
-                <strong>100</strong>
-                <span>Topics</span>
-            </div>
-
-            <div class="stat-card">
-                <strong>Beginner</strong>
-                <span>Level</span>
-            </div>
-
-            <div class="stat-card">
-                <strong>Security</strong>
-                <span>Domain</span>
-            </div>
-
-            <div class="stat-card">
-                <strong>Foundation</strong>
-                <span>Learning Path</span>
-            </div>
-
-        </div>
-
+    <section>
+      <div class="sec-head reveal"><div class="stag">Core Concepts</div><h2>What You Need to <span class="grad">Know</span></h2></div>
+      <div class="concept-grid"><div class="concept" style="--c1:#7c3aed;--c2:#a78bfa"><div class="c-ico">🎯</div><h3>What It Is</h3><p>Security Basics forms the foundation of modern security practice.</p></div><div class="concept" style="--c1:#dc2626;--c2:#f87171"><div class="c-ico">⚙️</div><h3>Core Principles</h3><p>Confidentiality, Integrity, and Availability — the CIA triad.</p></div><div class="concept" style="--c1:#0ea5e9;--c2:#22d3ee"><div class="c-ico">🚀</div><h3>Why It Matters</h3><p>Every organization depends on securing their digital assets.</p></div><div class="concept" style="--c1:#22c55e;--c2:#4ade80"><div class="c-ico">🌍</div><h3>Real-World Impact</h3><p>Breaches cost millions and damage trust permanently.</p></div></div>
     </section>
 
-
-    <section class="search-container">
-
-        <div class="search-wrapper">
-
-            <span class="search-icon">
-                🔍
-            </span>
-
-            <input
-                id="topicSearch"
-                type="text"
-                placeholder="Search Security Basics topics..."
-                autocomplete="off">
-
-        </div>
-
-        <span class="topic-count">
-            100 topics
-        </span>
-
+    <section>
+      <div class="sec-head reveal"><div class="stag">Live Simulation</div><h2>Attack &amp; Defense <span class="grad">Flow</span></h2></div>
+      <div class="sim-panel reveal">
+        <div class="sim-header"><span class="sim-dot"></span> threat-sim.js</div>
+        <div class="sim-body"><div class="code-line">/* Threat Simulation: Basic Attack Flow */</div><div class="code-line">&nbsp;</div><div class="code-line">Stage 1: RECONNAISSANCE</div><div class="code-line">  → Attacker scans ports</div><div class="code-line">  → Identifies open services</div><div class="code-line">&nbsp;</div><div class="code-line">Stage 2: WEAPONIZATION</div><div class="code-line">  → Prepares exploit payload</div><div class="code-line">  → Targets known vulnerability</div><div class="code-line">&nbsp;</div><div class="code-line">Stage 3: DELIVERY</div><div class="code-line">  → Phishing email sent</div><div class="code-line">  → Malicious attachment</div><div class="code-line">&nbsp;</div><div class="code-line">Stage 4: EXPLOITATION</div><div class="code-line">  → Payload executes</div><div class="code-line">  → SYSTEM COMPROMISED</div><div class="code-line">&nbsp;</div><div class="code-line">Stage 5: DEFENSE</div><div class="code-line">  → EDR detects anomaly</div><div class="code-line">  → Connection BLOCKED ✓</div></div>
+      </div>
     </section>
 
-
-    <section class="topics-section">
-
-        <div
-            class="topics-grid"
-            id="topicsGrid">
-
-<a
-    href="./001-introduction-to-cybersecurity/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        001
-    </span>
-
-    <h3>
-        Introduction to Cybersecurity
-    </h3>
-
-</a>
-<a
-    href="./002-cybersecurity-definition/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        002
-    </span>
-
-    <h3>
-        Cybersecurity Definition
-    </h3>
-
-</a>
-<a
-    href="./003-information-security-definition/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        003
-    </span>
-
-    <h3>
-        Information Security Definition
-    </h3>
-
-</a>
-<a
-    href="./004-computer-security-definition/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        004
-    </span>
-
-    <h3>
-        Computer Security Definition
-    </h3>
-
-</a>
-<a
-    href="./005-cybersecurity-goals/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        005
-    </span>
-
-    <h3>
-        Cybersecurity Goals
-    </h3>
-
-</a>
-<a
-    href="./006-security-objectives/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        006
-    </span>
-
-    <h3>
-        Security Objectives
-    </h3>
-
-</a>
-<a
-    href="./007-security-principles/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        007
-    </span>
-
-    <h3>
-        Security Principles
-    </h3>
-
-</a>
-<a
-    href="./008-security-terminology/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        008
-    </span>
-
-    <h3>
-        Security Terminology
-    </h3>
-
-</a>
-<a
-    href="./009-security-assets/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        009
-    </span>
-
-    <h3>
-        Security Assets
-    </h3>
-
-</a>
-<a
-    href="./010-digital-assets/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        010
-    </span>
-
-    <h3>
-        Digital Assets
-    </h3>
-
-</a>
-<a
-    href="./011-information-assets/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        011
-    </span>
-
-    <h3>
-        Information Assets
-    </h3>
-
-</a>
-<a
-    href="./012-hardware-assets/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        012
-    </span>
-
-    <h3>
-        Hardware Assets
-    </h3>
-
-</a>
-<a
-    href="./013-software-assets/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        013
-    </span>
-
-    <h3>
-        Software Assets
-    </h3>
-
-</a>
-<a
-    href="./014-network-assets/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        014
-    </span>
-
-    <h3>
-        Network Assets
-    </h3>
-
-</a>
-<a
-    href="./015-cloud-assets/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        015
-    </span>
-
-    <h3>
-        Cloud Assets
-    </h3>
-
-</a>
-<a
-    href="./016-human-assets/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        016
-    </span>
-
-    <h3>
-        Human Assets
-    </h3>
-
-</a>
-<a
-    href="./017-business-assets/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        017
-    </span>
-
-    <h3>
-        Business Assets
-    </h3>
-
-</a>
-<a
-    href="./018-asset-ownership/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        018
-    </span>
-
-    <h3>
-        Asset Ownership
-    </h3>
-
-</a>
-<a
-    href="./019-asset-classification/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        019
-    </span>
-
-    <h3>
-        Asset Classification
-    </h3>
-
-</a>
-<a
-    href="./020-asset-valuation/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        020
-    </span>
-
-    <h3>
-        Asset Valuation
-    </h3>
-
-</a>
-<a
-    href="./021-threat-definition/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        021
-    </span>
-
-    <h3>
-        Threat Definition
-    </h3>
-
-</a>
-<a
-    href="./022-threat-event/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        022
-    </span>
-
-    <h3>
-        Threat Event
-    </h3>
-
-</a>
-<a
-    href="./023-threat-source/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        023
-    </span>
-
-    <h3>
-        Threat Source
-    </h3>
-
-</a>
-<a
-    href="./024-threat-actor/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        024
-    </span>
-
-    <h3>
-        Threat Actor
-    </h3>
-
-</a>
-<a
-    href="./025-threat-agent/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        025
-    </span>
-
-    <h3>
-        Threat Agent
-    </h3>
-
-</a>
-<a
-    href="./026-threat-intelligence-basics/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        026
-    </span>
-
-    <h3>
-        Threat Intelligence Basics
-    </h3>
-
-</a>
-<a
-    href="./027-threat-categories/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        027
-    </span>
-
-    <h3>
-        Threat Categories
-    </h3>
-
-</a>
-<a
-    href="./028-cyber-threat-landscape/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        028
-    </span>
-
-    <h3>
-        Cyber Threat Landscape
-    </h3>
-
-</a>
-<a
-    href="./029-common-cyber-threats/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        029
-    </span>
-
-    <h3>
-        Common Cyber Threats
-    </h3>
-
-</a>
-<a
-    href="./030-emerging-cyber-threats/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        030
-    </span>
-
-    <h3>
-        Emerging Cyber Threats
-    </h3>
-
-</a>
-<a
-    href="./031-vulnerability-definition/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        031
-    </span>
-
-    <h3>
-        Vulnerability Definition
-    </h3>
-
-</a>
-<a
-    href="./032-vulnerability-types/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        032
-    </span>
-
-    <h3>
-        Vulnerability Types
-    </h3>
-
-</a>
-<a
-    href="./033-technical-vulnerabilities/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        033
-    </span>
-
-    <h3>
-        Technical Vulnerabilities
-    </h3>
-
-</a>
-<a
-    href="./034-configuration-vulnerabilities/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        034
-    </span>
-
-    <h3>
-        Configuration Vulnerabilities
-    </h3>
-
-</a>
-<a
-    href="./035-application-vulnerabilities/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        035
-    </span>
-
-    <h3>
-        Application Vulnerabilities
-    </h3>
-
-</a>
-<a
-    href="./036-human-vulnerabilities/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        036
-    </span>
-
-    <h3>
-        Human Vulnerabilities
-    </h3>
-
-</a>
-<a
-    href="./037-process-vulnerabilities/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        037
-    </span>
-
-    <h3>
-        Process Vulnerabilities
-    </h3>
-
-</a>
-<a
-    href="./038-known-vulnerabilities/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        038
-    </span>
-
-    <h3>
-        Known Vulnerabilities
-    </h3>
-
-</a>
-<a
-    href="./039-zero-day-vulnerabilities/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        039
-    </span>
-
-    <h3>
-        Zero-Day Vulnerabilities
-    </h3>
-
-</a>
-<a
-    href="./040-vulnerability-exposure/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        040
-    </span>
-
-    <h3>
-        Vulnerability Exposure
-    </h3>
-
-</a>
-<a
-    href="./041-exploit-definition/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        041
-    </span>
-
-    <h3>
-        Exploit Definition
-    </h3>
-
-</a>
-<a
-    href="./042-exploit-fundamentals/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        042
-    </span>
-
-    <h3>
-        Exploit Fundamentals
-    </h3>
-
-</a>
-<a
-    href="./043-exploitability/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        043
-    </span>
-
-    <h3>
-        Exploitability
-    </h3>
-
-</a>
-<a
-    href="./044-attack-definition/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        044
-    </span>
-
-    <h3>
-        Attack Definition
-    </h3>
-
-</a>
-<a
-    href="./045-attack-event/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        045
-    </span>
-
-    <h3>
-        Attack Event
-    </h3>
-
-</a>
-<a
-    href="./046-attack-vector/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        046
-    </span>
-
-    <h3>
-        Attack Vector
-    </h3>
-
-</a>
-<a
-    href="./047-attack-surface/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        047
-    </span>
-
-    <h3>
-        Attack Surface
-    </h3>
-
-</a>
-<a
-    href="./048-external-attack-surface/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        048
-    </span>
-
-    <h3>
-        External Attack Surface
-    </h3>
-
-</a>
-<a
-    href="./049-internal-attack-surface/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        049
-    </span>
-
-    <h3>
-        Internal Attack Surface
-    </h3>
-
-</a>
-<a
-    href="./050-digital-attack-surface/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        050
-    </span>
-
-    <h3>
-        Digital Attack Surface
-    </h3>
-
-</a>
-<a
-    href="./051-risk-definition/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        051
-    </span>
-
-    <h3>
-        Risk Definition
-    </h3>
-
-</a>
-<a
-    href="./052-cybersecurity-risk/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        052
-    </span>
-
-    <h3>
-        Cybersecurity Risk
-    </h3>
-
-</a>
-<a
-    href="./053-risk-factors/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        053
-    </span>
-
-    <h3>
-        Risk Factors
-    </h3>
-
-</a>
-<a
-    href="./054-risk-identification/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        054
-    </span>
-
-    <h3>
-        Risk Identification
-    </h3>
-
-</a>
-<a
-    href="./055-risk-analysis/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        055
-    </span>
-
-    <h3>
-        Risk Analysis
-    </h3>
-
-</a>
-<a
-    href="./056-risk-assessment/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        056
-    </span>
-
-    <h3>
-        Risk Assessment
-    </h3>
-
-</a>
-<a
-    href="./057-risk-evaluation/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        057
-    </span>
-
-    <h3>
-        Risk Evaluation
-    </h3>
-
-</a>
-<a
-    href="./058-risk-treatment/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        058
-    </span>
-
-    <h3>
-        Risk Treatment
-    </h3>
-
-</a>
-<a
-    href="./059-risk-acceptance/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        059
-    </span>
-
-    <h3>
-        Risk Acceptance
-    </h3>
-
-</a>
-<a
-    href="./060-residual-risk/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        060
-    </span>
-
-    <h3>
-        Residual Risk
-    </h3>
-
-</a>
-<a
-    href="./061-security-controls/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        061
-    </span>
-
-    <h3>
-        Security Controls
-    </h3>
-
-</a>
-<a
-    href="./062-technical-controls/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        062
-    </span>
-
-    <h3>
-        Technical Controls
-    </h3>
-
-</a>
-<a
-    href="./063-administrative-controls/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        063
-    </span>
-
-    <h3>
-        Administrative Controls
-    </h3>
-
-</a>
-<a
-    href="./064-physical-controls/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        064
-    </span>
-
-    <h3>
-        Physical Controls
-    </h3>
-
-</a>
-<a
-    href="./065-preventive-controls/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        065
-    </span>
-
-    <h3>
-        Preventive Controls
-    </h3>
-
-</a>
-<a
-    href="./066-detective-controls/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        066
-    </span>
-
-    <h3>
-        Detective Controls
-    </h3>
-
-</a>
-<a
-    href="./067-corrective-controls/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        067
-    </span>
-
-    <h3>
-        Corrective Controls
-    </h3>
-
-</a>
-<a
-    href="./068-deterrent-controls/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        068
-    </span>
-
-    <h3>
-        Deterrent Controls
-    </h3>
-
-</a>
-<a
-    href="./069-compensating-controls/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        069
-    </span>
-
-    <h3>
-        Compensating Controls
-    </h3>
-
-</a>
-<a
-    href="./070-directive-controls/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        070
-    </span>
-
-    <h3>
-        Directive Controls
-    </h3>
-
-</a>
-<a
-    href="./071-defense-in-depth/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        071
-    </span>
-
-    <h3>
-        Defense in Depth
-    </h3>
-
-</a>
-<a
-    href="./072-layered-security/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        072
-    </span>
-
-    <h3>
-        Layered Security
-    </h3>
-
-</a>
-<a
-    href="./073-security-baselines/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        073
-    </span>
-
-    <h3>
-        Security Baselines
-    </h3>
-
-</a>
-<a
-    href="./074-security-standards/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        074
-    </span>
-
-    <h3>
-        Security Standards
-    </h3>
-
-</a>
-<a
-    href="./075-security-policies/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        075
-    </span>
-
-    <h3>
-        Security Policies
-    </h3>
-
-</a>
-<a
-    href="./076-security-procedures/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        076
-    </span>
-
-    <h3>
-        Security Procedures
-    </h3>
-
-</a>
-<a
-    href="./077-security-guidelines/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        077
-    </span>
-
-    <h3>
-        Security Guidelines
-    </h3>
-
-</a>
-<a
-    href="./078-security-documentation/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        078
-    </span>
-
-    <h3>
-        Security Documentation
-    </h3>
-
-</a>
-<a
-    href="./079-security-awareness/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        079
-    </span>
-
-    <h3>
-        Security Awareness
-    </h3>
-
-</a>
-<a
-    href="./080-security-culture/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        080
-    </span>
-
-    <h3>
-        Security Culture
-    </h3>
-
-</a>
-<a
-    href="./081-least-privilege/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        081
-    </span>
-
-    <h3>
-        Least Privilege
-    </h3>
-
-</a>
-<a
-    href="./082-need-to-know/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        082
-    </span>
-
-    <h3>
-        Need to Know
-    </h3>
-
-</a>
-<a
-    href="./083-separation-of-duties/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        083
-    </span>
-
-    <h3>
-        Separation of Duties
-    </h3>
-
-</a>
-<a
-    href="./084-defense-by-design/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        084
-    </span>
-
-    <h3>
-        Defense by Design
-    </h3>
-
-</a>
-<a
-    href="./085-secure-by-default/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        085
-    </span>
-
-    <h3>
-        Secure by Default
-    </h3>
-
-</a>
-<a
-    href="./086-fail-secure/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        086
-    </span>
-
-    <h3>
-        Fail Secure
-    </h3>
-
-</a>
-<a
-    href="./087-zero-trust-basics/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        087
-    </span>
-
-    <h3>
-        Zero Trust Basics
-    </h3>
-
-</a>
-<a
-    href="./088-trust-boundaries/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        088
-    </span>
-
-    <h3>
-        Trust Boundaries
-    </h3>
-
-</a>
-<a
-    href="./089-security-by-design/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        089
-    </span>
-
-    <h3>
-        Security by Design
-    </h3>
-
-</a>
-<a
-    href="./090-continuous-security/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        090
-    </span>
-
-    <h3>
-        Continuous Security
-    </h3>
-
-</a>
-<a
-    href="./091-security-monitoring/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        091
-    </span>
-
-    <h3>
-        Security Monitoring
-    </h3>
-
-</a>
-<a
-    href="./092-security-logging/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        092
-    </span>
-
-    <h3>
-        Security Logging
-    </h3>
-
-</a>
-<a
-    href="./093-security-alerts/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        093
-    </span>
-
-    <h3>
-        Security Alerts
-    </h3>
-
-</a>
-<a
-    href="./094-security-incident/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        094
-    </span>
-
-    <h3>
-        Security Incident
-    </h3>
-
-</a>
-<a
-    href="./095-incident-classification/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        095
-    </span>
-
-    <h3>
-        Incident Classification
-    </h3>
-
-</a>
-<a
-    href="./096-security-response/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        096
-    </span>
-
-    <h3>
-        Security Response
-    </h3>
-
-</a>
-<a
-    href="./097-security-recovery/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        097
-    </span>
-
-    <h3>
-        Security Recovery
-    </h3>
-
-</a>
-<a
-    href="./098-security-metrics/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        098
-    </span>
-
-    <h3>
-        Security Metrics
-    </h3>
-
-</a>
-<a
-    href="./099-security-compliance/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        099
-    </span>
-
-    <h3>
-        Security Compliance
-    </h3>
-
-</a>
-<a
-    href="./100-cybersecurity-program-fundamentals/index.html"
-    class="topic-card searchable">
-
-    <span class="topic-number">
-        100
-    </span>
-
-    <h3>
-        Cybersecurity Program Fundamentals
-    </h3>
-
-</a>
-
-        </div>
-
-        <div
-            id="noResults"
-            class="no-results">
-
-            No matching Security Basics topics found.
-
-        </div>
-
+    <section>
+      <div class="sec-head reveal"><div class="stag">Step-by-Step</div><h2>Walkthrough <span class="grad">Explanation</span></h2></div>
+      <div class="steps-list"><div class="step-item" data-step="0"><div class="step-num">1</div><div class="step-body"><div class="step-text">Cybersecurity protects systems, networks, and data from digital attacks.</div><div class="step-tags"><span class="step-tag">Definition</span></div></div></div><div class="step-item" data-step="1"><div class="step-num">2</div><div class="step-body"><div class="step-text">Confidentiality — only authorized users access data.</div><div class="step-tags"><span class="step-tag">CIA</span></div></div></div><div class="step-item" data-step="2"><div class="step-num">3</div><div class="step-body"><div class="step-text">Integrity — data cannot be tampered with.</div><div class="step-tags"><span class="step-tag">CIA</span></div></div></div><div class="step-item" data-step="3"><div class="step-num">4</div><div class="step-body"><div class="step-text">Availability — systems remain accessible when needed.</div><div class="step-tags"><span class="step-tag">CIA</span></div></div></div><div class="step-item" data-step="4"><div class="step-num">5</div><div class="step-body"><div class="step-text">Defense in depth: multiple layers of security.</div><div class="step-tags"><span class="step-tag">Layers</span></div></div></div><div class="step-item" data-step="5"><div class="step-num">6</div><div class="step-body"><div class="step-text">Security is a continuous process, not a one-time setup.</div><div class="step-tags"><span class="step-tag">Process</span></div></div></div></div>
     </section>
 
-</main>
+    <section>
+      <div class="sec-head reveal"><div class="stag">Best Practices</div><h2>Do&apos;s and <span class="grad">Don&apos;ts</span></h2></div>
+      <div class="dodont">
+        <div class="do-box reveal"><h4>✓ Do This</h4><ul><li>Understand the CIA triad</li><li>Think like an attacker</li><li>Apply defense in depth</li><li>Keep systems patched</li><li>Enable logging &amp; monitoring</li><li>Train users regularly</li></ul></div>
+        <div class="dont-box reveal"><h4>✕ Avoid This</h4><ul><li>Rely on a single security layer</li><li>Ignore security updates</li><li>Share credentials</li><li>Disable security controls</li><li>Skip security audits</li><li>Assume you cannot be targeted</li></ul></div>
+      </div>
+    </section>
 
+    <section>
+      <div class="sec-head reveal"><div class="stag">Recap</div><h2>Key <span class="grad">Takeaways</span></h2></div>
+      <div class="recap-grid"><div class="recap" style="--rc:#7c3aed"><div class="t">CIA Triad</div><div class="d">Confidentiality, Integrity, Availability.</div></div><div class="recap" style="--rc:#0ea5e9"><div class="t">Defense in Depth</div><div class="d">Multiple layers of protection.</div></div><div class="recap" style="--rc:#22c55e"><div class="t">Continuous</div><div class="d">Security is an ongoing process.</div></div><div class="recap" style="--rc:#f59e0b"><div class="t">People Matter</div><div class="d">Most breaches start with human error.</div></div></div>
+    </section>
 
-<footer>
+<section class="subfolders-section"><div class="sec-head"><div class="stag">📁 Subtopics</div><h2>Explore <span class="grad">Related Topics</span></h2></div><div class="subfolders-grid"><a href="./001-introduction-to-cybersecurity/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Introduction To Cybersecurity</div><div class="sf-arrow">→</div></a><a href="./002-cybersecurity-definition/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Cybersecurity Definition</div><div class="sf-arrow">→</div></a><a href="./003-information-security-definition/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Information Security Definition</div><div class="sf-arrow">→</div></a><a href="./004-computer-security-definition/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Computer Security Definition</div><div class="sf-arrow">→</div></a><a href="./005-cybersecurity-goals/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Cybersecurity Goals</div><div class="sf-arrow">→</div></a><a href="./006-security-objectives/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Objectives</div><div class="sf-arrow">→</div></a><a href="./007-security-principles/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Principles</div><div class="sf-arrow">→</div></a><a href="./008-security-terminology/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Terminology</div><div class="sf-arrow">→</div></a><a href="./009-security-assets/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Assets</div><div class="sf-arrow">→</div></a><a href="./010-digital-assets/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Digital Assets</div><div class="sf-arrow">→</div></a><a href="./011-information-assets/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Information Assets</div><div class="sf-arrow">→</div></a><a href="./012-hardware-assets/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Hardware Assets</div><div class="sf-arrow">→</div></a><a href="./013-software-assets/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Software Assets</div><div class="sf-arrow">→</div></a><a href="./014-network-assets/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Network Assets</div><div class="sf-arrow">→</div></a><a href="./015-cloud-assets/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Cloud Assets</div><div class="sf-arrow">→</div></a><a href="./016-human-assets/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Human Assets</div><div class="sf-arrow">→</div></a><a href="./017-business-assets/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Business Assets</div><div class="sf-arrow">→</div></a><a href="./018-asset-ownership/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Asset Ownership</div><div class="sf-arrow">→</div></a><a href="./019-asset-classification/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Asset Classification</div><div class="sf-arrow">→</div></a><a href="./020-asset-valuation/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Asset Valuation</div><div class="sf-arrow">→</div></a><a href="./021-threat-definition/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Threat Definition</div><div class="sf-arrow">→</div></a><a href="./022-threat-event/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Threat Event</div><div class="sf-arrow">→</div></a><a href="./023-threat-source/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Threat Source</div><div class="sf-arrow">→</div></a><a href="./024-threat-actor/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Threat Actor</div><div class="sf-arrow">→</div></a><a href="./025-threat-agent/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Threat Agent</div><div class="sf-arrow">→</div></a><a href="./026-threat-intelligence-basics/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Threat Intelligence Basics</div><div class="sf-arrow">→</div></a><a href="./027-threat-categories/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Threat Categories</div><div class="sf-arrow">→</div></a><a href="./028-cyber-threat-landscape/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Cyber Threat Landscape</div><div class="sf-arrow">→</div></a><a href="./029-common-cyber-threats/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Common Cyber Threats</div><div class="sf-arrow">→</div></a><a href="./030-emerging-cyber-threats/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Emerging Cyber Threats</div><div class="sf-arrow">→</div></a><a href="./031-vulnerability-definition/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Vulnerability Definition</div><div class="sf-arrow">→</div></a><a href="./032-vulnerability-types/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Vulnerability Types</div><div class="sf-arrow">→</div></a><a href="./033-technical-vulnerabilities/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Technical Vulnerabilities</div><div class="sf-arrow">→</div></a><a href="./034-configuration-vulnerabilities/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Configuration Vulnerabilities</div><div class="sf-arrow">→</div></a><a href="./035-application-vulnerabilities/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Application Vulnerabilities</div><div class="sf-arrow">→</div></a><a href="./036-human-vulnerabilities/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Human Vulnerabilities</div><div class="sf-arrow">→</div></a><a href="./037-process-vulnerabilities/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Process Vulnerabilities</div><div class="sf-arrow">→</div></a><a href="./038-known-vulnerabilities/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Known Vulnerabilities</div><div class="sf-arrow">→</div></a><a href="./039-zero-day-vulnerabilities/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Zero Day Vulnerabilities</div><div class="sf-arrow">→</div></a><a href="./040-vulnerability-exposure/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Vulnerability Exposure</div><div class="sf-arrow">→</div></a><a href="./041-exploit-definition/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Exploit Definition</div><div class="sf-arrow">→</div></a><a href="./042-exploit-fundamentals/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Exploit Fundamentals</div><div class="sf-arrow">→</div></a><a href="./043-exploitability/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Exploitability</div><div class="sf-arrow">→</div></a><a href="./044-attack-definition/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Attack Definition</div><div class="sf-arrow">→</div></a><a href="./045-attack-event/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Attack Event</div><div class="sf-arrow">→</div></a><a href="./046-attack-vector/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Attack Vector</div><div class="sf-arrow">→</div></a><a href="./047-attack-surface/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Attack Surface</div><div class="sf-arrow">→</div></a><a href="./048-external-attack-surface/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">External Attack Surface</div><div class="sf-arrow">→</div></a><a href="./049-internal-attack-surface/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Internal Attack Surface</div><div class="sf-arrow">→</div></a><a href="./050-digital-attack-surface/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Digital Attack Surface</div><div class="sf-arrow">→</div></a><a href="./051-risk-definition/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Risk Definition</div><div class="sf-arrow">→</div></a><a href="./052-cybersecurity-risk/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Cybersecurity Risk</div><div class="sf-arrow">→</div></a><a href="./053-risk-factors/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Risk Factors</div><div class="sf-arrow">→</div></a><a href="./054-risk-identification/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Risk Identification</div><div class="sf-arrow">→</div></a><a href="./055-risk-analysis/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Risk Analysis</div><div class="sf-arrow">→</div></a><a href="./056-risk-assessment/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Risk Assessment</div><div class="sf-arrow">→</div></a><a href="./057-risk-evaluation/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Risk Evaluation</div><div class="sf-arrow">→</div></a><a href="./058-risk-treatment/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Risk Treatment</div><div class="sf-arrow">→</div></a><a href="./059-risk-acceptance/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Risk Acceptance</div><div class="sf-arrow">→</div></a><a href="./060-residual-risk/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Residual Risk</div><div class="sf-arrow">→</div></a><a href="./061-security-controls/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Controls</div><div class="sf-arrow">→</div></a><a href="./062-technical-controls/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Technical Controls</div><div class="sf-arrow">→</div></a><a href="./063-administrative-controls/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Administrative Controls</div><div class="sf-arrow">→</div></a><a href="./064-physical-controls/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Physical Controls</div><div class="sf-arrow">→</div></a><a href="./065-preventive-controls/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Preventive Controls</div><div class="sf-arrow">→</div></a><a href="./066-detective-controls/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Detective Controls</div><div class="sf-arrow">→</div></a><a href="./067-corrective-controls/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Corrective Controls</div><div class="sf-arrow">→</div></a><a href="./068-deterrent-controls/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Deterrent Controls</div><div class="sf-arrow">→</div></a><a href="./069-compensating-controls/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Compensating Controls</div><div class="sf-arrow">→</div></a><a href="./070-directive-controls/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Directive Controls</div><div class="sf-arrow">→</div></a><a href="./071-defense-in-depth/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Defense In Depth</div><div class="sf-arrow">→</div></a><a href="./072-layered-security/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Layered Security</div><div class="sf-arrow">→</div></a><a href="./073-security-baselines/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Baselines</div><div class="sf-arrow">→</div></a><a href="./074-security-standards/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Standards</div><div class="sf-arrow">→</div></a><a href="./075-security-policies/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Policies</div><div class="sf-arrow">→</div></a><a href="./076-security-procedures/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Procedures</div><div class="sf-arrow">→</div></a><a href="./077-security-guidelines/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Guidelines</div><div class="sf-arrow">→</div></a><a href="./078-security-documentation/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Documentation</div><div class="sf-arrow">→</div></a><a href="./079-security-awareness/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Awareness</div><div class="sf-arrow">→</div></a><a href="./080-security-culture/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Culture</div><div class="sf-arrow">→</div></a><a href="./081-least-privilege/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Least Privilege</div><div class="sf-arrow">→</div></a><a href="./082-need-to-know/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Need To Know</div><div class="sf-arrow">→</div></a><a href="./083-separation-of-duties/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Separation Of Duties</div><div class="sf-arrow">→</div></a><a href="./084-defense-by-design/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Defense By Design</div><div class="sf-arrow">→</div></a><a href="./085-secure-by-default/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Secure By Default</div><div class="sf-arrow">→</div></a><a href="./086-fail-secure/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Fail Secure</div><div class="sf-arrow">→</div></a><a href="./087-zero-trust-basics/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Zero Trust Basics</div><div class="sf-arrow">→</div></a><a href="./088-trust-boundaries/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Trust Boundaries</div><div class="sf-arrow">→</div></a><a href="./089-security-by-design/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security By Design</div><div class="sf-arrow">→</div></a><a href="./090-continuous-security/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Continuous Security</div><div class="sf-arrow">→</div></a><a href="./091-security-monitoring/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Monitoring</div><div class="sf-arrow">→</div></a><a href="./092-security-logging/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Logging</div><div class="sf-arrow">→</div></a><a href="./093-security-alerts/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Alerts</div><div class="sf-arrow">→</div></a><a href="./094-security-incident/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Incident</div><div class="sf-arrow">→</div></a><a href="./095-incident-classification/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Incident Classification</div><div class="sf-arrow">→</div></a><a href="./096-security-response/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Response</div><div class="sf-arrow">→</div></a><a href="./097-security-recovery/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Recovery</div><div class="sf-arrow">→</div></a><a href="./098-security-metrics/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Metrics</div><div class="sf-arrow">→</div></a><a href="./099-security-compliance/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Security Compliance</div><div class="sf-arrow">→</div></a><a href="./100-cybersecurity-program-fundamentals/index.html" class="subfolder-card"><div class="sf-icon">📄</div><div class="sf-title">Cybersecurity Program Fundamentals</div><div class="sf-arrow">→</div></a></div></section>
+    <div class="topic-navigation">
+<a class="nav-button" href="../security-awareness/index.html">← Security Awareness</a>
+<a class="nav-button primary" href="../security-monitoring/index.html">Security Monitoring →</a>
+    </div>
+  </div>
 
-    <span>
-        XTutiRaiseUp by XSympan Technologies
-    </span>
-
-    <span>
-        Developed with ❤️
-    </span>
-
-</footer>
-
+  <footer>
+    <span>XTutiRaiseUp by XSympan Technologies</span>
+    <span>Developed with ❤️</span>
+  </footer>
+</div>
 
 <script>
-
-const searchInput =
-    document.getElementById("topicSearch");
-
-const cards =
-    document.querySelectorAll(".searchable");
-
-const noResults =
-    document.getElementById("noResults");
-
-
-searchInput.addEventListener("input", function () {
-
-    const query =
-        this.value.toLowerCase().trim();
-
-    let visible = 0;
-
-    cards.forEach(card => {
-
-        const text =
-            card.textContent.toLowerCase();
-
-        if (text.includes(query)) {
-
-            card.style.display = "";
-
-            visible++;
-
-        } else {
-
-            card.style.display = "none";
-
-        }
-
-    });
-
-    noResults.style.display =
-        visible === 0 ? "block" : "none";
-
-});
-
+(function(){
+  var io = new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }); }, {threshold:0.08});
+  document.querySelectorAll(".reveal").forEach(function(el){ io.observe(el); });
+})();
 </script>
-
 </body>
 </html>

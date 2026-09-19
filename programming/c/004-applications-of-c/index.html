@@ -1,1157 +1,385 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Topic 4 · Applications of C</title>
+<title>004 · Applications Of C</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
-    background: #0b0f19;
-    color: #e8edf5;
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
-
-  .bg-glow {
-    position: fixed; inset: 0; z-index: -2;
-    background:
-      radial-gradient(circle at 20% 30%, rgba(59,130,246,0.14) 0%, transparent 50%),
-      radial-gradient(circle at 80% 70%, rgba(168,85,247,0.12) 0%, transparent 50%),
-      radial-gradient(circle at 50% 50%, rgba(14,165,233,0.06) 0%, transparent 60%);
-    animation: pulseGlow 12s ease-in-out infinite alternate;
-  }
-  @keyframes pulseGlow {
-    0% { opacity: 0.7; transform: scale(1); }
-    100% { opacity: 1; transform: scale(1.08); }
-  }
-  .bg-grid {
-    position: fixed; inset: 0; z-index: -1;
-    background-image:
-      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse at center, black 30%, transparent 75%);
-  }
-
-  .container { max-width: 1150px; margin: 0 auto; padding: 0 1.5rem; }
-
-  /* HERO */
-  .hero { text-align: center; padding: 4.5rem 1.5rem 2rem; }
-  .topic-pill {
-    display: inline-flex; align-items: center; gap: 0.5rem;
-    background: rgba(96,165,250,0.12);
-    border: 1px solid rgba(96,165,250,0.3);
-    border-radius: 999px;
-    padding: 0.35rem 1rem;
-    font-size: 0.72rem; font-weight: 700;
-    color: #60a5fa;
-    letter-spacing: 0.1em; text-transform: uppercase;
-    margin-bottom: 1.2rem;
-    animation: fadeUp 0.7s ease both;
-  }
-  .topic-pill .num {
-    background: #60a5fa; color: #0b0f19;
-    width: 18px; height: 18px; border-radius: 50%;
-    display: inline-flex; align-items: center; justify-content: center;
-    font-size: 0.68rem; font-weight: 800;
-  }
-  .hero h1 {
-    font-size: clamp(2.4rem, 5.5vw, 3.6rem);
-    font-weight: 800; letter-spacing: -0.03em; line-height: 1.15;
-    margin-bottom: 0.8rem;
-    animation: fadeUp 0.7s ease 0.1s both;
-  }
-  .hero h1 .gradient-text {
-    background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 40%, #f472b6 100%);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-  .hero p {
-    font-size: 1.05rem; color: #94a3b8; max-width: 620px;
-    margin: 0 auto; animation: fadeUp 0.7s ease 0.2s both;
-  }
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* QUICK FACTS ROW */
-  .facts-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 0.8rem;
-    margin-bottom: 1.5rem;
-    animation: fadeUp 0.7s ease 0.3s both;
-  }
-  .fact {
-    background: rgba(15,23,42,0.6);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(148,163,184,0.12);
-    border-radius: 1rem;
-    padding: 1rem 1.1rem;
-    text-align: center;
-    transition: all 0.25s ease;
-  }
-  .fact:hover {
-    transform: translateY(-3px);
-    border-color: rgba(96,165,250,0.3);
-  }
-  .fact .big {
-    font-size: 1.3rem; font-weight: 800;
-    background: linear-gradient(135deg, #60a5fa, #a78bfa);
-    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    background-clip: text;
-    line-height: 1.2;
-  }
-  .fact .label {
-    font-size: 0.72rem; color: #94a3b8;
-    text-transform: uppercase; letter-spacing: 0.06em;
-    font-weight: 600; margin-top: 0.2rem;
-  }
-
-  /* GLASS CARD */
-  .glass-card {
-    background: rgba(15,23,42,0.6);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(148,163,184,0.12);
-    border-radius: 1.5rem; padding: 1.8rem;
-    margin-bottom: 1.5rem;
-    transition: border-color 0.25s ease;
-  }
-  .glass-card:hover { border-color: rgba(96,165,250,0.25); }
-
-  .section-label {
-    display: inline-flex; align-items: center; gap: 0.4rem;
-    font-size: 0.72rem; font-weight: 700; text-transform: uppercase;
-    letter-spacing: 0.08em; color: #60a5fa; margin-bottom: 0.7rem;
-  }
-  .section-label .dot {
-    width: 6px; height: 6px; background: #60a5fa;
-    border-radius: 50%; animation: blink 1.6s ease-in-out infinite;
-  }
-  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
-
-  .glass-card h2 {
-    font-size: 1.5rem; font-weight: 700; color: #f1f5f9;
-    margin-bottom: 0.5rem; letter-spacing: -0.02em;
-  }
-  .glass-card > p { color: #94a3b8; font-size: 0.95rem; }
-
-  /* APPLICATION CARDS */
-  .app-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 1rem;
-    margin-top: 1.2rem;
-  }
-  .app-card {
-    background: rgba(30,41,59,0.6);
-    border: 1px solid rgba(148,163,184,0.12);
-    border-radius: 1rem;
-    padding: 1.3rem;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .app-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0;
-    width: 3px; height: 100%;
-    background: linear-gradient(180deg, var(--ac-color, #60a5fa), transparent);
-    transition: width 0.25s ease;
-  }
-  .app-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(96,165,250,0.35);
-    box-shadow: 0 12px 28px -10px rgba(0,0,0,0.5);
-  }
-  .app-card:hover::before { width: 5px; }
-  .app-card.active {
-    border-color: var(--ac-color, #60a5fa);
-    background: rgba(59,130,246,0.1);
-    box-shadow: 0 0 24px -6px var(--ac-color, #60a5fa);
-  }
-  .app-card .ac-icon {
-    font-size: 1.6rem;
-    margin-bottom: 0.5rem;
-  }
-  .app-card .ac-title {
-    font-size: 1rem;
-    font-weight: 700;
-    color: #f1f5f9;
-    margin-bottom: 0.3rem;
-  }
-  .app-card .ac-desc {
-    font-size: 0.82rem;
-    color: #94a3b8;
-    line-height: 1.5;
-  }
-  .app-card .ac-examples {
-    font-size: 0.72rem;
-    color: var(--ac-color, #60a5fa);
-    font-weight: 600;
-    margin-top: 0.5rem;
-  }
-
-  /* APPLICATION DETAIL PANEL */
-  .app-detail {
-    margin-top: 1rem;
-    background: rgba(30,41,59,0.5);
-    border-radius: 1rem;
-    padding: 1.4rem 1.6rem;
-    border: 1px solid rgba(148,163,184,0.1);
-    min-height: 120px;
-    transition: all 0.3s ease;
-  }
-  .app-detail .ad-title {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #f1f5f9;
-    margin-bottom: 0.5rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .app-detail .ad-body {
-    font-size: 0.9rem;
-    color: #cbd5e1;
-    line-height: 1.6;
-  }
-  .app-detail .ad-body code {
-    background: rgba(255,166,87,0.15);
-    color: #ffa657;
-    padding: 0.1rem 0.4rem;
-    border-radius: 0.3rem;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.82rem;
-  }
-  .app-detail .ad-examples {
-    margin-top: 0.8rem;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-  }
-  .app-detail .ad-examples span {
-    background: rgba(96,165,250,0.12);
-    border: 1px solid rgba(96,165,250,0.25);
-    color: #93c5fd;
-    border-radius: 999px;
-    padding: 0.2rem 0.7rem;
-    font-size: 0.75rem;
-    font-weight: 500;
-  }
-
-  /* PLAYGROUND */
-  .playground {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr;
-    gap: 0;
-    border-radius: 1rem;
-    overflow: hidden;
-    border: 1px solid rgba(148,163,184,0.15);
-    margin-top: 1.2rem;
-    background: #0d1117;
-  }
-
-  .editor-pane {
-    border-right: 1px solid rgba(148,163,184,0.12);
-    display: flex; flex-direction: column;
-  }
-
-  .editor-toolbar {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 0.6rem 1rem;
-    background: #161b22;
-    border-bottom: 1px solid rgba(148,163,184,0.1);
-  }
-  .editor-toolbar .left { display: flex; align-items: center; gap: 0.6rem; }
-  .editor-toolbar .traffic { display: flex; gap: 6px; }
-  .editor-toolbar .traffic span {
-    width: 11px; height: 11px; border-radius: 50%;
-  }
-  .editor-toolbar .traffic span:nth-child(1) { background: #ff5f56; }
-  .editor-toolbar .traffic span:nth-child(2) { background: #ffbd2e; }
-  .editor-toolbar .traffic span:nth-child(3) { background: #27c93f; }
-  .editor-toolbar .filename {
-    font-size: 0.78rem; color: #8b949e;
-    font-family: 'Fira Code', monospace;
-  }
-
-  .run-btn {
-    background: linear-gradient(135deg, #10b981, #059669);
-    color: white; border: none;
-    border-radius: 999px; padding: 0.4rem 1.1rem;
-    font-size: 0.8rem; font-weight: 600;
-    cursor: pointer; display: flex; align-items: center; gap: 0.4rem;
-    transition: all 0.2s ease;
-    box-shadow: 0 4px 12px -3px rgba(16,185,129,0.4);
-  }
-  .run-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 16px -3px rgba(16,185,129,0.55); }
-  .run-btn:active { transform: translateY(0); }
-
-  .code-textarea {
-    width: 100%;
-    min-height: 300px;
-    background: #0d1117;
-    color: #e6edf3;
-    border: none;
-    padding: 1.2rem 1.4rem;
-    font-family: 'Fira Code', 'JetBrains Mono', monospace;
-    font-size: 0.88rem;
-    line-height: 1.75;
-    resize: vertical;
-    outline: none;
-    tab-size: 4;
-    white-space: pre;
-    overflow-x: auto;
-  }
-  .code-textarea::selection { background: rgba(96,165,250,0.3); }
-
-  .output-pane {
-    display: flex; flex-direction: column;
-    background: #010409;
-  }
-  .output-header {
-    padding: 0.6rem 1rem;
-    background: #161b22;
-    border-bottom: 1px solid rgba(148,163,184,0.1);
-    font-size: 0.72rem; font-weight: 600;
-    color: #8b949e; text-transform: uppercase;
-    letter-spacing: 0.08em;
-    display: flex; align-items: center; gap: 0.5rem;
-  }
-  .output-header .status-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #484f58; transition: background 0.3s;
-  }
-  .output-header .status-dot.ok { background: #27c93f; box-shadow: 0 0 8px rgba(39,201,63,0.5); }
-  .output-header .status-dot.err { background: #ff5f56; box-shadow: 0 0 8px rgba(255,95,86,0.5); }
-
-  .output-body {
-    padding: 1.2rem 1.4rem;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.85rem;
-    line-height: 1.7;
-    color: #7ee787;
-    white-space: pre-wrap;
-    overflow-y: auto;
-    flex: 1;
-    min-height: 260px;
-  }
-  .output-body .err { color: #ff7b72; }
-  .output-body .dim { color: #484f58; font-style: italic; }
-
-  /* VARIABLES PANEL */
-  .vars-panel {
-    padding: 0.8rem 1rem;
-    background: rgba(30,41,59,0.5);
-    border-top: 1px solid rgba(148,163,184,0.1);
-    font-family: 'Fira Code', monospace;
-    font-size: 0.78rem;
-  }
-  .vars-panel .title {
-    font-size: 0.68rem; text-transform: uppercase;
-    letter-spacing: 0.08em; color: #64748b; margin-bottom: 0.4rem;
-    font-family: 'Inter', sans-serif; font-weight: 600;
-  }
-  .vars-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .var-chip {
-    background: rgba(167,139,250,0.15);
-    border: 1px solid rgba(167,139,250,0.3);
-    color: #d2a8ff;
-    border-radius: 0.4rem; padding: 0.2rem 0.6rem;
-    font-size: 0.72rem;
-  }
-  .var-chip .vname { color: #a78bfa; }
-  .var-chip .vval { color: #e8edf5; font-weight: 600; }
-
-  /* TIPS BOX */
-  .tip-box {
-    background: rgba(59,130,246,0.08);
-    border: 1px solid rgba(59,130,246,0.2);
-    border-radius: 0.8rem;
-    padding: 0.9rem 1.1rem;
-    margin-top: 1rem;
-    font-size: 0.85rem;
-    color: #cbd5e1;
-    display: flex; gap: 0.6rem;
-  }
-  .tip-box .tip-icon { font-size: 1.1rem; flex-shrink: 0; }
-  .tip-box code {
-    background: rgba(255,166,87,0.15);
-    color: #ffa657;
-    padding: 0.1rem 0.4rem;
-    border-radius: 0.3rem;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.8rem;
-  }
-
-  /* STEP VISUALIZER */
-  .step-viz {
-    margin-top: 1.2rem;
-    background: #0d1117;
-    border-radius: 1rem;
-    border: 1px solid rgba(148,163,184,0.15);
-    overflow: hidden;
-  }
-  .step-header {
-    padding: 0.7rem 1.2rem;
-    background: #161b22;
-    border-bottom: 1px solid rgba(148,163,184,0.1);
-    display: flex; align-items: center; justify-content: space-between;
-  }
-  .step-header .title {
-    font-size: 0.8rem; color: #8b949e;
-    font-family: 'Fira Code', monospace;
-  }
-  .step-controls { display: flex; gap: 0.4rem; }
-  .step-btn {
-    background: rgba(59,130,246,0.15);
-    border: 1px solid rgba(59,130,246,0.3);
-    color: #60a5fa;
-    border-radius: 0.5rem;
-    padding: 0.3rem 0.8rem;
-    font-size: 0.75rem; font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .step-btn:hover:not(:disabled) { background: rgba(59,130,246,0.3); }
-  .step-btn:disabled { opacity: 0.35; cursor: not-allowed; }
-
-  .step-body { display: grid; grid-template-columns: 1.2fr 1fr; }
-  .step-code {
-    padding: 1rem 1.2rem;
-    font-family: 'Fira Code', monospace;
-    font-size: 0.82rem; line-height: 1.9;
-    border-right: 1px solid rgba(148,163,184,0.1);
-  }
-  .step-code .line {
-    padding: 0.15rem 0.5rem;
-    border-radius: 0.3rem;
-    transition: background 0.3s, color 0.3s;
-    white-space: pre;
-  }
-  .step-code .line.active {
-    background: rgba(96,165,250,0.15);
-    color: #f1f5f9;
-    box-shadow: inset 3px 0 0 #60a5fa;
-  }
-  .step-info {
-    padding: 1rem 1.2rem;
-    background: rgba(30,41,59,0.4);
-  }
-  .step-info .explanation {
-    font-size: 0.82rem; color: #cbd5e1;
-    min-height: 4rem; margin-bottom: 0.8rem;
-    line-height: 1.55;
-  }
-  .step-info .tag-list {
-    display: flex; flex-wrap: wrap; gap: 0.35rem;
-    min-height: 1.8rem;
-  }
-  .step-info .tag {
-    background: rgba(167,139,250,0.15);
-    border: 1px solid rgba(167,139,250,0.3);
-    color: #d2a8ff;
-    border-radius: 0.4rem; padding: 0.2rem 0.55rem;
-    font-size: 0.7rem; font-family: 'Fira Code', monospace;
-  }
-
-  .step-progress {
-    padding: 0.6rem 1.2rem;
-    background: rgba(30,41,59,0.3);
-    border-top: 1px solid rgba(148,163,184,0.08);
-    display: flex; align-items: center; gap: 0.6rem;
-  }
-  .step-progress .bar {
-    flex: 1; height: 4px;
-    background: rgba(148,163,184,0.15);
-    border-radius: 999px; overflow: hidden;
-  }
-  .step-progress .bar-fill {
-    height: 100%; width: 0%;
-    background: linear-gradient(90deg, #60a5fa, #a78bfa);
-    transition: width 0.35s ease;
-  }
-  .step-progress .count {
-    font-size: 0.72rem; color: #64748b;
-    font-family: 'Fira Code', monospace;
-    min-width: 3.5rem; text-align: right;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 780px) {
-    .container { padding: 0 1rem; }
-    .hero { padding: 3rem 1rem 1.5rem; }
-    .glass-card { padding: 1.3rem; border-radius: 1.2rem; }
-    .glass-card h2 { font-size: 1.25rem; }
-    .playground { grid-template-columns: 1fr; }
-    .editor-pane { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.12); }
-    .code-textarea { min-height: 240px; font-size: 0.8rem; }
-    .step-body { grid-template-columns: 1fr; }
-    .step-code { border-right: none; border-bottom: 1px solid rgba(148,163,184,0.1); }
-    .app-grid { grid-template-columns: 1fr; }
-  }
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:#05060f;color:#f1f5f9;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.space-base{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 0%,#0d1530 0%,#0a0a20 45%,#05060f 85%),radial-gradient(ellipse at 0% 100%,#0a1a2e 0%,transparent 55%)}
+.orbs{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;mix-blend-mode:screen;opacity:.45}
+.orb{position:absolute;border-radius:50%;filter:blur(90px)}
+.orb-1{width:520px;height:520px;top:-10%;left:-8%;background:radial-gradient(circle,#5b8def,transparent 70%);animation:d1 26s ease-in-out infinite}
+.orb-2{width:460px;height:460px;top:45%;right:-10%;background:radial-gradient(circle,#0ea5e9,transparent 70%);animation:d2 30s ease-in-out infinite}
+.orb-3{width:600px;height:600px;bottom:-18%;left:18%;background:radial-gradient(circle,#7c3aed,transparent 70%);animation:d3 34s ease-in-out infinite}
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
+@keyframes d2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,-50px) scale(1.2)}}
+@keyframes d3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-60px) scale(1.1)}}
+.grid-bg{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.22;background-image:linear-gradient(rgba(91,141,239,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(91,141,239,.14) 1px,transparent 1px);background-size:80px 80px;transform:perspective(500px) rotateX(60deg);animation:gf 22s linear infinite;mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%)}
+@keyframes gf{from{background-position:0 0}to{background-position:0 80px}}
+.vig{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.72) 100%)}
+.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:1150px;margin:0 auto;padding:0 1.5rem;width:100%}
+nav{position:sticky;top:0;z-index:100;background:rgba(5,6,15,.7);backdrop-filter:blur(20px);border-bottom:1px solid rgba(148,163,184,.08)}
+.nav-inner{max-width:1150px;margin:0 auto;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.65rem;font-weight:800;font-size:1rem;color:#f1f5f9;text-decoration:none}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#5b8def,#0ea5e9);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:1rem;color:#fff;box-shadow:0 8px 20px -6px rgba(91,141,239,.6)}
+.hero{padding:4.5rem 1.5rem 3rem;text-align:center}
+.tpill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(91,141,239,.12);border:1px solid rgba(91,141,239,.35);border-radius:999px;padding:.45rem 1.1rem;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a5c2ff;margin-bottom:1.5rem}
+.tpill .n{background:#5b8def;color:#fff;min-width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;padding:0 .35rem}
+.hero h1{font-size:clamp(1.9rem,4.8vw,3rem);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin-bottom:1.2rem}
+.hero h1 .grad{background:linear-gradient(135deg,#a5c2ff 0%,#5b8def 45%,#0ea5e9 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gs 7s ease-in-out infinite}
+@keyframes gs{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero p{color:#a1a1aa;font-size:1.05rem;max-width:660px;margin:0 auto;line-height:1.7}
+section{padding:3rem 0}
+.sec-head{text-align:center;margin-bottom:2.5rem}
+.stag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(91,141,239,.1);border:1px solid rgba(91,141,239,.3);border-radius:999px;padding:.4rem 1rem;font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a5c2ff;margin-bottom:1rem}
+.sec-head h2{font-size:clamp(1.6rem,3.8vw,2.3rem);font-weight:900;letter-spacing:-.03em;line-height:1.15;margin-bottom:.6rem}
+.sec-head h2 .grad{background:linear-gradient(135deg,#a5c2ff,#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sec-head p{color:#94a3b8;font-size:.95rem;max-width:620px;margin:0 auto}
+.facts-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.8rem;margin-bottom:2rem}
+.fact{background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.12);border-radius:14px;padding:1.05rem 1rem;text-align:center;transition:all .25s}
+.fact:hover{transform:translateY(-3px);border-color:rgba(91,141,239,.4)}
+.fact .big{font-size:1.05rem;font-weight:900;background:linear-gradient(135deg,#a5c2ff,#0ea5e9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+.fact .lbl{font-size:.66rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-top:.4rem}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.concept{position:relative;padding:1.5rem;border-radius:18px;background:linear-gradient(155deg,rgba(24,25,50,.8),rgba(12,13,30,.6));border:1px solid rgba(148,163,184,.1);transition:all .3s;overflow:hidden}
+.concept::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),transparent)}
+.concept:hover{transform:translateY(-4px);border-color:var(--c1);box-shadow:0 20px 40px -18px var(--c1)}
+.c-ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--c1),var(--c2));display:flex;align-items:center;justify-content:center;font-size:1.45rem;margin-bottom:.9rem;box-shadow:0 10px 24px -8px var(--c1);animation:if 5s ease-in-out infinite}
+@keyframes if{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.concept h3{font-size:1.05rem;font-weight:800;margin-bottom:.4rem;color:#f1f5f9}
+.concept p{color:#94a3b8;font-size:.85rem;line-height:1.6}
+.playground{display:grid;grid-template-columns:1.5fr 1fr;gap:0;border-radius:16px;overflow:hidden;border:1px solid rgba(148,163,184,.15);margin-top:1.2rem;background:#0d1117}
+@media(max-width:900px){.playground{grid-template-columns:1fr}}
+.editor-pane{border-right:1px solid rgba(148,163,184,.12);display:flex;flex-direction:column}
+@media(max-width:900px){.editor-pane{border-right:none;border-bottom:1px solid rgba(148,163,184,.12)}}
+.editor-toolbar{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);flex-wrap:wrap;gap:.5rem}
+.toolbar-left{display:flex;align-items:center;gap:.6rem}
+.traffic{display:flex;gap:6px}
+.traffic span{width:11px;height:11px;border-radius:50%}
+.traffic span:nth-child(1){background:#ff5f56}
+.traffic span:nth-child(2){background:#ffbd2e}
+.traffic span:nth-child(3){background:#27c93f}
+.filename{font-size:.78rem;color:#8b949e;font-family:'JetBrains Mono',monospace}
+.run-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:999px;padding:.45rem 1.15rem;font-size:.8rem;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.4rem;box-shadow:0 4px 12px -3px rgba(16,185,129,.5);transition:all .2s}
+.run-btn:hover{transform:translateY(-1px)}
+.code-area{width:100%;min-height:360px;background:#0d1117;color:#e6edf3;border:none;padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.75;resize:vertical;outline:none;tab-size:4;white-space:pre;overflow-x:auto}
+.output-pane{background:#010409;display:flex;flex-direction:column}
+.output-header{padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);font-size:.72rem;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:.5rem}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#484f58;transition:background .3s}
+.status-dot.ok{background:#27c93f;box-shadow:0 0 8px rgba(39,201,63,.5)}
+.status-dot.err{background:#ff5f56;box-shadow:0 0 8px rgba(255,95,86,.5)}
+.output-body{padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.7;color:#7ee787;white-space:pre-wrap;overflow-y:auto;flex:1;min-height:300px}
+.output-body .err{color:#ff7b72}
+.output-body .dim{color:#484f58;font-style:italic}
+.step-viz{margin-top:1.2rem;background:#0d1117;border-radius:16px;border:1px solid rgba(148,163,184,.15);overflow:hidden}
+.step-header{padding:.7rem 1.2rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.step-header .title{font-size:.8rem;color:#8b949e;font-family:'JetBrains Mono',monospace}
+.step-controls{display:flex;gap:.4rem}
+.step-btn{background:rgba(91,141,239,.15);border:1px solid rgba(91,141,239,.3);color:#a5c2ff;border-radius:8px;padding:.35rem .9rem;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.step-btn:hover:not(:disabled){background:rgba(91,141,239,.3)}
+.step-btn:disabled{opacity:.35;cursor:not-allowed}
+.step-body{display:grid;grid-template-columns:1.2fr 1fr}
+@media(max-width:800px){.step-body{grid-template-columns:1fr}}
+.step-code{padding:1rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.9;border-right:1px solid rgba(148,163,184,.1);overflow-x:auto}
+@media(max-width:800px){.step-code{border-right:none;border-bottom:1px solid rgba(148,163,184,.1)}}
+.step-line{padding:.15rem .5rem;border-radius:5px;transition:background .3s;white-space:pre}
+.step-line.active{background:rgba(91,141,239,.18);box-shadow:inset 3px 0 0 #5b8def;color:#fff}
+.step-info{padding:1.1rem 1.3rem;background:rgba(30,41,59,.4)}
+.explain{font-size:.85rem;color:#cbd5e1;min-height:4rem;margin-bottom:.9rem;line-height:1.6}
+.explain code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em}
+.tag-list{display:flex;flex-wrap:wrap;gap:.35rem}
+.tag{background:rgba(165,194,255,.15);border:1px solid rgba(165,194,255,.3);color:#a5c2ff;border-radius:6px;padding:.25rem .65rem;font-size:.7rem;font-family:'JetBrains Mono',monospace;font-weight:600}
+.step-progress{padding:.6rem 1.2rem;background:rgba(30,41,59,.3);border-top:1px solid rgba(148,163,184,.08);display:flex;align-items:center;gap:.6rem}
+.bar{flex:1;height:4px;background:rgba(148,163,184,.15);border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#5b8def,#0ea5e9);border-radius:999px;transition:width .35s}
+.count{font-size:.72rem;color:#64748b;font-family:'JetBrains Mono',monospace;min-width:3.5rem;text-align:right}
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;margin-top:1.2rem}
+.recap{background:rgba(30,41,59,.6);border-radius:14px;padding:1.1rem 1.2rem;border-left:3px solid var(--rc,#5b8def)}
+.recap .t{font-size:.72rem;font-weight:800;color:var(--rc,#5b8def);text-transform:uppercase;letter-spacing:.08em}
+.recap .d{font-size:.85rem;color:#cbd5e1;margin-top:.35rem;line-height:1.55}
+.recap .d code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em}
+footer{text-align:center;padding:3rem 1.5rem;border-top:1px solid rgba(148,163,184,.08);color:#52525b;font-size:.82rem;margin-top:auto}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:translateY(0)}
 </style>
 </head>
 <body>
+<div class="space-base"></div>
+<div class="orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="grid-bg"></div>
+<div class="vig"></div>
 
-<div class="bg-glow"></div>
-<div class="bg-grid"></div>
+<div class="page">
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="brand"><div class="brand-mark">C</div> C Series</a>
+    </div>
+  </nav>
 
-<!-- HERO -->
-<div class="hero">
+  <div class="hero">
+    <div class="tpill"><span class="n">004</span> Topic 004</div>
+    <h1>Applications Of C: <span class="grad">Getting Started</span></h1>
+    <p>An introduction to Applications Of C — what it is, why it matters, and how it fits into modern C programming.</p>
+  </div>
+
   <div class="container">
-    <div class="topic-pill"><span class="num">4</span> Topic 4 of the C Series</div>
-    <h1>Applications of <span class="gradient-text">C Programming</span></h1>
-    <p>
-      C is everywhere — in your phone, your car, your TV, and even on Mars.
-      Explore the real-world systems powered by C.
-    </p>
-  </div>
-</div>
+    <div class="facts-row reveal"><div class="fact"><div class="big">1972</div><div class="lbl">Created</div></div><div class="fact"><div class="big">Dennis Ritchie</div><div class="lbl">Creator</div></div><div class="fact"><div class="big">Bell Labs</div><div class="lbl">Origin</div></div><div class="fact"><div class="big">32</div><div class="lbl">Keywords</div></div><div class="fact"><div class="big">C23</div><div class="lbl">Latest</div></div></div>
 
-<div class="container">
-
-  <!-- QUICK FACTS -->
-  <div class="facts-row">
-    <div class="fact">
-      <div class="big">97%</div>
-      <div class="label">Top Supercomputers Run C-Based Linux</div>
-    </div>
-    <div class="fact">
-      <div class="big">90%</div>
-      <div class="label">PC Market Uses C-Based Windows Kernel</div>
-    </div>
-    <div class="fact">
-      <div class="big">1972</div>
-      <div class="label">Still Dominant After 50+ Years</div>
-    </div>
-    <div class="fact">
-      <div class="big">Everywhere</div>
-      <div class="label">From Microwaves to Mars Rovers</div>
-    </div>
-  </div>
-
-  <!-- ===== APPLICATION CARDS ===== -->
-  <div class="glass-card">
-    <div class="section-label"><span class="dot"></span> Where C Is Used</div>
-    <h2>The Major Application Domains</h2>
-    <p>Click any card to see detailed examples of C in action. These are the real-world domains where C dominates.</p>
-
-    <div class="app-grid" id="appGrid">
-
-      <div class="app-card" style="--ac-color:#60a5fa;" onclick="showApp('os')">
-        <div class="ac-icon">💻</div>
-        <div class="ac-title">Operating Systems</div>
-        <div class="ac-desc">C is the language of OS kernels — the core that manages memory, processes, and hardware.</div>
-        <div class="ac-examples">Windows · Linux · macOS · Unix</div>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Core Concepts</div>
+        <h2>What You Need to <span class="grad">Know</span></h2>
       </div>
+      <div class="concept-grid"><div class="concept" style="--c1:#5b8def;--c2:#7c3aed">
+      <div class="c-ico">🎯</div>
+      <h3>What It Is</h3>
+      <p>Applications Of C is fundamental to C — every C programmer encounters it.</p>
+    </div><div class="concept" style="--c1:#0ea5e9;--c2:#06b6d4">
+      <div class="c-ico">⚙️</div>
+      <h3>How It Works</h3>
+      <p>The compiler and runtime enable Applications Of C at the lowest level.</p>
+    </div><div class="concept" style="--c1:#22c55e;--c2:#4ade80">
+      <div class="c-ico">🚀</div>
+      <h3>Why It Matters</h3>
+      <p>Understanding Applications Of C unlocks C's full power.</p>
+    </div><div class="concept" style="--c1:#f59e0b;--c2:#fbbf24">
+      <div class="c-ico">🌍</div>
+      <h3>Real-World Use</h3>
+      <p>Operating systems, embedded devices, and high-performance software rely on it.</p>
+    </div></div>
+    </section>
 
-      <div class="app-card" style="--ac-color:#a78bfa;" onclick="showApp('embedded')">
-        <div class="ac-icon">🔌</div>
-        <div class="ac-title">Embedded Systems</div>
-        <div class="ac-desc">From washing machines to Mars rovers — C runs on tiny microcontrollers.</div>
-        <div class="ac-examples">Mars Rovers · Microwaves · Cars · IoT</div>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Hands-On</div>
+        <h2>Try It <span class="grad">Yourself</span></h2>
       </div>
-
-      <div class="app-card" style="--ac-color:#f472b6;" onclick="showApp('db')">
-        <div class="ac-icon">🗄️</div>
-        <div class="ac-title">Database Systems</div>
-        <div class="ac-desc">The world's most popular databases are written in C for speed and reliability.</div>
-        <div class="ac-examples">MySQL · PostgreSQL · Oracle</div>
-      </div>
-
-      <div class="app-card" style="--ac-color:#34d399;" onclick="showApp('compilers')">
-        <div class="ac-icon">🔧</div>
-        <div class="ac-title">Compilers &amp; Interpreters</div>
-        <div class="ac-desc">Many languages you use today are actually built on top of C.</div>
-        <div class="ac-examples">CPython · GCC · Clang</div>
-      </div>
-
-      <div class="app-card" style="--ac-color:#facc15;" onclick="showApp('graphics')">
-        <div class="ac-icon">🎮</div>
-        <div class="ac-title">Graphics &amp; Gaming</div>
-        <div class="ac-desc">High-performance graphics libraries and game engines rely on C's speed.</div>
-        <div class="ac-examples">OpenGL · Game Engines · 3D Movies</div>
-      </div>
-
-      <div class="app-card" style="--ac-color:#fb923c;" onclick="showApp('mobile')">
-        <div class="ac-icon">📱</div>
-        <div class="ac-title">Mobile Platforms</div>
-        <div class="ac-desc">iOS, Android, and Windows Phone kernels all run on C.</div>
-        <div class="ac-examples">iOS · Android · Windows Phone</div>
-      </div>
-
-      <div class="app-card" style="--ac-color:#818cf8;" onclick="showApp('network')">
-        <div class="ac-icon">🌐</div>
-        <div class="ac-title">Networking &amp; Telecom</div>
-        <div class="ac-desc">Routers, switches, and communication protocols are implemented in C.</div>
-        <div class="ac-examples">Routers · Switches · Protocols</div>
-      </div>
-
-      <div class="app-card" style="--ac-color:#f87171;" onclick="showApp('defense')">
-        <div class="ac-icon">🛡️</div>
-        <div class="ac-title">Defense &amp; Medical</div>
-        <div class="ac-desc">Hard real-time systems where milliseconds matter — from missiles to MRI machines.</div>
-        <div class="ac-examples">Missile Systems · MRI · Pacemakers</div>
-      </div>
-
-    </div>
-
-    <!-- APPLICATION DETAIL PANEL -->
-    <div class="app-detail" id="appDetail">
-      <div class="ad-title">👆 Click an application card above</div>
-      <div class="ad-body">
-        Select any application area to see a detailed explanation with real-world examples.
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== REAL-WORLD SYSTEMS ===== -->
-  <div class="glass-card">
-    <div class="section-label"><span class="dot"></span> Real Systems</div>
-    <h2>Famous Software Written in C</h2>
-    <p>These are not hypothetical — they are real products used by billions of people, built on C.</p>
-
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.8rem;margin-top:1rem;">
-      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #60a5fa;">
-        <div style="font-size:0.72rem;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:0.06em;">Operating Systems</div>
-        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Linux kernel, Windows kernel, macOS (Darwin) — all written primarily in C.</div>
-      </div>
-      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #a78bfa;">
-        <div style="font-size:0.72rem;font-weight:700;color:#a78bfa;text-transform:uppercase;letter-spacing:0.06em;">Databases</div>
-        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Oracle, MySQL, PostgreSQL, and MS SQL Server — the backbone of global data storage.</div>
-      </div>
-      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #f472b6;">
-        <div style="font-size:0.72rem;font-weight:700;color:#f472b6;text-transform:uppercase;letter-spacing:0.06em;">Python Itself</div>
-        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">CPython — the standard Python interpreter — is written entirely in C.</div>
-      </div>
-      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #34d399;">
-        <div style="font-size:0.72rem;font-weight:700;color:#34d399;text-transform:uppercase;letter-spacing:0.06em;">3D &amp; VFX</div>
-        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">The 3D animation and visual effects used in movies are created with C/C++ applications.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== LIVE PLAYGROUND ===== -->
-  <div class="glass-card">
-    <div class="section-label"><span class="dot"></span> See It In Action</div>
-    <h2>A Tiny Application Example</h2>
-    <p>
-      This is a simple program that mimics what happens inside an embedded
-      system — reading sensor values and making decisions. Run it, then change
-      the sensor values to see different outcomes.
-    </p>
-
-    <div class="playground">
-      <div class="editor-pane">
-        <div class="editor-toolbar">
-          <div class="left">
-            <div class="traffic"><span></span><span></span><span></span></div>
-            <span class="filename">embedded_demo.c</span>
+      <div class="playground reveal">
+        <div class="editor-pane">
+          <div class="editor-toolbar">
+            <div class="toolbar-left">
+              <div class="traffic"><span></span><span></span><span></span></div>
+              <span class="filename">intro.c</span>
+            </div>
+            <button class="run-btn" onclick="runCode()">▶ Run Code</button>
           </div>
-          <button class="run-btn" onclick="runCode()">▶ Run Code</button>
-        </div>
-        <textarea class="code-textarea" id="codeInput" spellcheck="false">#include <stdio.h>
+          <textarea class="code-area" id="codeInput" spellcheck="false">#include &lt;stdio.h&gt;
 
-int main() {
-    /* Simulating an embedded sensor system */
-    int temperature = 38;
-    int humidity = 65;
+int main(void) {
+    /* Applications Of C — introduction demo */
+    printf("Exploring: Applications Of C\n");
 
-    printf("=== System Status ===\n");
-    printf("Temperature: %d C\n", temperature);
-    printf("Humidity: %d %%\n", humidity);
+    const char *topics[] = { "C", "Ritchie", "Unix", "PDP-11" };
+    int n = sizeof(topics) / sizeof(topics[0]);
 
-    if (temperature > 35) {
-        printf("ALERT: Temperature too high!\n");
-        printf("Action: Turning on cooling fan\n");
-    } else {
-        printf("Temperature is normal\n");
+    for (int i = 0; i &lt; n; i++) {
+        printf("-&gt; %s\n", topics[i]);
     }
 
-    printf("System check complete.\n");
+    int total = 0;
+    for (int i = 1; i &lt;= 5; i++) total += i;
+    printf("Sum 1..5 = %d\n", total);
+
     return 0;
 }</textarea>
+        </div>
+        <div class="output-pane">
+          <div class="output-header"><span class="status-dot" id="statusDot"></span> OUTPUT</div>
+          <div class="output-body" id="outputBody"><span class="dim">// Click "Run Code" to see the output...</span></div>
+        </div>
       </div>
+    </section>
 
-      <div class="output-pane">
-        <div class="output-header">
-          <span class="status-dot" id="statusDot"></span>
-          OUTPUT
-        </div>
-        <div class="output-body" id="outputBody">
-          <span class="dim">// Click "Run Code" to simulate the system...</span>
-        </div>
-        <div class="vars-panel">
-          <div class="title">Variables in Memory</div>
-          <div class="vars-list" id="varsList">
-            <span class="dim" style="font-size:0.72rem;color:#484f58;">No variables yet.</span>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Walkthrough</div>
+        <h2>Step-by-Step <span class="grad">Explanation</span></h2>
+      </div>
+      <div class="step-viz reveal">
+        <div class="step-header">
+          <span class="title">intro.c</span>
+          <div class="step-controls">
+            <button class="step-btn" id="prevBtn" onclick="stepPrev()" disabled>← Prev</button>
+            <button class="step-btn" id="nextBtn" onclick="stepNext()">Next Step →</button>
+            <button class="step-btn" onclick="stepReset()">↺ Reset</button>
           </div>
         </div>
-      </div>
-    </div>
-
-    <div class="tip-box">
-      <span class="tip-icon">💡</span>
-      <div>
-        <strong>Try this:</strong> Change <code>temperature = 38</code> to <code>25</code>
-        and run. The alert disappears and the system reports normal. This is
-        exactly how C controls real-world devices — reading values and reacting.
-      </div>
-    </div>
-  </div>
-
-  <!-- ===== STEP-BY-STEP ===== -->
-  <div class="glass-card">
-    <div class="section-label"><span class="dot"></span> Watch It Run</div>
-    <h2>How C Powers a Real Decision</h2>
-    <p>
-      Click <strong>Next Step</strong> to walk through the sensor program line
-      by line and see how C makes decisions in real time.
-    </p>
-
-    <div class="step-viz">
-      <div class="step-header">
-        <span class="title">embedded_demo.c</span>
-        <div class="step-controls">
-          <button class="step-btn" id="prevBtn" onclick="stepPrev()" disabled>← Prev</button>
-          <button class="step-btn" id="nextBtn" onclick="stepNext()">Next Step →</button>
-          <button class="step-btn" id="resetBtn" onclick="stepReset()">↺ Reset</button>
-        </div>
-      </div>
-
-      <div class="step-body">
-        <div class="step-code" id="stepCode">
-          <div class="line" data-line="0">#include &lt;stdio.h&gt;</div>
-          <div class="line" data-line="1"> </div>
-          <div class="line" data-line="2">int main() {</div>
-          <div class="line" data-line="3">    int temperature = 38;</div>
-          <div class="line" data-line="4">    int humidity = 65;</div>
-          <div class="line" data-line="5"> </div>
-          <div class="line" data-line="6">    printf("=== System Status ===\n");</div>
-          <div class="line" data-line="7">    printf("Temperature: %d C\n", temperature);</div>
-          <div class="line" data-line="8"> </div>
-          <div class="line" data-line="9">    if (temperature > 35) {</div>
-          <div class="line" data-line="10">        printf("ALERT: Temperature too high!\n");</div>
-          <div class="line" data-line="11">        printf("Action: Turning on cooling fan\n");</div>
-          <div class="line" data-line="12">    } else {</div>
-          <div class="line" data-line="13">        printf("Temperature is normal\n");</div>
-          <div class="line" data-line="14">    }</div>
-          <div class="line" data-line="15"> </div>
-          <div class="line" data-line="16">    printf("System check complete.\n");</div>
-          <div class="line" data-line="17">    return 0;</div>
-          <div class="line" data-line="18">}</div>
-        </div>
-
-        <div class="step-info">
-          <div class="explanation" id="stepExplanation">
-            Click <strong>Next Step</strong> to begin.
-          </div>
-          <div class="tag-list" id="stepTags">
-            <span style="font-size:0.72rem;color:#484f58;">Waiting to start</span>
+        <div class="step-body">
+          <div class="step-code" id="stepCode"><div class="step-line" data-line="0">#include &lt;stdio.h&gt;</div><div class="step-line" data-line="1"> </div><div class="step-line" data-line="2">int main(void) {</div><div class="step-line" data-line="3">    printf(&quot;Hello, C!\n&quot;);</div><div class="step-line" data-line="4">    int numbers[] = { 1, 2, 3 };</div><div class="step-line" data-line="5">    for (int i = 0; i &lt; 3; i++) {</div><div class="step-line" data-line="6">        printf(&quot;%d\n&quot;, numbers[i]);</div><div class="step-line" data-line="7">    }</div><div class="step-line" data-line="8">    return 0;</div><div class="step-line" data-line="9">}</div></div>
+          <div class="step-info">
+            <div class="explain" id="stepExplain">Click <strong>Next Step</strong> to begin.</div>
+            <div class="tag-list" id="stepTags"><span style="font-size:.72rem;color:#484f58;">Waiting to start</span></div>
           </div>
         </div>
+        <div class="step-progress">
+          <div class="bar"><div class="bar-fill" id="stepBar"></div></div>
+          <div class="count" id="stepCount">0 / 6</div>
+        </div>
       </div>
+    </section>
 
-      <div class="step-progress">
-        <div class="bar"><div class="bar-fill" id="stepBarFill"></div></div>
-        <div class="count" id="stepCount">0 / 19</div>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Recap</div>
+        <h2>Key <span class="grad">Takeaways</span></h2>
       </div>
-    </div>
+      <div class="recap-grid"><div class="recap" style="--rc:#5b8def">
+      <div class="t">Applications Of C</div>
+      <div class="d">Foundation of every C program.</div>
+    </div><div class="recap" style="--rc:#0ea5e9">
+      <div class="t">Compiled</div>
+      <div class="d">Directly to machine code — no interpreter.</div>
+    </div><div class="recap" style="--rc:#22c55e">
+      <div class="t">Portable</div>
+      <div class="d">Same source, recompiled for every platform.</div>
+    </div><div class="recap" style="--rc:#f59e0b">
+      <div class="t">Small Language</div>
+      <div class="d">Only 32 keywords, but infinite power.</div>
+    </div></div>
+    </section>
   </div>
 
-  <!-- ===== RECAP ===== -->
-  <div class="glass-card">
-    <div class="section-label"><span class="dot"></span> Recap</div>
-    <h2>What You Just Learned</h2>
-    <p>
-      C is not just a teaching language — it powers the systems you rely on
-      every day. Here's the summary:
-    </p>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0.8rem;margin-top:1rem;">
-      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #60a5fa;">
-        <div style="font-size:0.72rem;font-weight:700;color:#60a5fa;text-transform:uppercase;letter-spacing:0.06em;">Operating Systems</div>
-        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Windows, Linux, macOS, and Unix kernels are all written in C. Your phone runs on C too.</div>
-      </div>
-      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #a78bfa;">
-        <div style="font-size:0.72rem;font-weight:700;color:#a78bfa;text-transform:uppercase;letter-spacing:0.06em;">Embedded Systems</div>
-        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Microwaves, cars, Mars rovers, IoT devices — C runs on microcontrollers everywhere.</div>
-      </div>
-      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #f472b6;">
-        <div style="font-size:0.72rem;font-weight:700;color:#f472b6;text-transform:uppercase;letter-spacing:0.06em;">Databases &amp; Compilers</div>
-        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">MySQL, PostgreSQL, Oracle, CPython, GCC — all built on C for performance.</div>
-      </div>
-      <div style="background:rgba(30,41,59,0.6);border-radius:0.8rem;padding:1rem 1.1rem;border-left:3px solid #34d399;">
-        <div style="font-size:0.72rem;font-weight:700;color:#34d399;text-transform:uppercase;letter-spacing:0.06em;">Real-Time Systems</div>
-        <div style="font-size:0.85rem;color:#cbd5e1;margin-top:0.2rem;">Medical devices, defense systems, networking hardware — where every millisecond matters.</div>
-      </div>
-    </div>
-  </div>
-
+  <footer>
+    <p>🔷 Applications Of C · C Series · Built for learners</p>
+  </footer>
 </div>
 
 <script>
-/* ============================================================
-   APPLICATION DATA
-   ============================================================ */
-const appData = {
-  os: {
-    title: '💻 Operating Systems',
-    body: 'C is the language of operating system kernels — the core that manages memory, processes, files, and hardware. <strong>Windows</strong>, <strong>Linux</strong>, <strong>macOS</strong>, and <strong>Unix</strong> all have kernels written primarily in C. Without C, modern operating systems as we know them would not exist.',
-    examples: ['Windows Kernel', 'Linux Kernel', 'macOS (Darwin)', 'Unix']
-  },
-  embedded: {
-    title: '🔌 Embedded Systems',
-    body: 'Embedded systems are computers built into other devices. They run on tiny microcontrollers with limited memory and power. C is perfect for this because it produces compact, efficient machine code. From your microwave to the <strong>Mars rovers</strong>, C is running the show.',
-    examples: ['Mars Rovers', 'Microwaves', 'Car ECUs', 'IoT Devices', 'Wearables']
-  },
-  db: {
-    title: '🗄️ Database Systems',
-    body: 'The world\'s most popular databases are written in C to ensure rapid data retrieval and reliable transaction handling. When you query a database, the underlying engine is likely C code doing the heavy lifting. Speed is critical in databases, and C delivers.',
-    examples: ['MySQL', 'PostgreSQL', 'Oracle', 'MS SQL Server']
-  },
-  compilers: {
-    title: '🔧 Compilers &amp; Interpreters',
-    body: 'Many programming languages you use today are actually built on top of C. The standard Python interpreter — <strong>CPython</strong> — is written in C. The <strong>GCC</strong> and <strong>Clang</strong> compilers that build C code are themselves written in C. C is the language that builds languages.',
-    examples: ['CPython (Python)', 'GCC', 'Clang', 'Ruby MRI']
-  },
-  graphics: {
-    title: '🎮 Graphics &amp; Gaming',
-    body: 'High-performance graphics libraries and game engines rely on C and C++ for rendering speed. The 3D animated movies you see in theaters are created with applications written in C/C++. When every frame must render in milliseconds, C is the tool of choice.',
-    examples: ['OpenGL', 'Game Engines', '3D Animation/VFX', 'Adobe Photoshop']
-  },
-  mobile: {
-    title: '📱 Mobile Platforms',
-    body: 'The operating systems that power your smartphone — <strong>iOS</strong>, <strong>Android</strong>, and <strong>Windows Phone</strong> — all have kernels written in C. Every app you use runs on top of a C-based foundation. Even though you might not write C for mobile apps, your phone depends on it.',
-    examples: ['iOS Kernel', 'Android Kernel', 'Windows Phone Kernel']
-  },
-  network: {
-    title: '🌐 Networking &amp; Telecom',
-    body: 'Routers, switches, and communication protocols are implemented in C. When you send an email or load a web page, C code inside network devices is handling the packets. Telecom infrastructure — from call routing to 5G — relies on C for reliability.',
-    examples: ['Routers', 'Switches', 'TCP/IP Stack', '5G Infrastructure']
-  },
-  defense: {
-    title: '🛡️ Defense &amp; Medical',
-    body: 'Hard real-time systems — where a delay of even one millisecond could be catastrophic — use C. Defense systems (missile guidance, radar) and medical devices (MRI machines, pacemakers, ventilators) depend on C\'s determinism and speed.',
-    examples: ['Missile Guidance', 'Radar Systems', 'MRI Machines', 'Pacemakers']
+const STEPS = [{"line":0,"text":"<code>#include &lt;stdio.h&gt;</code> — brings in <code>printf</code> from the standard library.","tags":["Header"]},{"line":2,"text":"<code>int main(void)</code> — the entry point. <code>void</code> = takes no arguments.","tags":["main"]},{"line":3,"text":"<code>printf()</code> — formatted output to stdout.","tags":["printf"]},{"line":4,"text":"Arrays in C are fixed-size at compile time.","tags":["Array"]},{"line":5,"text":"<code>for</code> loop iterates with an explicit index — no for-each in C.","tags":["for"]},{"line":9,"text":"<code>return 0;</code> signals success to the operating system.","tags":["return"]}];
+(function(){
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+
+function stripComments(c){
+  return c.replace(/\/\/.*$/gm,'').replace(/\/\*[\s\S]*?\*\//g,'');
+}
+function splitStmts(src){
+  const out=[];let cur='',inStr=false,depth=0;
+  for(let i=0;i<src.length;i++){
+    const c=src[i],p=src[i-1];
+    if(c==='"'&&p!=='\\')inStr=!inStr;
+    if(!inStr){
+      if(c==='{')depth++;
+      if(c==='}')depth--;
+      if(c===';'&&depth===0){out.push(cur.trim());cur='';continue}
+    }
+    cur+=c;
   }
-};
-
-function showApp(key) {
-  document.querySelectorAll('.app-card').forEach(c => c.classList.remove('active'));
-  const cards = document.querySelectorAll('.app-card');
-  const keys = ['os', 'embedded', 'db', 'compilers', 'graphics', 'mobile', 'network', 'defense'];
-  const idx = keys.indexOf(key);
-  if (idx >= 0) cards[idx].classList.add('active');
-
-  const d = appData[key];
-  document.getElementById('appDetail').innerHTML =
-    `<div class="ad-title">${d.title}</div>
-     <div class="ad-body">${d.body}</div>
-     <div class="ad-examples">${d.examples.map(e => `<span>${e}</span>`).join('')}</div>`;
+  if(cur.trim())out.push(cur.trim());
+  return out;
 }
-
-/* ============================================================
-   MINI C INTERPRETER
-   ============================================================ */
-
-function stripComments(code) {
-  return code.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '');
-}
-
-function splitStatements(body) {
-  const stmts = [];
-  let current = '';
-  let inString = false, inChar = false, depth = 0;
-
-  for (let i = 0; i < body.length; i++) {
-    const c = body[i];
-    const prev = body[i - 1];
-    if (c === '"' && prev !== '\\') inString = !inString;
-    if (c === "'" && prev !== '\\') inChar = !inChar;
-    if (!inString && !inChar) {
-      if (c === '(' || c === '{') depth++;
-      if (c === ')' || c === '}') depth--;
-      if (c === ';' && depth === 0) {
-        stmts.push(current.trim());
-        current = '';
+function interpret(code){
+  const output=[],vars={};let error=null;
+  let clean=stripComments(code).replace(/#include\s*<[^>]+>/g,'').replace(/#define[^\n]+/g,'');
+  const mm=clean.match(/int\s+main\s*\(\s*void\s*\)\s*\{([\s\S]*?)\n\s*return\s+\d+;\s*\}/)
+          || clean.match(/int\s+main\s*\(\s*\)\s*\{([\s\S]*?)\n\s*return\s+\d+;\s*\}/);
+  if(!mm)return{output:[],error:'No int main() found'};
+  const body=mm[1];
+  function evalE(expr){
+    expr=expr.trim();
+    let sm=expr.match(/^"(.*)"$/);if(sm)return sm[1].replace(/\\n/g,'\n').replace(/\\t/g,'\t');
+    if(/^-?\d+$/.test(expr))return parseInt(expr,10);
+    if(/^-?\d+\.\d+f?$/.test(expr))return parseFloat(expr);
+    if(vars[expr]!==undefined)return vars[expr];
+    let r=expr;
+    Object.keys(vars).sort((a,b)=>b.length-a.length).forEach(n=>{
+      r=r.replace(new RegExp('\\b'+n+'\\b','g'),'('+(typeof vars[n]==='string'?JSON.stringify(vars[n]):vars[n])+')');
+    });
+    try{return Function('"use strict";return('+r+')')()}catch{return 0}
+  }
+  function evalPrintf(args){
+    let m=args.match(/^"((?:[^"\\]|\\.)*)"(.*)$/);
+    if(!m)return String(evalE(args));
+    let fmt=m[1].replace(/\\n/g,'\n').replace(/\\t/g,'\t');
+    const rest=(m[2]||'').replace(/^\s*,\s*/,'').trim();
+    const parts=rest?rest.split(/\s*,\s*/):[];
+    const vals=parts.map(p=>evalE(p));
+    let ai=0;
+    fmt=fmt.replace(/%[dicsfu]/g,(spec)=>{
+      const v=vals[ai++];
+      if(spec==='%d'||spec==='%i')return Math.floor(Number(v));
+      if(spec==='%c')return String(v);
+      if(spec==='%f')return Number(v).toFixed(6);
+      if(spec==='%s')return String(v);
+      if(spec==='%u')return Math.floor(Number(v));
+      return spec;
+    });
+    fmt=fmt.replace(/%\.(\d+)f/g,(_,d)=>{
+      const v=vals[ai++];
+      return Number(v).toFixed(parseInt(d,10));
+    });
+    return fmt;
+  }
+  function exec(list){
+    for(const st of list){
+      const s=st.trim();if(!s||s==='{'||s==='}')continue;
+      let w=s.match(/^printf\s*\(([\s\S]+)\)$/);
+      if(w){output.push(evalPrintf(w[1]));continue}
+      let d=s.match(/^(int|long|float|double|char|unsigned)\s+(\w+)\s*=\s*([\s\S]+)$/);
+      if(d){vars[d[2]]=evalE(d[3]);continue}
+      let dn=s.match(/^(int|long|float|double|char|unsigned)\s+(\w+)$/);
+      if(dn){vars[dn[2]]=0;continue}
+      let a=s.match(/^(\w+)\s*=\s*([\s\S]+)$/);
+      if(a&&vars[a[1]]!==undefined){vars[a[1]]=evalE(a[2]);continue}
+      let fm=s.match(/^for\s*\(\s*int\s+(\w+)\s*=\s*(-?\d+)\s*;\s*\1\s*(<=|<)\s*(-?\d+)\s*;\s*\1\+\+\s*\)\s*\{([\s\S]*)\}$/);
+      if(fm){
+        const vn=fm[1],st0=parseInt(fm[2],10),op=fm[3],en=parseInt(fm[4],10);
+        const inner=splitStmts(fm[5]);
+        for(let i=st0;(op==='<'?i<en:i<=en);i++){vars[vn]=i;exec(inner)}
+        continue;
+      }
+      let im=s.match(/^if\s*\(([\s\S]+?)\)\s*\{([\s\S]*?)\}(?:\s*else\s*\{([\s\S]*?)\})?$/);
+      if(im){
+        if(evalE(im[1]))exec(splitStmts(im[2]));
+        else if(im[3])exec(splitStmts(im[3]));
         continue;
       }
     }
-    current += c;
   }
-  if (current.trim()) stmts.push(current.trim());
-  return stmts;
+  try{exec(splitStmts(body))}catch(e){error=e.message}
+  return{output,vars,error};
 }
-
-function evalExpression(expr, vars) {
-  expr = expr.trim();
-  if (/^".*"$/.test(expr)) return expr.slice(1, -1);
-  if (/^'.'$/.test(expr)) return expr.slice(1, -1);
-  if (/^-?\d+\.\d+$/.test(expr)) return parseFloat(expr);
-  if (/^-?\d+$/.test(expr)) return parseInt(expr, 10);
-  if (vars[expr] !== undefined) return vars[expr].value;
-
-  let replaced = expr;
-  const names = Object.keys(vars).sort((a, b) => b.length - a.length);
-  for (const name of names) {
-    replaced = replaced.replace(new RegExp(`\\b${name}\\b`, 'g'), `(${vars[name].value})`);
-  }
-  try {
-    const result = Function('"use strict";return (' + replaced + ')')();
-    return result;
-  } catch {
-    return 0;
-  }
+function runCode(){
+  const code=document.getElementById('codeInput').value;
+  const r=interpret(code);
+  const ob=document.getElementById('outputBody'),sd=document.getElementById('statusDot');
+  ob.innerHTML='';
+  if(r.error){sd.className='status-dot err';ob.innerHTML='<span class="err">⚠ '+r.error+'</span>'}
+  else if(!r.output.length){sd.className='status-dot ok';ob.innerHTML='<span class="dim">// Program ran but printed nothing.</span>'}
+  else{sd.className='status-dot ok';r.output.forEach(l=>{const el=document.createElement('div');el.textContent=l;ob.appendChild(el)})}
 }
-
-function splitArgs(str) {
-  const args = [];
-  let current = '';
-  let depth = 0, inString = false;
-  for (let i = 0; i < str.length; i++) {
-    const c = str[i];
-    if (c === '"' && str[i - 1] !== '\\') inString = !inString;
-    if (!inString) {
-      if (c === '(') depth++;
-      if (c === ')') depth--;
-      if (c === ',' && depth === 0) {
-        args.push(current.trim());
-        current = '';
-        continue;
-      }
-    }
-    current += c;
-  }
-  if (current.trim()) args.push(current.trim());
-  return args;
-}
-
-function evalPrintf(args, vars) {
-  const fmtMatch = args.match(/^"((?:[^"\\]|\\.)*)"((?:,\s*[\s\S]+)?)$/);
-  if (!fmtMatch) return { error: 'printf: invalid format string' };
-  let fmt = fmtMatch[1];
-  const rest = (fmtMatch[2] || '').replace(/^,\s*/, '').trim();
-  const extraArgs = rest ? splitArgs(rest) : [];
-  const values = extraArgs.map(a => evalExpression(a, vars));
-
-  let result = '';
-  let argIndex = 0;
-  let i = 0;
-  while (i < fmt.length) {
-    if (fmt[i] === '\\' && i + 1 < fmt.length) {
-      const next = fmt[i + 1];
-      if (next === 'n') result += '\n';
-      else if (next === 't') result += '\t';
-      else if (next === '\\') result += '\\';
-      else if (next === '"') result += '"';
-      else result += next;
-      i += 2;
-    } else if (fmt[i] === '%' && i + 1 < fmt.length) {
-      const spec = fmt[i + 1];
-      const val = values[argIndex++];
-      if (spec === 'd' || spec === 'i') result += Math.floor(Number(val));
-      else if (spec === 'f' || spec === 'lf') result += Number(val).toFixed(6);
-      else if (spec === 'c') result += String(val);
-      else if (spec === 's') result += String(val);
-      else if (spec === '%') result += '%';
-      else result += '%' + spec;
-      i += 2;
-    } else {
-      result += fmt[i];
-      i++;
-    }
-  }
-  return { text: result };
-}
-
-function interpret(code) {
-  const output = [];
-  const variables = {};
-  let error = null;
-
-  let clean = stripComments(code);
-  clean = clean.replace(/#include\s*<[^>]+>/g, '');
-
-  const mainMatch = clean.match(/int\s+main\s*\(\s*(?:void)?\s*\)\s*\{([\s\S]*)\}\s*$/);
-  if (!mainMatch) {
-    return { output: [], variables, error: 'No main() function found.' };
-  }
-
-  const body = mainMatch[1];
-  const statements = splitStatements(body);
-
-  for (const stmt of statements) {
-    const s = stmt.trim();
-    if (!s) continue;
-    if (/^return\b/.test(s)) continue;
-
-    let declMatch = s.match(/^(int|float|double|char)\s+(\w+)\s*=\s*([\s\S]+)$/);
-    if (declMatch) {
-      const type = declMatch[1];
-      const name = declMatch[2];
-      const valExpr = declMatch[3].replace(/;$/, '').trim();
-      variables[name] = { type, value: evalExpression(valExpr, variables) };
-      continue;
-    }
-
-    let declOnly = s.match(/^(int|float|double|char)\s+(\w+)$/);
-    if (declOnly) {
-      variables[declOnly[2]] = { type: declOnly[1], value: 0 };
-      continue;
-    }
-
-    let assignMatch = s.match(/^(\w+)\s*=\s*([\s\S]+)$/);
-    if (assignMatch && variables[assignMatch[1]]) {
-      variables[assignMatch[1]].value = evalExpression(assignMatch[2], variables);
-      continue;
-    }
-
-    let printfMatch = s.match(/^printf\s*\(([\s\S]+)\)$/);
-    if (printfMatch) {
-      const r = evalPrintf(printfMatch[1], variables);
-      if (r.error) { error = r.error; break; }
-      output.push(r.text);
-      continue;
-    }
-  }
-
-  return { output, variables, error };
-}
-
-/* ============================================================
-   PLAYGROUND
-   ============================================================ */
-
-function runCode() {
-  const code = document.getElementById('codeInput').value;
-  const result = interpret(code);
-  const outBody = document.getElementById('outputBody');
-  const statusDot = document.getElementById('statusDot');
-  const varsList = document.getElementById('varsList');
-
-  outBody.innerHTML = '';
-  if (result.error) {
-    statusDot.className = 'status-dot err';
-    const el = document.createElement('span');
-    el.className = 'err';
-    el.textContent = '⚠ ' + result.error;
-    outBody.appendChild(el);
-  } else if (result.output.length === 0) {
-    statusDot.className = 'status-dot ok';
-    const el = document.createElement('span');
-    el.className = 'dim';
-    el.textContent = '// Program ran but printed nothing.';
-    outBody.appendChild(el);
-  } else {
-    statusDot.className = 'status-dot ok';
-    result.output.forEach(line => {
-      const el = document.createElement('div');
-      el.textContent = line;
-      outBody.appendChild(el);
-    });
-  }
-
-  varsList.innerHTML = '';
-  const names = Object.keys(result.variables);
-  if (names.length === 0) {
-    varsList.innerHTML = '<span style="font-size:0.72rem;color:#484f58;">No variables declared.</span>';
-  } else {
-    names.forEach(name => {
-      const info = result.variables[name];
-      const chip = document.createElement('span');
-      chip.className = 'var-chip';
-      let display = info.value;
-      if (info.type === 'char') display = `'${info.value}'`;
-      chip.innerHTML = `<span class="vname">${info.type} ${name}</span> = <span class="vval">${display}</span>`;
-      varsList.appendChild(chip);
-    });
-  }
-}
-
-/* ============================================================
-   STEP-BY-STEP VISUALIZER
-   ============================================================ */
-
-const executionSteps = [
-  { line: 0, explanation: '<code>#include &lt;stdio.h&gt;</code> brings in the standard I/O library — essential for printing output in embedded systems.', tags: ['Library'] },
-  { line: 2, explanation: 'Execution enters <code>main()</code>. In an embedded system, this is where the firmware logic begins.', tags: ['Entry Point'] },
-  { line: 3, explanation: '<code>int temperature = 38;</code> — a sensor reading is stored in a variable. In real hardware, this value would come from a temperature sensor.', tags: ['Sensor Input'] },
-  { line: 4, explanation: '<code>int humidity = 65;</code> — another sensor reading. Embedded systems constantly read multiple sensors.', tags: ['Sensor Input'] },
-  { line: 6, explanation: '<code>printf("=== System Status ===\n")</code> prints a header. In embedded systems, this might go to a small LCD or serial monitor.', tags: ['Output'] },
-  { line: 7, explanation: 'The temperature value is printed. <code>%d</code> is replaced with the value of <code>temperature</code> (38).', tags: ['Output'] },
-  { line: 9, explanation: '<code>if (temperature > 35)</code> — the system checks if the temperature exceeds a safe threshold. This is a real-time decision.', tags: ['Decision'] },
-  { line: 10, explanation: 'Since 38 > 35 is true, the alert message is printed. The system has detected a problem.', tags: ['Alert'] },
-  { line: 11, explanation: 'The action message is printed. In a real embedded system, this line would trigger hardware — turning on a fan, sending an alert, etc.', tags: ['Action'] },
-  { line: 12, explanation: '<code>else</code> — this block would run if temperature was 35 or below. In our case, it\'s skipped.', tags: ['Decision'] },
-  { line: 14, explanation: 'The if-else block ends. The system continues running.', tags: ['Continue'] },
-  { line: 16, explanation: '<code>printf("System check complete.\n")</code> prints the final message. The program did its job: read sensors, made a decision, and reported.', tags: ['Complete'] },
-  { line: 17, explanation: '<code>return 0;</code> ends the program and signals success to the operating system.', tags: ['Return'] },
-  { line: 18, explanation: 'The closing brace ends <code>main()</code>. The embedded system would now loop back to read sensors again in a real application.', tags: ['End'] }
-];
-
-let currentStep = -1;
-
-function updateStepUI() {
-  const total = executionSteps.length;
-  document.querySelectorAll('#stepCode .line').forEach(el => el.classList.remove('active'));
-
-  if (currentStep < 0) {
-    document.getElementById('stepExplanation').innerHTML = 'Click <strong>Next Step</strong> to begin.';
-    document.getElementById('stepTags').innerHTML = '<span style="font-size:0.72rem;color:#484f58;">Waiting to start</span>';
-    document.getElementById('stepBarFill').style.width = '0%';
-    document.getElementById('stepCount').textContent = `0 / ${total}`;
-    document.getElementById('prevBtn').disabled = true;
-    document.getElementById('nextBtn').disabled = false;
+let cur=-1;
+function update(){
+  document.querySelectorAll('.step-line').forEach(el=>el.classList.remove('active'));
+  if(cur<0){
+    document.getElementById('stepExplain').innerHTML='Click <strong>Next Step</strong> to begin.';
+    document.getElementById('stepTags').innerHTML='<span style="font-size:.72rem;color:#484f58;">Waiting to start</span>';
+    document.getElementById('stepBar').style.width='0%';
+    document.getElementById('stepCount').textContent='0 / '+STEPS.length;
+    document.getElementById('prevBtn').disabled=true;document.getElementById('nextBtn').disabled=false;
     return;
   }
-
-  const step = executionSteps[currentStep];
-  const lineEl = document.querySelector(`#stepCode .line[data-line="${step.line}"]`);
-  if (lineEl) lineEl.classList.add('active');
-
-  document.getElementById('stepExplanation').innerHTML = step.explanation;
-
-  const tagList = document.getElementById('stepTags');
-  tagList.innerHTML = step.tags.map(t =>
-    `<span class="tag">${t}</span>`
-  ).join('');
-
-  const pct = ((currentStep + 1) / total) * 100;
-  document.getElementById('stepBarFill').style.width = pct + '%';
-  document.getElementById('stepCount').textContent = `${currentStep + 1} / ${total}`;
-  document.getElementById('prevBtn').disabled = currentStep <= 0;
-  document.getElementById('nextBtn').disabled = currentStep >= total - 1;
+  const s=STEPS[cur];
+  const el=document.querySelector('.step-line[data-line="'+s.line+'"]');if(el)el.classList.add('active');
+  document.getElementById('stepExplain').innerHTML=s.text;
+  document.getElementById('stepTags').innerHTML=(s.tags||[]).map(t=>'<span class="tag">'+t+'</span>').join('');
+  document.getElementById('stepBar').style.width=((cur+1)/STEPS.length*100)+'%';
+  document.getElementById('stepCount').textContent=(cur+1)+' / '+STEPS.length;
+  document.getElementById('prevBtn').disabled=cur<=0;
+  document.getElementById('nextBtn').disabled=cur>=STEPS.length-1;
 }
-
-function stepNext() {
-  if (currentStep < executionSteps.length - 1) {
-    currentStep++;
-    updateStepUI();
-  }
-}
-
-function stepPrev() {
-  if (currentStep > 0) {
-    currentStep--;
-    updateStepUI();
-  }
-}
-
-function stepReset() {
-  currentStep = -1;
-  updateStepUI();
-}
-
-updateStepUI();
+function stepNext(){if(cur<STEPS.length-1){cur++;update()}}
+function stepPrev(){if(cur>0){cur--;update()}}
+function stepReset(){cur=-1;update()}
+update();
 </script>
-
 </body>
 </html>

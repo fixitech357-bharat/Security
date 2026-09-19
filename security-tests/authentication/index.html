@@ -1,0 +1,506 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Authentication Security learning modules - XTutiRaiseUp"
+    >
+
+    <title>Authentication Security | XTutiRaiseUp</title>
+
+    <link rel="stylesheet" href="./authentication.css">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="nav-inner">
+
+        <a class="brand" href="../../dashboard.html">
+            🛡️ Security Lab
+        </a>
+
+        <nav class="main-nav">
+            <a href="../../index.html">Home</a>
+            <a href="../../programming/index.html">Programming</a>
+            <a href="../index.html">Security</a>
+            <a href="../../docs/index.html">Docs</a>
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="hero-badge">
+            🔐 AUTHENTICATION SECURITY
+        </div>
+
+        <h1>
+            Authentication Security
+        </h1>
+
+        <p>
+            Explore authentication foundations, passwords, credentials,
+            MFA, FIDO2, SSO, OAuth, OpenID Connect, SAML, sessions,
+            identity and access management.
+        </p>
+
+    </section>
+
+
+    <section class="content">
+
+        <div class="stats">
+
+            <div class="stat">
+                <strong>10</strong>
+                <span>Modules</span>
+            </div>
+
+            <div class="stat">
+                <strong>🔐</strong>
+                <span>Identity Protection</span>
+            </div>
+
+            <div class="stat">
+                <strong>10+</strong>
+                <span>Authentication Areas</span>
+            </div>
+
+            <div class="stat">
+                <strong>100%</strong>
+                <span>Security Focus</span>
+            </div>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                id="moduleSearch"
+                type="search"
+                placeholder="Search authentication modules..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div id="noResults" class="no-results hidden">
+            No authentication module found.
+        </div>
+
+
+        <div id="moduleGrid" class="module-grid">
+
+
+            <a
+                class="module-card searchable"
+                href="./01-authentication-foundations/index.html"
+                data-search="authentication foundations authentication basics"
+            >
+
+                <div class="module-number">
+                    01
+                </div>
+
+                <div class="module-icon">
+                    🔐
+                </div>
+
+                <h3>
+                    Authentication Foundations
+                </h3>
+
+                <p>
+                    Core authentication concepts, identity verification,
+                    authentication factors, credentials and trust.
+                </p>
+
+                <span class="explore">
+                    Explore Module →
+                </span>
+
+            </a>
+
+
+            <a
+                class="module-card searchable"
+                href="./02-password-security/index.html"
+                data-search="password security passwords"
+            >
+
+                <div class="module-number">
+                    02
+                </div>
+
+                <div class="module-icon">
+                    🔑
+                </div>
+
+                <h3>
+                    Password Security
+                </h3>
+
+                <p>
+                    Password policies, hashing, storage, brute-force
+                    protection, password attacks and secure practices.
+                </p>
+
+                <span class="explore">
+                    Explore Module →
+                </span>
+
+            </a>
+
+
+            <a
+                class="module-card searchable"
+                href="./03-credential-security/index.html"
+                data-search="credential security credentials secrets"
+            >
+
+                <div class="module-number">
+                    03
+                </div>
+
+                <div class="module-icon">
+                    🪪
+                </div>
+
+                <h3>
+                    Credential Security
+                </h3>
+
+                <p>
+                    Credential protection, secret handling, credential
+                    theft, exposure and secure credential management.
+                </p>
+
+                <span class="explore">
+                    Explore Module →
+                </span>
+
+            </a>
+
+
+            <a
+                class="module-card searchable"
+                href="./04-multi-factor-authentication/index.html"
+                data-search="multi factor authentication mfa 2fa multifactor"
+            >
+
+                <div class="module-number">
+                    04
+                </div>
+
+                <div class="module-icon">
+                    📲
+                </div>
+
+                <h3>
+                    Multi-Factor Authentication
+                </h3>
+
+                <p>
+                    MFA concepts, authentication factors, OTP, push
+                    authentication, recovery and MFA attack protection.
+                </p>
+
+                <span class="explore">
+                    Explore Module →
+                </span>
+
+            </a>
+
+
+            <a
+                class="module-card searchable"
+                href="./05-fido2-and-webauthn/index.html"
+                data-search="fido2 webauthn passkey security"
+            >
+
+                <div class="module-number">
+                    05
+                </div>
+
+                <div class="module-icon">
+                    🗝️
+                </div>
+
+                <h3>
+                    FIDO2 &amp; WebAuthn
+                </h3>
+
+                <p>
+                    Passwordless authentication, passkeys, WebAuthn,
+                    authenticators and phishing-resistant authentication.
+                </p>
+
+                <span class="explore">
+                    Explore Module →
+                </span>
+
+            </a>
+
+
+            <a
+                class="module-card searchable"
+                href="./06-single-sign-on/index.html"
+                data-search="single sign on sso"
+            >
+
+                <div class="module-number">
+                    06
+                </div>
+
+                <div class="module-icon">
+                    🔄
+                </div>
+
+                <h3>
+                    Single Sign-On
+                </h3>
+
+                <p>
+                    SSO architecture, authentication flows, trust
+                    relationships, identity providers and secure SSO.
+                </p>
+
+                <span class="explore">
+                    Explore Module →
+                </span>
+
+            </a>
+
+
+            <a
+                class="module-card searchable"
+                href="./07-oauth-and-openid-connect/index.html"
+                data-search="oauth openid connect oidc authorization authentication"
+            >
+
+                <div class="module-number">
+                    07
+                </div>
+
+                <div class="module-icon">
+                    🔗
+                </div>
+
+                <h3>
+                    OAuth &amp; OpenID Connect
+                </h3>
+
+                <p>
+                    OAuth authorization, OpenID Connect authentication,
+                    tokens, flows, scopes and implementation security.
+                </p>
+
+                <span class="explore">
+                    Explore Module →
+                </span>
+
+            </a>
+
+
+            <a
+                class="module-card searchable"
+                href="./08-saml-and-federation/index.html"
+                data-search="saml federation identity federation"
+            >
+
+                <div class="module-number">
+                    08
+                </div>
+
+                <div class="module-icon">
+                    🌐
+                </div>
+
+                <h3>
+                    SAML &amp; Federation
+                </h3>
+
+                <p>
+                    SAML authentication, identity federation, assertions,
+                    identity providers and federated trust.
+                </p>
+
+                <span class="explore">
+                    Explore Module →
+                </span>
+
+            </a>
+
+
+            <a
+                class="module-card searchable"
+                href="./09-session-authentication/index.html"
+                data-search="session authentication session security cookies tokens"
+            >
+
+                <div class="module-number">
+                    09
+                </div>
+
+                <div class="module-icon">
+                    🎫
+                </div>
+
+                <h3>
+                    Session Authentication
+                </h3>
+
+                <p>
+                    Sessions, cookies, tokens, session lifecycle,
+                    fixation, hijacking and secure session management.
+                </p>
+
+                <span class="explore">
+                    Explore Module →
+                </span>
+
+            </a>
+
+
+            <a
+                class="module-card searchable"
+                href="./10-identity-and-access-management/index.html"
+                data-search="identity access management iam authorization rbac abac"
+            >
+
+                <div class="module-number">
+                    10
+                </div>
+
+                <div class="module-icon">
+                    👤
+                </div>
+
+                <h3>
+                    Identity &amp; Access Management
+                </h3>
+
+                <p>
+                    Identity lifecycle, access management, authorization,
+                    RBAC, ABAC, privileged access and identity governance.
+                </p>
+
+                <span class="explore">
+                    Explore Module →
+                </span>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="footer-brand">
+        🔐 XTutiRaiseUp
+    </div>
+
+    <p class="footer-tagline">
+        by XSympan Technologies
+    </p>
+
+    <div class="footer-links">
+        <span>Programming</span>
+        <span>•</span>
+        <span>Cybersecurity</span>
+        <span>•</span>
+        <span>Documentation</span>
+    </div>
+
+    <p class="footer-copy">
+        © 2026 XTutiRaiseUp. All rights reserved.
+    </p>
+
+    <p class="footer-support">
+        Developed with ❤️ for developers and security learners
+    </p>
+
+    <a
+        class="footer-email"
+        href="mailto:fixitechsolution@gmail.com"
+    >
+        ✉ fixitechsolution@gmail.com
+    </a>
+
+</footer>
+
+
+<script>
+
+const searchInput =
+    document.getElementById("moduleSearch");
+
+const cards =
+    document.querySelectorAll(".searchable");
+
+const noResults =
+    document.getElementById("noResults");
+
+searchInput.addEventListener("input", function () {
+
+    const query =
+        this.value.trim().toLowerCase();
+
+    let visible = 0;
+
+    cards.forEach(function(card) {
+
+        const text =
+            card.dataset.search.toLowerCase();
+
+        if (
+            query === "" ||
+            text.includes(query)
+        ) {
+
+            card.classList.remove("hidden");
+
+            visible++;
+
+        } else {
+
+            card.classList.add("hidden");
+
+        }
+
+    });
+
+    if (visible === 0) {
+
+        noResults.classList.remove("hidden");
+
+    } else {
+
+        noResults.classList.add("hidden");
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

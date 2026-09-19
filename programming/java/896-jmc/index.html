@@ -1,83 +1,371 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>JMC | Java | XTutiRaiseUp</title>
-
-    <link
-        rel="stylesheet"
-        href="../assets/java.css"
-    >
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>896 · Jmc: Core Concepts</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:#05060f;color:#f1f5f9;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.space-base{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 0%,#1a0f05 0%,#0a0a20 45%,#05060f 85%),radial-gradient(ellipse at 0% 100%,#0a1a2e 0%,transparent 55%)}
+.orbs{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;mix-blend-mode:screen;opacity:.45}
+.orb{position:absolute;border-radius:50%;filter:blur(90px)}
+.orb-1{width:520px;height:520px;top:-10%;left:-8%;background:radial-gradient(circle,#ed8b00,transparent 70%);animation:d1 26s ease-in-out infinite}
+.orb-2{width:460px;height:460px;top:45%;right:-10%;background:radial-gradient(circle,#007396,transparent 70%);animation:d2 30s ease-in-out infinite}
+.orb-3{width:600px;height:600px;bottom:-18%;left:18%;background:radial-gradient(circle,#ea2d2e,transparent 70%);animation:d3 34s ease-in-out infinite}
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
+@keyframes d2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,-50px) scale(1.2)}}
+@keyframes d3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-60px) scale(1.1)}}
+.grid-bg{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.22;background-image:linear-gradient(rgba(237,139,0,.12) 1px,transparent 1px),linear-gradient(90deg,rgba(237,139,0,.12) 1px,transparent 1px);background-size:80px 80px;transform:perspective(500px) rotateX(60deg);animation:gf 22s linear infinite;mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%)}
+@keyframes gf{from{background-position:0 0}to{background-position:0 80px}}
+.vig{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.72) 100%)}
+.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:1150px;margin:0 auto;padding:0 1.5rem;width:100%}
+nav{position:sticky;top:0;z-index:100;background:rgba(5,6,15,.7);backdrop-filter:blur(20px);border-bottom:1px solid rgba(148,163,184,.08)}
+.nav-inner{max-width:1150px;margin:0 auto;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.65rem;font-weight:800;font-size:1rem;color:#f1f5f9;text-decoration:none}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#ed8b00,#007396);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem;color:#fff;box-shadow:0 8px 20px -6px rgba(237,139,0,.6)}
+.hero{padding:4.5rem 1.5rem 3rem;text-align:center}
+.tpill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(237,139,0,.12);border:1px solid rgba(237,139,0,.35);border-radius:999px;padding:.45rem 1.1rem;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#ffb84d;margin-bottom:1.5rem}
+.tpill .n{background:#ed8b00;color:#fff;min-width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;padding:0 .35rem}
+.hero h1{font-size:clamp(1.9rem,4.8vw,3rem);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin-bottom:1.2rem}
+.hero h1 .grad{background:linear-gradient(135deg,#ffb84d 0%,#ed8b00 45%,#007396 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gs 7s ease-in-out infinite}
+@keyframes gs{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero p{color:#a1a1aa;font-size:1.05rem;max-width:660px;margin:0 auto;line-height:1.7}
+section{padding:3rem 0}
+.sec-head{text-align:center;margin-bottom:2.5rem}
+.stag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(237,139,0,.1);border:1px solid rgba(237,139,0,.3);border-radius:999px;padding:.4rem 1rem;font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#ffb84d;margin-bottom:1rem}
+.sec-head h2{font-size:clamp(1.6rem,3.8vw,2.3rem);font-weight:900;letter-spacing:-.03em;line-height:1.15;margin-bottom:.6rem}
+.sec-head h2 .grad{background:linear-gradient(135deg,#ffb84d,#007396);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sec-head p{color:#94a3b8;font-size:.95rem;max-width:620px;margin:0 auto}
+.facts-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.8rem;margin-bottom:2rem}
+.fact{background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.12);border-radius:14px;padding:1.05rem 1rem;text-align:center;transition:all .25s}
+.fact:hover{transform:translateY(-3px);border-color:rgba(237,139,0,.4)}
+.fact .big{font-size:1.05rem;font-weight:900;background:linear-gradient(135deg,#ffb84d,#007396);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+.fact .lbl{font-size:.66rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-top:.4rem}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.concept{position:relative;padding:1.5rem;border-radius:18px;background:linear-gradient(155deg,rgba(24,25,50,.8),rgba(12,13,30,.6));border:1px solid rgba(148,163,184,.1);transition:all .3s;overflow:hidden}
+.concept::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),transparent)}
+.concept:hover{transform:translateY(-4px);border-color:var(--c1);box-shadow:0 20px 40px -18px var(--c1)}
+.c-ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--c1),var(--c2));display:flex;align-items:center;justify-content:center;font-size:1.45rem;margin-bottom:.9rem;box-shadow:0 10px 24px -8px var(--c1);animation:if 5s ease-in-out infinite}
+@keyframes if{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.concept h3{font-size:1.05rem;font-weight:800;margin-bottom:.4rem;color:#f1f5f9}
+.concept p{color:#94a3b8;font-size:.85rem;line-height:1.6}
+.playground{display:grid;grid-template-columns:1.5fr 1fr;gap:0;border-radius:16px;overflow:hidden;border:1px solid rgba(148,163,184,.15);margin-top:1.2rem;background:#0d1117}
+@media(max-width:900px){.playground{grid-template-columns:1fr}}
+.editor-pane{border-right:1px solid rgba(148,163,184,.12);display:flex;flex-direction:column}
+@media(max-width:900px){.editor-pane{border-right:none;border-bottom:1px solid rgba(148,163,184,.12)}}
+.editor-toolbar{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);flex-wrap:wrap;gap:.5rem}
+.toolbar-left{display:flex;align-items:center;gap:.6rem}
+.traffic{display:flex;gap:6px}
+.traffic span{width:11px;height:11px;border-radius:50%}
+.traffic span:nth-child(1){background:#ff5f56}
+.traffic span:nth-child(2){background:#ffbd2e}
+.traffic span:nth-child(3){background:#27c93f}
+.filename{font-size:.78rem;color:#8b949e;font-family:'JetBrains Mono',monospace}
+.run-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:999px;padding:.45rem 1.15rem;font-size:.8rem;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.4rem;box-shadow:0 4px 12px -3px rgba(16,185,129,.5);transition:all .2s}
+.run-btn:hover{transform:translateY(-1px)}
+.code-area{width:100%;min-height:360px;background:#0d1117;color:#e6edf3;border:none;padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.75;resize:vertical;outline:none;tab-size:4;white-space:pre;overflow-x:auto}
+.output-pane{background:#010409;display:flex;flex-direction:column}
+.output-header{padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);font-size:.72rem;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:.5rem}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#484f58;transition:background .3s}
+.status-dot.ok{background:#27c93f;box-shadow:0 0 8px rgba(39,201,63,.5)}
+.status-dot.err{background:#ff5f56;box-shadow:0 0 8px rgba(255,95,86,.5)}
+.output-body{padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.7;color:#7ee787;white-space:pre-wrap;overflow-y:auto;flex:1;min-height:300px}
+.output-body .err{color:#ff7b72}
+.output-body .dim{color:#484f58;font-style:italic}
+.step-viz{margin-top:1.2rem;background:#0d1117;border-radius:16px;border:1px solid rgba(148,163,184,.15);overflow:hidden}
+.step-header{padding:.7rem 1.2rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.step-header .title{font-size:.8rem;color:#8b949e;font-family:'JetBrains Mono',monospace}
+.step-controls{display:flex;gap:.4rem}
+.step-btn{background:rgba(237,139,0,.15);border:1px solid rgba(237,139,0,.3);color:#ffb84d;border-radius:8px;padding:.35rem .9rem;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.step-btn:hover:not(:disabled){background:rgba(237,139,0,.3)}
+.step-btn:disabled{opacity:.35;cursor:not-allowed}
+.step-body{display:grid;grid-template-columns:1.2fr 1fr}
+@media(max-width:800px){.step-body{grid-template-columns:1fr}}
+.step-code{padding:1rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.9;border-right:1px solid rgba(148,163,184,.1);overflow-x:auto}
+@media(max-width:800px){.step-code{border-right:none;border-bottom:1px solid rgba(148,163,184,.1)}}
+.step-line{padding:.15rem .5rem;border-radius:5px;transition:background .3s;white-space:pre}
+.step-line.active{background:rgba(237,139,0,.18);box-shadow:inset 3px 0 0 #ed8b00;color:#fff}
+.step-info{padding:1.1rem 1.3rem;background:rgba(30,41,59,.4)}
+.explain{font-size:.85rem;color:#cbd5e1;min-height:4rem;margin-bottom:.9rem;line-height:1.6}
+.explain code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em}
+.tag-list{display:flex;flex-wrap:wrap;gap:.35rem}
+.tag{background:rgba(255,184,77,.15);border:1px solid rgba(255,184,77,.3);color:#ffb84d;border-radius:6px;padding:.25rem .65rem;font-size:.7rem;font-family:'JetBrains Mono',monospace;font-weight:600}
+.step-progress{padding:.6rem 1.2rem;background:rgba(30,41,59,.3);border-top:1px solid rgba(148,163,184,.08);display:flex;align-items:center;gap:.6rem}
+.bar{flex:1;height:4px;background:rgba(148,163,184,.15);border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#ed8b00,#007396);border-radius:999px;transition:width .35s}
+.count{font-size:.72rem;color:#64748b;font-family:'JetBrains Mono',monospace;min-width:3.5rem;text-align:right}
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;margin-top:1.2rem}
+.recap{background:rgba(30,41,59,.6);border-radius:14px;padding:1.1rem 1.2rem;border-left:3px solid var(--rc,#ed8b00)}
+.recap .t{font-size:.72rem;font-weight:800;color:var(--rc,#ed8b00);text-transform:uppercase;letter-spacing:.08em}
+.recap .d{font-size:.85rem;color:#cbd5e1;margin-top:.35rem;line-height:1.55}
+.recap .d code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em}
+footer{text-align:center;padding:3rem 1.5rem;border-top:1px solid rgba(148,163,184,.08);color:#52525b;font-size:.82rem;margin-top:auto}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:translateY(0)}
+</style>
 </head>
-
 <body>
+<div class="space-base"></div>
+<div class="orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="grid-bg"></div>
+<div class="vig"></div>
 
-    <nav class="page-navigation">
+<div class="page">
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="brand"><div class="brand-mark">J</div> Java Series</a>
+    </div>
+  </nav>
 
-        <button
-            onclick="goBack()"
-            class="back-btn"
-        >
-            ← Back
-        </button>
+  <div class="hero">
+    <div class="tpill"><span class="n">896</span> Topic 896</div>
+    <h1>Jmc: <span class="grad">Core Concepts</span></h1>
+    <p>The essential ideas behind Jmc — what it is, why it matters, and how it fits in the modern Java ecosystem.</p>
+  </div>
 
-        <a
-            href="../index.html"
-            class="back-btn"
-        >
-            ← Java Topics
-        </a>
+  <div class="container">
+    <div class="facts-row reveal"><div class="fact"><div class="big">Java 21</div><div class="lbl">LTS Release</div></div><div class="fact"><div class="big">JVM</div><div class="lbl">Runs On</div></div><div class="fact"><div class="big">WORA</div><div class="lbl">Write Once Run Anywhere</div></div><div class="fact"><div class="big">Object-OOP</div><div class="lbl">Pure OOP</div></div><div class="fact"><div class="big">OpenJDK</div><div class="lbl">Open Source</div></div></div>
 
-        <a
-            href="../../../../dashboard.html"
-            class="dashboard-btn"
-        >
-            🏠 Dashboard
-        </a>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Core Concepts</div>
+        <h2>What You Need to <span class="grad">Know</span></h2>
+      </div>
+      <div class="concept-grid"><div class="concept" style="--c1:#ed8b00;--c2:#f89820">
+      <div class="c-ico">🎯</div>
+      <h3>What It Is</h3>
+      <p>Jmc covers the foundational ideas every Java developer must know.</p>
+    </div><div class="concept" style="--c1:#007396;--c2:#00a6d6">
+      <div class="c-ico">⚙️</div>
+      <h3>How It Works</h3>
+      <p>The JVM, compiler, and Java language work together to enable Jmc.</p>
+    </div><div class="concept" style="--c1:#ea2d2e;--c2:#ff5f56">
+      <div class="c-ico">🚀</div>
+      <h3>Why It Matters</h3>
+      <p>Enterprise Java relies on Jmc for correctness, portability, and safety.</p>
+    </div><div class="concept" style="--c1:#5382a1;--c2:#7ba7c4">
+      <div class="c-ico">🌍</div>
+      <h3>Real-World Use</h3>
+      <p>Jmc appears in Android apps, banking systems, big data, and cloud services.</p>
+    </div></div>
+    </section>
 
-    </nav>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Hands-On</div>
+        <h2>Try It <span class="grad">Yourself</span></h2>
+      </div>
+      <div class="playground reveal">
+        <div class="editor-pane">
+          <div class="editor-toolbar">
+            <div class="toolbar-left">
+              <div class="traffic"><span></span><span></span><span></span></div>
+              <span class="filename">Main.java</span>
+            </div>
+            <button class="run-btn" onclick="runCode()">▶ Run Code</button>
+          </div>
+          <textarea class="code-area" id="codeInput" spellcheck="false">public class Main {
+    public static void main(String[] args) {
+        // Jmc — core concept demo
+        System.out.println("Exploring: Jmc");
 
-    <main class="topic-page">
+        String[] items = { "Alpha", "Beta", "Gamma" };
+        for (String item : items) {
+            System.out.println("→ " + item);
+        }
 
-        <div class="topic-number">
-            JAVA TOPIC 896 / 1000
+        int total = 0;
+        for (int i = 1; i &lt;= 5; i++) total += i;
+        System.out.println("Sum 1..5 = " + total);
+    }
+}</textarea>
         </div>
+        <div class="output-pane">
+          <div class="output-header"><span class="status-dot" id="statusDot"></span> OUTPUT</div>
+          <div class="output-body" id="outputBody"><span class="dim">// Click "Run Code" to see the output...</span></div>
+        </div>
+      </div>
+    </section>
 
-        <h1>
-            JMC
-        </h1>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Walkthrough</div>
+        <h2>Step-by-Step <span class="grad">Explanation</span></h2>
+      </div>
+      <div class="step-viz reveal">
+        <div class="step-header">
+          <span class="title">Main.java</span>
+          <div class="step-controls">
+            <button class="step-btn" id="prevBtn" onclick="stepPrev()" disabled>← Prev</button>
+            <button class="step-btn" id="nextBtn" onclick="stepNext()">Next Step →</button>
+            <button class="step-btn" onclick="stepReset()">↺ Reset</button>
+          </div>
+        </div>
+        <div class="step-body">
+          <div class="step-code" id="stepCode"><div class="step-line" data-line="0">public class Main {</div><div class="step-line" data-line="1">    public static void main(String[] args) {</div><div class="step-line" data-line="2">        System.out.println(&quot;Hello, Java!&quot;);</div><div class="step-line" data-line="3">        int[] numbers = { 1, 2, 3 };</div><div class="step-line" data-line="4">        for (int n : numbers) {</div><div class="step-line" data-line="5">            System.out.println(n);</div><div class="step-line" data-line="6">        }</div><div class="step-line" data-line="7">    }</div><div class="step-line" data-line="8">}</div></div>
+          <div class="step-info">
+            <div class="explain" id="stepExplain">Click <strong>Next Step</strong> to begin.</div>
+            <div class="tag-list" id="stepTags"><span style="font-size:.72rem;color:#484f58;">Waiting to start</span></div>
+          </div>
+        </div>
+        <div class="step-progress">
+          <div class="bar"><div class="bar-fill" id="stepBar"></div></div>
+          <div class="count" id="stepCount">0 / 6</div>
+        </div>
+      </div>
+    </section>
 
-        <p>
-            Java learning material for
-            <strong>JMC</strong>.
-        </p>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Recap</div>
+        <h2>Key <span class="grad">Takeaways</span></h2>
+      </div>
+      <div class="recap-grid"><div class="recap" style="--rc:#ed8b00">
+      <div class="t">Jmc</div>
+      <div class="d">Foundation of many modern Java features.</div>
+    </div><div class="recap" style="--rc:#007396">
+      <div class="t">Runs on JVM</div>
+      <div class="d">Compiled to bytecode, executed by the Java Virtual Machine.</div>
+    </div><div class="recap" style="--rc:#ea2d2e">
+      <div class="t">Portable</div>
+      <div class="d">Same bytecode runs on Windows, Linux, macOS.</div>
+    </div><div class="recap" style="--rc:#22c55e">
+      <div class="t">Object-Oriented</div>
+      <div class="d">Everything lives inside classes.</div>
+    </div></div>
+    </section>
+  </div>
 
-        <section class="content-card">
+  <footer>
+    <p>☕ Jmc: Core Concepts · Java Series · Built for learners</p>
+  </footer>
+</div>
 
-            <h2>JMC</h2>
+<script>
+const STEPS = [{"line":0,"text":"<code>public class Main</code> — every Java program lives inside a class. The file must be named <code>Main.java</code>.","tags":["Class"]},{"line":1,"text":"<code>public static void main(String[] args)</code> — the exact signature the JVM looks for to start execution.","tags":["main","Entry"]},{"line":2,"text":"<code>System.out.println()</code> — Java's standard console output method.","tags":["Output"]},{"line":3,"text":"Array of ints declared and initialized in one line.","tags":["Array"]},{"line":4,"text":"Enhanced for-loop iterates over elements — no index needed.","tags":["for-each"]},{"line":5,"text":"Prints each element. Runs on any platform that has a JVM.","tags":["Output"]}];
+(function(){
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
 
-            <p>
-                Explanation, syntax, examples,
-                practical applications, exercises,
-                interview questions and references
-                can be added here.
-            </p>
-
-        </section>
-
-    </main>
-
-    <script src="../assets/java.js"></script>
-
+function stripComments(c){
+  return c.replace(/\/\/.*$/gm,'').replace(/\/\*[\s\S]*?\*\//g,'');
+}
+function splitStmts(src){
+  const out=[];let cur='',inStr=false,depth=0;
+  for(let i=0;i<src.length;i++){
+    const c=src[i],p=src[i-1];
+    if(c==='"'&&p!=='\\')inStr=!inStr;
+    if(!inStr){
+      if(c==='{')depth++;
+      if(c==='}')depth--;
+      if(c===';'&&depth===0){out.push(cur.trim());cur='';continue}
+    }
+    cur+=c;
+  }
+  if(cur.trim())out.push(cur.trim());
+  return out;
+}
+function interpret(code){
+  const output=[],vars={};let error=null;
+  let clean=stripComments(code).replace(/import\s+[\w.*]+;/g,'');
+  const mm=clean.match(/public\s+static\s+void\s+main\s*\(\s*String\[\]\s*\w+\s*\)\s*\{([\s\S]*)\n\s*\}/);
+  if(!mm)return{output:[],error:'No public static void main(String[] args) found'};
+  const body=mm[1];
+  function evalE(expr){
+    expr=expr.trim();
+    let sm=expr.match(/^"(.*)"$/);if(sm)return sm[1].replace(/\\n/g,'\n').replace(/\\t/g,'\t');
+    if(/^-?\d+$/.test(expr))return parseInt(expr,10);
+    if(/^-?\d+\.\d+$/.test(expr))return parseFloat(expr);
+    if(expr==='true')return true;
+    if(expr==='false')return false;
+    if(vars[expr]!==undefined)return vars[expr];
+    let r=expr;
+    Object.keys(vars).sort((a,b)=>b.length-a.length).forEach(n=>{
+      r=r.replace(new RegExp('\\b'+n+'\\b','g'),'('+(typeof vars[n]==='string'?JSON.stringify(vars[n]):vars[n])+')');
+    });
+    r=r.replace(/\+\s*/g,' + ').replace(/\bnew\s+/g,'');
+    try{return Function('"use strict";return('+r+')')()}catch{return 0}
+  }
+  function exec(list){
+    for(const st of list){
+      const s=st.trim();if(!s||s==='{'||s==='}')continue;
+      let w=s.match(/^System\.out\.println\s*\(([\s\S]+)\)$/);
+      if(w){
+        let parts=w[1].split(/\s*\+\s*/);
+        output.push(parts.map(p=>String(evalE(p))).join(''));
+        continue;
+      }
+      let d=s.match(/^(int|String|boolean|double|long|float|var)\s+(\w+)\s*=\s*([\s\S]+)$/);
+      if(d){vars[d[2]]=evalE(d[3]);continue}
+      let dn=s.match(/^(int|String|boolean|double|long|float)\s+(\w+)$/);
+      if(dn){vars[dn[2]]=0;continue}
+      let a=s.match(/^(\w+)\s*=\s*([\s\S]+)$/);
+      if(a&&vars[a[1]]!==undefined){vars[a[1]]=evalE(a[2]);continue}
+      let fm=s.match(/^for\s*\(\s*(?:int\s+)?(\w+)\s*=\s*(-?\d+)\s*;\s*\1\s*(<=|<)\s*(-?\d+)\s*;\s*\1\+\+\s*\)\s*\{([\s\S]*)\}$/);
+      if(fm){
+        const vn=fm[1],st0=parseInt(fm[2],10),op=fm[3],en=parseInt(fm[4],10);
+        const inner=splitStmts(fm[5]);
+        for(let i=st0;(op==='<'?i<en:i<=en);i++){vars[vn]=i;exec(inner)}
+        continue;
+      }
+      let im2=s.match(/^if\s*\(([\s\S]+?)\)\s*\{([\s\S]*?)\}(?:\s*else\s*\{([\s\S]*?)\})?$/);
+      if(im2){
+        if(evalE(im2[1]))exec(splitStmts(im2[2]));
+        else if(im2[3])exec(splitStmts(im2[3]));
+        continue;
+      }
+      // Handle System.out.println with simple + concatenation
+      let w2=s.match(/^System\.out\.print\s*\(([\s\S]+)\)$/);
+      if(w2){
+        if(!output.length)output.push('');
+        output[output.length-1]+=String(evalE(w2[1]));
+        continue;
+      }
+    }
+  }
+  try{exec(splitStmts(body))}catch(e){error=e.message}
+  return{output,vars,error};
+}
+function runCode(){
+  const code=document.getElementById('codeInput').value;
+  const r=interpret(code);
+  const ob=document.getElementById('outputBody'),sd=document.getElementById('statusDot');
+  ob.innerHTML='';
+  if(r.error){sd.className='status-dot err';ob.innerHTML='<span class="err">⚠ '+r.error+'</span>'}
+  else if(!r.output.length){sd.className='status-dot ok';ob.innerHTML='<span class="dim">// Program ran but printed nothing.</span>'}
+  else{sd.className='status-dot ok';r.output.forEach(l=>{const el=document.createElement('div');el.textContent=l;ob.appendChild(el)})}
+}
+let cur=-1;
+function update(){
+  document.querySelectorAll('.step-line').forEach(el=>el.classList.remove('active'));
+  if(cur<0){
+    document.getElementById('stepExplain').innerHTML='Click <strong>Next Step</strong> to begin.';
+    document.getElementById('stepTags').innerHTML='<span style="font-size:.72rem;color:#484f58;">Waiting to start</span>';
+    document.getElementById('stepBar').style.width='0%';
+    document.getElementById('stepCount').textContent='0 / '+STEPS.length;
+    document.getElementById('prevBtn').disabled=true;document.getElementById('nextBtn').disabled=false;
+    return;
+  }
+  const s=STEPS[cur];
+  const el=document.querySelector('.step-line[data-line="'+s.line+'"]');if(el)el.classList.add('active');
+  document.getElementById('stepExplain').innerHTML=s.text;
+  document.getElementById('stepTags').innerHTML=(s.tags||[]).map(t=>'<span class="tag">'+t+'</span>').join('');
+  document.getElementById('stepBar').style.width=((cur+1)/STEPS.length*100)+'%';
+  document.getElementById('stepCount').textContent=(cur+1)+' / '+STEPS.length;
+  document.getElementById('prevBtn').disabled=cur<=0;
+  document.getElementById('nextBtn').disabled=cur>=STEPS.length-1;
+}
+function stepNext(){if(cur<STEPS.length-1){cur++;update()}}
+function stepPrev(){if(cur>0){cur--;update()}}
+function stepReset(){cur=-1;update()}
+update();
+</script>
 </body>
-
 </html>

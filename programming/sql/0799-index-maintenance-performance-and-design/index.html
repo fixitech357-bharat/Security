@@ -1,226 +1,500 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        0799 - Index Maintenance - Performance and Design | XTutiRaiseUp
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="../assets/sql.css"
-    >
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0799 · Index Maintenance</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:#05060f;color:#f1f5f9;line-height:1.65;overflow-x:hidden}
+.space-base{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 0%,#0a1a26 0%,#0a0a20 45%,#05060f 85%),radial-gradient(ellipse at 100% 100%,#1a0f05 0%,transparent 55%)}
+.orbs{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;mix-blend-mode:screen;opacity:.45}
+.orb{position:absolute;border-radius:50%;filter:blur(90px)}
+.orb-1{width:520px;height:520px;top:-10%;left:-8%;background:radial-gradient(circle,#00758f,transparent 70%);animation:d1 26s ease-in-out infinite}
+.orb-2{width:460px;height:460px;top:45%;right:-10%;background:radial-gradient(circle,#f59e0b,transparent 70%);animation:d2 30s ease-in-out infinite}
+.orb-3{width:600px;height:600px;bottom:-18%;left:18%;background:radial-gradient(circle,#8b5cf6,transparent 70%);animation:d3 34s ease-in-out infinite}
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
+@keyframes d2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,-50px) scale(1.2)}}
+@keyframes d3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-60px) scale(1.1)}}
+.grid-bg{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.22;background-image:linear-gradient(rgba(0,117,143,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(0,117,143,.14) 1px,transparent 1px);background-size:80px 80px;transform:perspective(500px) rotateX(60deg);animation:gf 22s linear infinite;mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%)}
+@keyframes gf{from{background-position:0 0}to{background-position:0 80px}}
+.vig{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.72) 100%)}
+.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:1150px;margin:0 auto;padding:0 1.5rem;width:100%}
+nav{position:sticky;top:0;z-index:100;background:rgba(5,6,15,.7);backdrop-filter:blur(20px);border-bottom:1px solid rgba(148,163,184,.08)}
+.nav-inner{max-width:1150px;margin:0 auto;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.65rem;font-weight:800;font-size:1rem;color:#f1f5f9;text-decoration:none}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#00758f,#f59e0b);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.85rem;color:#fff;box-shadow:0 8px 20px -6px rgba(0,117,143,.6)}
+.hero{padding:4.5rem 1.5rem 3rem;text-align:center}
+.tpill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,117,143,.12);border:1px solid rgba(0,117,143,.35);border-radius:999px;padding:.45rem 1.1rem;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#66d4e8;margin-bottom:1.5rem}
+.tpill .n{background:#00758f;color:#fff;min-width:24px;height:22px;border-radius:11px;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900;padding:0 .4rem}
+.hero h1{font-size:clamp(1.7rem,4.4vw,2.8rem);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin-bottom:1.2rem}
+.hero h1 .grad{background:linear-gradient(135deg,#66d4e8 0%,#00758f 45%,#f59e0b 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gs 7s ease-in-out infinite}
+@keyframes gs{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero p{color:#a1a1aa;font-size:1.05rem;max-width:660px;margin:0 auto;line-height:1.7}
+section{padding:3rem 0}
+.sec-head{text-align:center;margin-bottom:2.5rem}
+.stag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,117,143,.1);border:1px solid rgba(0,117,143,.3);border-radius:999px;padding:.4rem 1rem;font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#66d4e8;margin-bottom:1rem}
+.sec-head h2{font-size:clamp(1.6rem,3.8vw,2.3rem);font-weight:900;letter-spacing:-.03em;line-height:1.15;margin-bottom:.6rem}
+.sec-head h2 .grad{background:linear-gradient(135deg,#66d4e8,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.facts-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.8rem;margin-bottom:2rem}
+.fact{background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.12);border-radius:14px;padding:1.05rem 1rem;text-align:center;transition:all .25s}
+.fact:hover{transform:translateY(-3px);border-color:rgba(0,117,143,.4)}
+.fact .big{font-size:1.05rem;font-weight:900;background:linear-gradient(135deg,#66d4e8,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+.fact .lbl{font-size:.66rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-top:.4rem}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.concept{position:relative;padding:1.5rem;border-radius:18px;background:linear-gradient(155deg,rgba(24,25,50,.8),rgba(12,13,30,.6));border:1px solid rgba(148,163,184,.1);transition:all .3s;overflow:hidden}
+.concept::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),transparent)}
+.concept:hover{transform:translateY(-4px);border-color:var(--c1);box-shadow:0 20px 40px -18px var(--c1)}
+.c-ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--c1),var(--c2));display:flex;align-items:center;justify-content:center;font-size:1.45rem;margin-bottom:.9rem;box-shadow:0 10px 24px -8px var(--c1)}
+.concept h3{font-size:1.05rem;font-weight:800;margin-bottom:.4rem;color:#f1f5f9}
+.concept p{color:#94a3b8;font-size:.85rem;line-height:1.6}
+.playground{display:grid;grid-template-columns:1.5fr 1fr;gap:0;border-radius:16px;overflow:hidden;border:1px solid rgba(148,163,184,.15);margin-top:1.2rem;background:#0d1117}
+@media(max-width:900px){.playground{grid-template-columns:1fr}}
+.editor-pane{border-right:1px solid rgba(148,163,184,.12);display:flex;flex-direction:column}
+@media(max-width:900px){.editor-pane{border-right:none;border-bottom:1px solid rgba(148,163,184,.12)}}
+.editor-toolbar{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1)}
+.toolbar-left{display:flex;align-items:center;gap:.6rem}
+.traffic{display:flex;gap:6px}
+.traffic span{width:11px;height:11px;border-radius:50%}
+.traffic span:nth-child(1){background:#ff5f56}
+.traffic span:nth-child(2){background:#ffbd2e}
+.traffic span:nth-child(3){background:#27c93f}
+.filename{font-size:.78rem;color:#8b949e;font-family:'JetBrains Mono',monospace}
+.run-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:999px;padding:.45rem 1.15rem;font-size:.8rem;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.4rem;box-shadow:0 4px 12px -3px rgba(16,185,129,.5);transition:all .2s}
+.run-btn:hover{transform:translateY(-1px)}
+.code-area{width:100%;min-height:360px;background:#0d1117;color:#e6edf3;border:none;padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.75;resize:vertical;outline:none;tab-size:4;white-space:pre;overflow-x:auto}
+.output-pane{background:#010409;display:flex;flex-direction:column}
+.output-header{padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);font-size:.72rem;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:.5rem}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#484f58}
+.status-dot.ok{background:#27c93f;box-shadow:0 0 8px rgba(39,201,63,.5)}
+.status-dot.err{background:#ff5f56;box-shadow:0 0 8px rgba(255,95,86,.5)}
+.output-body{padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.7;color:#7ee787;white-space:pre-wrap;overflow-y:auto;flex:1;min-height:300px}
+.output-body .err{color:#ff7b72}
+.output-body .dim{color:#484f58;font-style:italic}
+.step-viz{margin-top:1.2rem;background:#0d1117;border-radius:16px;border:1px solid rgba(148,163,184,.15);overflow:hidden}
+.step-header{padding:.7rem 1.2rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.step-header .title{font-size:.8rem;color:#8b949e;font-family:'JetBrains Mono',monospace}
+.step-controls{display:flex;gap:.4rem}
+.step-btn{background:rgba(0,117,143,.15);border:1px solid rgba(0,117,143,.3);color:#66d4e8;border-radius:8px;padding:.35rem .9rem;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.step-btn:hover:not(:disabled){background:rgba(0,117,143,.3)}
+.step-btn:disabled{opacity:.35;cursor:not-allowed}
+.step-body{display:grid;grid-template-columns:1.2fr 1fr}
+@media(max-width:800px){.step-body{grid-template-columns:1fr}}
+.step-code{padding:1rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.9;border-right:1px solid rgba(148,163,184,.1);overflow-x:auto}
+@media(max-width:800px){.step-code{border-right:none;border-bottom:1px solid rgba(148,163,184,.1)}}
+.step-line{padding:.15rem .5rem;border-radius:5px;transition:background .3s;white-space:pre}
+.step-line.active{background:rgba(0,117,143,.18);box-shadow:inset 3px 0 0 #00758f;color:#fff}
+.step-info{padding:1.1rem 1.3rem;background:rgba(30,41,59,.4)}
+.explain{font-size:.85rem;color:#cbd5e1;min-height:4rem;margin-bottom:.9rem;line-height:1.6}
+.explain code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em}
+.tag-list{display:flex;flex-wrap:wrap;gap:.35rem}
+.tag{background:rgba(102,212,232,.15);border:1px solid rgba(102,212,232,.3);color:#66d4e8;border-radius:6px;padding:.25rem .65rem;font-size:.7rem;font-family:'JetBrains Mono',monospace;font-weight:600}
+.step-progress{padding:.6rem 1.2rem;background:rgba(30,41,59,.3);border-top:1px solid rgba(148,163,184,.08);display:flex;align-items:center;gap:.6rem}
+.bar{flex:1;height:4px;background:rgba(148,163,184,.15);border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#00758f,#f59e0b);border-radius:999px;transition:width .35s}
+.count{font-size:.72rem;color:#64748b;font-family:'JetBrains Mono',monospace;min-width:3.5rem;text-align:right}
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;margin-top:1.2rem}
+.recap{background:rgba(30,41,59,.6);border-radius:14px;padding:1.1rem 1.2rem;border-left:3px solid var(--rc,#00758f)}
+.recap .t{font-size:.72rem;font-weight:800;color:var(--rc,#00758f);text-transform:uppercase;letter-spacing:.08em}
+.recap .d{font-size:.85rem;color:#cbd5e1;margin-top:.35rem;line-height:1.55}
+.recap .d code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em}
+footer{text-align:center;padding:3rem 1.5rem;border-top:1px solid rgba(148,163,184,.08);color:#52525b;font-size:.82rem;margin-top:auto}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:translateY(0)}
+</style>
 </head>
-
 <body>
+<div class="space-base"></div>
+<div class="orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="grid-bg"></div>
+<div class="vig"></div>
 
-<div class="background"></div>
-
-<header class="topbar">
-
-    <div class="brand">
-
-        <span class="brand-icon">
-            🗄️
-        </span>
-
-        <span>
-            XTutiRaiseUp
-        </span>
-
+<div class="page">
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="brand"><div class="brand-mark">SQL</div> SQL Series</a>
     </div>
+  </nav>
 
-    <div class="top-actions">
+  <div class="hero">
+    <div class="tpill"><span class="n">0799</span> Topic 0799</div>
+    <h1>Index Maintenance: <span class="grad">Performance &amp; Design</span></h1>
+    <p>How to make Index Maintenance fast and how to design schemas that scale.</p>
+  </div>
 
-        <a
-            href="../index.html"
-            class="nav-btn"
-        >
-            ← SQL Topics
-        </a>
+  <div class="container">
+    <div class="facts-row reveal"><div class="fact"><div class="big">EXPLAIN</div><div class="lbl">Analyze</div></div><div class="fact"><div class="big">Index</div><div class="lbl">Speed Up</div></div><div class="fact"><div class="big">Normalize</div><div class="lbl">Design</div></div><div class="fact"><div class="big">Partition</div><div class="lbl">Scale</div></div><div class="fact"><div class="big">Cache</div><div class="lbl">Speed</div></div></div>
 
-        <a
-            href="../../../dashboard.html"
-            class="nav-btn"
-        >
-            🏠 Dashboard
-        </a>
-
-    </div>
-
-</header>
-
-<main class="container">
-
-    <section class="hero">
-
-        <div class="hero-icon">
-            🗄️
-        </div>
-
-        <div
-            class="stat"
-            style="
-                display:inline-block;
-                margin-bottom:20px;
-            "
-        >
-
-            <strong>
-                0799
-            </strong>
-
-            <span>
-                SQL Topic
-            </span>
-
-        </div>
-
-        <h1>
-            Index Maintenance - Performance and Design
-        </h1>
-
-        <p>
-            SQL learning topic:
-            <strong>
-                Index Maintenance
-            </strong>
-            under
-            <strong>
-                Indexes
-            </strong>.
-        </p>
-
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Core Concepts</div>
+        <h2>What You Need to <span class="grad">Know</span></h2>
+      </div>
+      <div class="concept-grid"><div class="concept" style="--c1:#00758f;--c2:#00b4d8">
+      <div class="c-ico">📊</div>
+      <h3>Measure First</h3>
+      <p>Use <code>EXPLAIN</code> and query plans — never optimize blind.</p>
+    </div><div class="concept" style="--c1:#f59e0b;--c2:#fbbf24">
+      <div class="c-ico">🔥</div>
+      <h3>Indexes</h3>
+      <p>The single biggest performance win. Index your JOIN and WHERE columns.</p>
+    </div><div class="concept" style="--c1:#8b5cf6;--c2:#a78bfa">
+      <div class="c-ico">🧠</div>
+      <h3>Schema Design</h3>
+      <p>Normalize to reduce duplication, denormalize for reads.</p>
+    </div><div class="concept" style="--c1:#22c55e;--c2:#4ade80">
+      <div class="c-ico">⚙️</div>
+      <h3>Trade-offs</h3>
+      <p>Every index slows writes. Balance carefully.</p>
+    </div></div>
     </section>
 
-    <div class="hero-stats">
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Hands-On</div>
+        <h2>Try It <span class="grad">Yourself</span></h2>
+      </div>
+      <div class="playground reveal">
+        <div class="editor-pane">
+          <div class="editor-toolbar">
+            <div class="toolbar-left">
+              <div class="traffic"><span></span><span></span><span></span></div>
+              <span class="filename">performance.sql</span>
+            </div>
+            <button class="run-btn" onclick="runCode()">▶ Run Query</button>
+          </div>
+          <textarea class="code-area" id="codeInput" spellcheck="false">-- Index Maintenance — performance patterns
 
-        <div class="stat">
+-- Always analyze the query plan first
+EXPLAIN SELECT * FROM users WHERE email = 'a@b.com';
 
-            <strong>
-                SQL
-            </strong>
+-- Create an index on the lookup column
+CREATE INDEX idx_users_email ON users(email);
 
-            <span>
-                Technology
-            </span>
+-- Now the query uses the index (fast)
 
+-- Covering index — includes all needed columns
+CREATE INDEX idx_orders_cust_date
+ON orders(customer_id, order_date);
+
+-- Analyze again — should show index usage
+
+-- Avoid SELECT * — fetch only needed columns
+SELECT id, name FROM users WHERE age &gt; 21;</textarea>
         </div>
-
-        <div class="stat">
-
-            <strong>
-                0799
-            </strong>
-
-            <span>
-                Topic Number
-            </span>
-
+        <div class="output-pane">
+          <div class="output-header"><span class="status-dot" id="statusDot"></span> RESULT</div>
+          <div class="output-body" id="outputBody"><span class="dim">-- Click "Run Query" to see the result...</span></div>
         </div>
+      </div>
+    </section>
 
-        <div class="stat">
-
-            <strong>
-                Indexes
-            </strong>
-
-            <span>
-                Category
-            </span>
-
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Walkthrough</div>
+        <h2>Step-by-Step <span class="grad">Explanation</span></h2>
+      </div>
+      <div class="step-viz reveal">
+        <div class="step-header">
+          <span class="title">performance.sql</span>
+          <div class="step-controls">
+            <button class="step-btn" id="prevBtn" onclick="stepPrev()" disabled>← Prev</button>
+            <button class="step-btn" id="nextBtn" onclick="stepNext()">Next Step →</button>
+            <button class="step-btn" onclick="stepReset()">↺ Reset</button>
+          </div>
         </div>
+        <div class="step-body">
+          <div class="step-code" id="stepCode"><div class="step-line" data-line="0">-- Always run EXPLAIN first</div><div class="step-line" data-line="1">EXPLAIN SELECT * FROM users WHERE email = ?;</div><div class="step-line" data-line="2"> </div><div class="step-line" data-line="3">-- Add index for the lookup column</div><div class="step-line" data-line="4">CREATE INDEX idx_users_email ON users(email);</div><div class="step-line" data-line="5"> </div><div class="step-line" data-line="6">-- Covering index for common query patterns</div><div class="step-line" data-line="7">CREATE INDEX idx_orders_covering</div><div class="step-line" data-line="8">ON orders(customer_id, order_date, amount);</div></div>
+          <div class="step-info">
+            <div class="explain" id="stepExplain">Click <strong>Next Step</strong> to begin.</div>
+            <div class="tag-list" id="stepTags"><span style="font-size:.72rem;color:#484f58;">Waiting to start</span></div>
+          </div>
+        </div>
+        <div class="step-progress">
+          <div class="bar"><div class="bar-fill" id="stepBar"></div></div>
+          <div class="count" id="stepCount">0 / 4</div>
+        </div>
+      </div>
+    </section>
 
-    </div>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Recap</div>
+        <h2>Key <span class="grad">Takeaways</span></h2>
+      </div>
+      <div class="recap-grid"><div class="recap" style="--rc:#00758f">
+      <div class="t">EXPLAIN</div>
+      <div class="d">Always check the plan. Full scans are the enemy.</div>
+    </div><div class="recap" style="--rc:#f59e0b">
+      <div class="t">Indexes</div>
+      <div class="d">Add on columns in <code>WHERE</code>, <code>JOIN</code>, <code>ORDER BY</code>.</div>
+    </div><div class="recap" style="--rc:#8b5cf6">
+      <div class="t">Avoid SELECT *</div>
+      <div class="d">Fetch only what you need.</div>
+    </div><div class="recap" style="--rc:#22c55e">
+      <div class="t">Test at Scale</div>
+      <div class="d">What works on 1K rows may fail on 1M.</div>
+    </div></div>
+    </section>
+  </div>
 
-    <div
-        style="
-            max-width:950px;
-            margin:35px auto;
-            padding:35px;
-            border-radius:18px;
-            background:rgba(255,255,255,.05);
-            border:1px solid rgba(255,255,255,.10);
-            text-align:center;
-        "
-    >
+  <footer>
+    <p>🗄️ Index Maintenance · SQL Series · Built for learners</p>
+  </footer>
+</div>
 
-        <h2
-            style="
-                margin-bottom:15px;
-            "
-        >
-            Index Maintenance - Performance and Design
-        </h2>
+<script>
+const STEPS = [{"line":0,"text":"Comment explains the workflow — always measure before optimizing.","tags":["Method"]},{"line":1,"text":"<code>EXPLAIN</code> — shows the query plan. Look for full scans.","tags":["EXPLAIN"]},{"line":4,"text":"<code>CREATE INDEX</code> — the #1 performance tool. Speeds up lookups.","tags":["Index"]},{"line":7,"text":"<strong>Covering index</strong> — includes all columns the query needs.","tags":["Covering"]}];
+(function(){
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
 
-        <p
-            style="
-                color:#aab7d5;
-                line-height:1.8;
-            "
-        >
-            This page is ready for complete SQL documentation,
-            syntax, examples, practice queries, database diagrams,
-            optimization techniques, security notes,
-            interview questions and exercises.
-        </p>
+function simulateSQL(code){
+  // Light SQL simulator — handles CREATE TABLE, INSERT, SELECT basics
+  const tables = {};
+  const output = [];
+  let error = null;
 
-    </div>
+  // Strip line comments
+  const lines = code.split('\n')
+    .map(l => l.replace(/--.*$/, '').trim())
+    .filter(l => l.length > 0);
 
-    <div class="hero-stats">
+  const joined = lines.join(' ').replace(/\s+/g, ' ');
+  // Split on ;
+  const stmts = joined.split(';').map(s => s.trim()).filter(s => s.length > 0);
 
-        <a
-            href="../index.html"
-            class="nav-btn"
-        >
-            ← SQL Topics
-        </a>
+  function parseValue(v){
+    v = v.trim();
+    if(/^'.*'$/.test(v) || /^".*"$/.test(v)) return v.slice(1,-1);
+    if(/^-?\d+$/.test(v)) return parseInt(v,10);
+    if(/^-?\d+\.\d+$/.test(v)) return parseFloat(v);
+    if(v === 'NULL') return null;
+    return v;
+  }
 
-        <button
-            onclick="window.history.back()"
-            class="nav-btn"
-            style="cursor:pointer;"
-        >
-            ↩ Back
-        </button>
+  for(const stmt of stmts){
+    // CREATE TABLE
+    let cm = stmt.match(/^CREATE\s+TABLE\s+(\w+)\s*\(([\s\S]+)\)$/i);
+    if(cm){
+      const name = cm[1];
+      const cols = cm[2].split(',').map(c => c.trim().split(/\s+/)[0]);
+      tables[name] = { cols, rows: [] };
+      output.push('✓ Created table ' + name + ' (' + cols.join(', ') + ')');
+      continue;
+    }
 
-        <a
-            href="../../../dashboard.html"
-            class="nav-btn"
-        >
-            🏠 Dashboard
-        </a>
+    // INSERT INTO
+    let im = stmt.match(/^INSERT\s+INTO\s+(\w+)\s*(?:\([^)]+\))?\s*VALUES\s*([\s\S]+)$/i);
+    if(im){
+      const name = im[1];
+      const rows = [];
+      const valuesPart = im[2];
+      // Match each (...) block
+      const rx = /\(([^()]*)\)/g;
+      let m;
+      while((m = rx.exec(valuesPart)) !== null){
+        const vals = m[1].split(',').map(v => parseValue(v));
+        rows.push(vals);
+      }
+      if(tables[name]){
+        rows.forEach(r => tables[name].rows.push(r));
+        output.push('✓ Inserted ' + rows.length + ' row(s) into ' + name);
+      }
+      continue;
+    }
 
-    </div>
+    // SELECT
+    let sm = stmt.match(/^SELECT\s+([\s\S]+?)\s+FROM\s+(\w+)([\s\S]*)$/i);
+    if(sm){
+      const selectPart = sm[1].trim();
+      const tableName = sm[2];
+      const rest = (sm[3] || '').trim();
+      const table = tables[tableName];
+      if(!table){
+        output.push('✗ Table not found: ' + tableName);
+        continue;
+      }
 
-</main>
+      // Parse ORDER BY
+      let orderBy = null, orderDir = 'ASC', limit = null;
+      let restClean = rest;
+      let om = restClean.match(/ORDER\s+BY\s+([\w.]+)(?:\s+(ASC|DESC))?/i);
+      if(om){
+        orderBy = om[1].replace(/\w+\./, '');
+        orderDir = (om[2] || 'ASC').toUpperCase();
+      }
+      let lm = restClean.match(/LIMIT\s+(\d+)/i);
+      if(lm) limit = parseInt(lm[1], 10);
 
-<footer>
+      // Aggregate handling
+      let aggMatch = selectPart.match(/^(COUNT|SUM|AVG|MAX|MIN)\s*\(\s*(\*|[\w.]+)\s*\)(?:\s+AS\s+(\w+))?$/i);
+      let groupBy = null;
+      let gm = restClean.match(/GROUP\s+BY\s+([\w.]+)/i);
+      if(gm) groupBy = gm[1].replace(/\w+\./, '');
 
-    <div>
-        XTutiRaiseUp by XSympan Technologies
-    </div>
+      let cols = selectPart.split(',').map(c => c.trim());
+      let rows = table.rows.slice();
 
-    <div>
-        Developed with ❤️
-    </div>
+      if(groupBy){
+        const groups = {};
+        const gidx = table.cols.indexOf(groupBy);
+        rows.forEach(r => {
+          const key = r[gidx];
+          if(!groups[key]) groups[key] = [];
+          groups[key].push(r);
+        });
+        // Aggregate
+        const resultRows = [];
+        for(const k in groups){
+          const group = groups[k];
+          const agg = aggMatch ? aggMatch[1].toUpperCase() : 'COUNT';
+          const colRef = aggMatch && aggMatch[2] !== '*' ? aggMatch[2].replace(/\w+\./, '') : null;
+          const colIdx = colRef ? table.cols.indexOf(colRef) : -1;
+          let val;
+          if(agg === 'COUNT') val = group.length;
+          else if(agg === 'SUM') val = group.reduce((a,r) => a + (Number(r[colIdx])||0), 0);
+          else if(agg === 'AVG') val = group.reduce((a,r) => a + (Number(r[colIdx])||0), 0) / group.length;
+          else if(agg === 'MAX') val = Math.max(...group.map(r => Number(r[colIdx])||0));
+          else if(agg === 'MIN') val = Math.min(...group.map(r => Number(r[colIdx])||0));
+          resultRows.push([k, val]);
+        }
+        // Sort
+        if(orderBy){
+          const idx = orderBy === groupBy ? 0 : 1;
+          resultRows.sort((a,b) => {
+            if(a[idx] < b[idx]) return orderDir === 'ASC' ? -1 : 1;
+            if(a[idx] > b[idx]) return orderDir === 'ASC' ? 1 : -1;
+            return 0;
+          });
+        }
+        const headers = [groupBy, (aggMatch?.[3] || aggMatch?.[1] || 'COUNT')];
+        let tbl = formatTable(headers, resultRows);
+        output.push(tbl);
+        continue;
+      }
 
-    <div>
-        Support: fixitechsolution@gmail.com
-    </div>
+      // Non-aggregate
+      if(orderBy){
+        const idx = table.cols.indexOf(orderBy);
+        if(idx >= 0){
+          rows.sort((a,b) => {
+            if(a[idx] < b[idx]) return orderDir === 'ASC' ? -1 : 1;
+            if(a[idx] > b[idx]) return orderDir === 'ASC' ? 1 : -1;
+            return 0;
+          });
+        }
+      }
+      if(limit) rows = rows.slice(0, limit);
 
-</footer>
+      // Projection
+      let headers, resultRows;
+      if(cols.length === 1 && cols[0] === '*'){
+        headers = table.cols;
+        resultRows = rows;
+      } else {
+        const idxs = cols.map(c => {
+          const clean = c.replace(/\s+AS\s+\w+$/i, '').trim().replace(/\w+\./, '');
+          return table.cols.indexOf(clean);
+        });
+        headers = cols.map(c => {
+          const asMatch = c.match(/\s+AS\s+(\w+)$/i);
+          if(asMatch) return asMatch[1];
+          return c.replace(/\w+\./, '').trim();
+        });
+        resultRows = rows.map(r => idxs.map(i => i >= 0 ? r[i] : null));
+      }
 
-<script src="../assets/sql.js"></script>
+      output.push(formatTable(headers, resultRows));
+      continue;
+    }
 
+    // ALTER, CREATE INDEX, DROP — acknowledge
+    let other = stmt.match(/^(ALTER|CREATE\s+INDEX|DROP|TRUNCATE|UPDATE|DELETE)\s+/i);
+    if(other){
+      output.push('✓ Executed: ' + stmt.slice(0, 60) + (stmt.length > 60 ? '...' : ''));
+      continue;
+    }
+
+    // EXPLAIN — acknowledge
+    if(/^EXPLAIN/i.test(stmt)){
+      output.push('✓ Query plan generated (simulated)');
+      continue;
+    }
+  }
+
+  return { output, error };
+
+  function formatTable(headers, rows){
+    const widths = headers.map((h, i) =>
+      Math.max(String(h).length, ...rows.map(r => String(r[i] ?? 'NULL').length))
+    );
+    const sep = '+' + widths.map(w => '-'.repeat(w + 2)).join('+') + '+';
+    const head = '|' + headers.map((h, i) => ' ' + String(h).padEnd(widths[i]) + ' ').join('|') + '|';
+    const body = rows.map(r =>
+      '|' + r.map((c, i) => ' ' + String(c ?? 'NULL').padEnd(widths[i]) + ' ').join('|') + '|'
+    ).join('\n');
+    return sep + '\n' + head + '\n' + sep + '\n' + body + '\n' + sep;
+  }
+}
+
+function runCode(){
+  const code = document.getElementById('codeInput').value;
+  const ob = document.getElementById('outputBody');
+  const sd = document.getElementById('statusDot');
+  try {
+    const r = simulateSQL(code);
+    ob.innerHTML = '';
+    sd.className = 'status-dot ok';
+    if(r.output.length === 0){
+      ob.innerHTML = '<span class="dim">-- No statements executed.</span>';
+    } else {
+      r.output.forEach(line => {
+        const el = document.createElement('div');
+        el.style.whiteSpace = 'pre';
+        el.style.fontFamily = 'inherit';
+        el.textContent = line;
+        ob.appendChild(el);
+      });
+    }
+  } catch(e){
+    sd.className = 'status-dot err';
+    ob.innerHTML = '<span class="err">✗ Error: ' + e.message + '</span>';
+  }
+}
+
+let cur = -1;
+function update(){
+  document.querySelectorAll('.step-line').forEach(el => el.classList.remove('active'));
+  if(cur < 0){
+    document.getElementById('stepExplain').innerHTML = 'Click <strong>Next Step</strong> to begin.';
+    document.getElementById('stepTags').innerHTML = '<span style="font-size:.72rem;color:#484f58;">Waiting to start</span>';
+    document.getElementById('stepBar').style.width = '0%';
+    document.getElementById('stepCount').textContent = '0 / ' + STEPS.length;
+    document.getElementById('prevBtn').disabled = true;
+    document.getElementById('nextBtn').disabled = false;
+    return;
+  }
+  const s = STEPS[cur];
+  const el = document.querySelector('.step-line[data-line="' + s.line + '"]');
+  if(el) el.classList.add('active');
+  document.getElementById('stepExplain').innerHTML = s.text;
+  document.getElementById('stepTags').innerHTML = (s.tags||[]).map(t => '<span class="tag">'+t+'</span>').join('');
+  document.getElementById('stepBar').style.width = ((cur+1)/STEPS.length*100) + '%';
+  document.getElementById('stepCount').textContent = (cur+1) + ' / ' + STEPS.length;
+  document.getElementById('prevBtn').disabled = cur <= 0;
+  document.getElementById('nextBtn').disabled = cur >= STEPS.length-1;
+}
+function stepNext(){ if(cur < STEPS.length-1){ cur++; update(); } }
+function stepPrev(){ if(cur > 0){ cur--; update(); } }
+function stepReset(){ cur = -1; update(); }
+update();
+</script>
 </body>
 </html>

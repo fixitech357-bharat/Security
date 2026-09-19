@@ -1,165 +1,366 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>
-        0559 - Iterators and Enumerators: Security and Reliability | C# | XTutiRaiseUp
-    </title>
-
-    <link
-        rel="stylesheet"
-        href="../assets/csharp.css"
-    >
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0559 · Iterators And Enumerators: Security &amp; Reliability</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',system-ui,sans-serif;background:#05060f;color:#f1f5f9;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.space-base{position:fixed;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 0%,#1a1035 0%,#0a0a20 45%,#05060f 85%),radial-gradient(ellipse at 0% 100%,#130a22 0%,transparent 55%)}
+.orbs{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;mix-blend-mode:screen;opacity:.45}
+.orb{position:absolute;border-radius:50%;filter:blur(90px)}
+.orb-1{width:520px;height:520px;top:-10%;left:-8%;background:radial-gradient(circle,#7c3aed,transparent 70%);animation:d1 26s ease-in-out infinite}
+.orb-2{width:460px;height:460px;top:45%;right:-10%;background:radial-gradient(circle,#0891b2,transparent 70%);animation:d2 30s ease-in-out infinite}
+.orb-3{width:600px;height:600px;bottom:-18%;left:18%;background:radial-gradient(circle,#9333ea,transparent 70%);animation:d3 34s ease-in-out infinite}
+@keyframes d1{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(60px,40px) scale(1.15)}}
+@keyframes d2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(-70px,-50px) scale(1.2)}}
+@keyframes d3{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(40px,-60px) scale(1.1)}}
+.grid-bg{position:fixed;inset:-50%;z-index:2;pointer-events:none;opacity:.22;background-image:linear-gradient(rgba(139,92,246,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(139,92,246,.14) 1px,transparent 1px);background-size:80px 80px;transform:perspective(500px) rotateX(60deg);animation:gf 22s linear infinite;mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%);-webkit-mask-image:radial-gradient(ellipse at 50% 50%,black 20%,transparent 70%)}
+@keyframes gf{from{background-position:0 0}to{background-position:0 80px}}
+.vig{position:fixed;inset:0;z-index:3;pointer-events:none;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.72) 100%)}
+.page{position:relative;z-index:10;min-height:100vh;display:flex;flex-direction:column}
+.container{max-width:1150px;margin:0 auto;padding:0 1.5rem;width:100%}
+nav{position:sticky;top:0;z-index:100;background:rgba(5,6,15,.7);backdrop-filter:blur(20px);border-bottom:1px solid rgba(148,163,184,.08)}
+.nav-inner{max-width:1150px;margin:0 auto;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.brand{display:flex;align-items:center;gap:.65rem;font-weight:800;font-size:1rem;color:#f1f5f9;text-decoration:none}
+.brand-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.8rem;color:#fff;box-shadow:0 8px 20px -6px rgba(124,58,237,.6)}
+.hero{padding:4.5rem 1.5rem 3rem;text-align:center}
+.tpill{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,58,237,.12);border:1px solid rgba(124,58,237,.35);border-radius:999px;padding:.45rem 1.1rem;font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#c4b5fd;margin-bottom:1.5rem}
+.tpill .n{background:#7c3aed;color:#fff;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:900}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:900;letter-spacing:-.04em;line-height:1.15;margin-bottom:1.2rem}
+.hero h1 .grad{background:linear-gradient(135deg,#a78bfa 0%,#7c3aed 45%,#06b6d4 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;background-size:200% 200%;animation:gs 7s ease-in-out infinite}
+@keyframes gs{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+.hero p{color:#a1a1aa;font-size:1.05rem;max-width:660px;margin:0 auto;line-height:1.7}
+section{padding:3rem 0}
+.sec-head{text-align:center;margin-bottom:2.5rem}
+.stag{display:inline-flex;align-items:center;gap:.5rem;background:rgba(124,58,237,.1);border:1px solid rgba(124,58,237,.3);border-radius:999px;padding:.4rem 1rem;font-size:.68rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#c4b5fd;margin-bottom:1rem}
+.sec-head h2{font-size:clamp(1.6rem,3.8vw,2.3rem);font-weight:900;letter-spacing:-.03em;line-height:1.15;margin-bottom:.6rem}
+.sec-head h2 .grad{background:linear-gradient(135deg,#a78bfa,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.sec-head p{color:#94a3b8;font-size:.95rem;max-width:620px;margin:0 auto}
+.facts-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:.8rem;margin-bottom:2rem}
+.fact{background:rgba(15,16,36,.7);border:1px solid rgba(148,163,184,.12);border-radius:14px;padding:1.05rem 1rem;text-align:center;transition:all .25s}
+.fact:hover{transform:translateY(-3px);border-color:rgba(124,58,237,.4)}
+.fact .big{font-size:1.05rem;font-weight:900;background:linear-gradient(135deg,#a78bfa,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.2}
+.fact .lbl{font-size:.66rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.1em;font-weight:700;margin-top:.4rem}
+.concept-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem}
+.concept{position:relative;padding:1.5rem;border-radius:18px;background:linear-gradient(155deg,rgba(24,25,50,.8),rgba(12,13,30,.6));border:1px solid rgba(148,163,184,.1);transition:all .3s;overflow:hidden}
+.concept::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--c1),var(--c2),transparent)}
+.concept:hover{transform:translateY(-4px);border-color:var(--c1);box-shadow:0 20px 40px -18px var(--c1)}
+.c-ico{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,var(--c1),var(--c2));display:flex;align-items:center;justify-content:center;font-size:1.45rem;margin-bottom:.9rem;box-shadow:0 10px 24px -8px var(--c1);animation:if 5s ease-in-out infinite}
+@keyframes if{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.concept h3{font-size:1.05rem;font-weight:800;margin-bottom:.4rem;color:#f1f5f9}
+.concept p{color:#94a3b8;font-size:.85rem;line-height:1.6}
+.playground{display:grid;grid-template-columns:1.5fr 1fr;gap:0;border-radius:16px;overflow:hidden;border:1px solid rgba(148,163,184,.15);margin-top:1.2rem;background:#0d1117}
+@media(max-width:900px){.playground{grid-template-columns:1fr}}
+.editor-pane{border-right:1px solid rgba(148,163,184,.12);display:flex;flex-direction:column}
+@media(max-width:900px){.editor-pane{border-right:none;border-bottom:1px solid rgba(148,163,184,.12)}}
+.editor-toolbar{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);flex-wrap:wrap;gap:.5rem}
+.toolbar-left{display:flex;align-items:center;gap:.6rem}
+.traffic{display:flex;gap:6px}
+.traffic span{width:11px;height:11px;border-radius:50%}
+.traffic span:nth-child(1){background:#ff5f56}
+.traffic span:nth-child(2){background:#ffbd2e}
+.traffic span:nth-child(3){background:#27c93f}
+.filename{font-size:.78rem;color:#8b949e;font-family:'JetBrains Mono',monospace}
+.run-btn{background:linear-gradient(135deg,#10b981,#059669);color:#fff;border:none;border-radius:999px;padding:.45rem 1.15rem;font-size:.8rem;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:.4rem;box-shadow:0 4px 12px -3px rgba(16,185,129,.5);transition:all .2s}
+.run-btn:hover{transform:translateY(-1px)}
+.code-area{width:100%;min-height:360px;background:#0d1117;color:#e6edf3;border:none;padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:.86rem;line-height:1.75;resize:vertical;outline:none;tab-size:4;white-space:pre;overflow-x:auto}
+.output-pane{background:#010409;display:flex;flex-direction:column}
+.output-header{padding:.6rem 1rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);font-size:.72rem;font-weight:700;color:#8b949e;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:.5rem}
+.status-dot{width:8px;height:8px;border-radius:50%;background:#484f58;transition:background .3s}
+.status-dot.ok{background:#27c93f;box-shadow:0 0 8px rgba(39,201,63,.5)}
+.status-dot.err{background:#ff5f56;box-shadow:0 0 8px rgba(255,95,86,.5)}
+.output-body{padding:1.2rem 1.4rem;font-family:'JetBrains Mono',monospace;font-size:.84rem;line-height:1.7;color:#7ee787;white-space:pre-wrap;overflow-y:auto;flex:1;min-height:300px}
+.output-body .err{color:#ff7b72}
+.output-body .dim{color:#484f58;font-style:italic}
+.step-viz{margin-top:1.2rem;background:#0d1117;border-radius:16px;border:1px solid rgba(148,163,184,.15);overflow:hidden}
+.step-header{padding:.7rem 1.2rem;background:#161b22;border-bottom:1px solid rgba(148,163,184,.1);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.step-header .title{font-size:.8rem;color:#8b949e;font-family:'JetBrains Mono',monospace}
+.step-controls{display:flex;gap:.4rem}
+.step-btn{background:rgba(124,58,237,.15);border:1px solid rgba(124,58,237,.3);color:#c4b5fd;border-radius:8px;padding:.35rem .9rem;font-size:.75rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .2s}
+.step-btn:hover:not(:disabled){background:rgba(124,58,237,.3)}
+.step-btn:disabled{opacity:.35;cursor:not-allowed}
+.step-body{display:grid;grid-template-columns:1.2fr 1fr}
+@media(max-width:800px){.step-body{grid-template-columns:1fr}}
+.step-code{padding:1rem 1.2rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:1.9;border-right:1px solid rgba(148,163,184,.1);overflow-x:auto}
+@media(max-width:800px){.step-code{border-right:none;border-bottom:1px solid rgba(148,163,184,.1)}}
+.step-line{padding:.15rem .5rem;border-radius:5px;transition:background .3s;white-space:pre}
+.step-line.active{background:rgba(124,58,237,.18);box-shadow:inset 3px 0 0 #7c3aed;color:#fff}
+.step-info{padding:1.1rem 1.3rem;background:rgba(30,41,59,.4)}
+.explain{font-size:.85rem;color:#cbd5e1;min-height:4rem;margin-bottom:.9rem;line-height:1.6}
+.explain code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em}
+.tag-list{display:flex;flex-wrap:wrap;gap:.35rem}
+.tag{background:rgba(167,139,250,.15);border:1px solid rgba(167,139,250,.3);color:#d2a8ff;border-radius:6px;padding:.25rem .65rem;font-size:.7rem;font-family:'JetBrains Mono',monospace;font-weight:600}
+.step-progress{padding:.6rem 1.2rem;background:rgba(30,41,59,.3);border-top:1px solid rgba(148,163,184,.08);display:flex;align-items:center;gap:.6rem}
+.bar{flex:1;height:4px;background:rgba(148,163,184,.15);border-radius:999px;overflow:hidden}
+.bar-fill{height:100%;width:0%;background:linear-gradient(90deg,#7c3aed,#06b6d4);border-radius:999px;transition:width .35s}
+.count{font-size:.72rem;color:#64748b;font-family:'JetBrains Mono',monospace;min-width:3.5rem;text-align:right}
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:.9rem;margin-top:1.2rem}
+.recap{background:rgba(30,41,59,.6);border-radius:14px;padding:1.1rem 1.2rem;border-left:3px solid var(--rc,#7c3aed)}
+.recap .t{font-size:.72rem;font-weight:800;color:var(--rc,#7c3aed);text-transform:uppercase;letter-spacing:.08em}
+.recap .d{font-size:.85rem;color:#cbd5e1;margin-top:.35rem;line-height:1.55}
+.recap .d code{background:rgba(255,166,87,.15);color:#ffa657;padding:.1rem .4rem;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.82em}
+footer{text-align:center;padding:3rem 1.5rem;border-top:1px solid rgba(148,163,184,.08);color:#52525b;font-size:.82rem;margin-top:auto}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:translateY(0)}
+</style>
 </head>
-
 <body>
+<div class="space-base"></div>
+<div class="orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
+<div class="grid-bg"></div>
+<div class="vig"></div>
 
-<header class="topbar">
-
-    <div class="brand">
-        ⚡ XTutiRaiseUp
+<div class="page">
+  <nav>
+    <div class="nav-inner">
+      <a href="#" class="brand"><div class="brand-mark">C#</div> C# Series</a>
     </div>
+  </nav>
 
-    <div class="top-actions">
+  <div class="hero">
+    <div class="tpill"><span class="n">0559</span> Topic 0559</div>
+    <h1>Iterators And Enumerators: <span class="grad">Security & Reliability</span></h1>
+    <p>Writing Iterators And Enumerators that is safe, defensive, and resilient against attacks and failures.</p>
+  </div>
 
-        <a
-            href="../index.html"
-            class="nav-btn"
-        >
-            ← C# Topics
-        </a>
+  <div class="container">
+    <div class="facts-row reveal"><div class="fact"><div class="big">OWASP</div><div class="lbl">Guidelines</div></div><div class="fact"><div class="big">Null-Safe</div><div class="lbl">Defensive</div></div><div class="fact"><div class="big">Encryption</div><div class="lbl">At Rest</div></div><div class="fact"><div class="big">HTTPS</div><div class="lbl">In Transit</div></div><div class="fact"><div class="big">Validate</div><div class="lbl">All Inputs</div></div></div>
 
-        <a
-            href="../../../dashboard.html"
-            class="nav-btn"
-        >
-            🏠 Dashboard
-        </a>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Core Concepts</div>
+        <h2>What You Need to <span class="grad">Know</span></h2>
+      </div>
+      <div class="concept-grid"><div class="concept" style="--c1:#7c3aed;--c2:#a78bfa">
+      <div class="c-ico">🔒</div>
+      <h3>Input Validation</h3>
+      <p>Never trust input. Validate everything from outside Iterators And Enumerators.</p>
+    </div><div class="concept" style="--c1:#0891b2;--c2:#22d3ee">
+      <div class="c-ico">🛡️</div>
+      <h3>Defense in Depth</h3>
+      <p>Multiple layers — one failure should never be catastrophic.</p>
+    </div><div class="concept" style="--c1:#f59e0b;--c2:#fbbf24">
+      <div class="c-ico">⚠️</div>
+      <h3>Common Attacks</h3>
+      <p>Injection, XSS, CSRF, and how .NET helps prevent them.</p>
+    </div><div class="concept" style="--c1:#ec4899;--c2:#f472b6">
+      <div class="c-ico">🔁</div>
+      <h3>Fail Safe</h3>
+      <p>When errors happen, fail to a safe state — never crash silently.</p>
+    </div></div>
+    </section>
 
-    </div>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Hands-On</div>
+        <h2>Try It <span class="grad">Yourself</span></h2>
+      </div>
+      <div class="playground reveal">
+        <div class="editor-pane">
+          <div class="editor-toolbar">
+            <div class="toolbar-left">
+              <div class="traffic"><span></span><span></span><span></span></div>
+              <span class="filename">Security.cs</span>
+            </div>
+            <button class="run-btn" onclick="runCode()">▶ Run Code</button>
+          </div>
+          <textarea class="code-area" id="codeInput" spellcheck="false">using System;
+using System.Text.RegularExpressions;
 
-</header>
+namespace Security
+{
+    class Program
+    {
+        static void Main()
+        {
+            // BAD: Direct string interpolation into SQL (never do this)
+            string userInput = "'; DROP TABLE users; --";
+            string badQuery = $"SELECT * FROM users WHERE name = '{userInput}'";
+            Console.WriteLine("UNSAFE: " + badQuery);
 
-<main class="container">
+            // GOOD: Validate and sanitize input
+            string clean = Regex.Replace(userInput, @"[^a-zA-Z0-9 ]", "");
+            Console.WriteLine("CLEAN:  " + clean);
 
-<section class="hero">
-
-    <div class="hero-icon">
-        #️⃣
-    </div>
-
-    <div class="hero-stats">
-
-        <div class="stat">
-            <strong>0559</strong>
-            <span>Topic</span>
+            // GOOD: Use parameterized queries (concept)
+            Console.WriteLine("SAFE:   Use SqlParameter for real queries");
+        }
+    }
+}</textarea>
         </div>
-
-        <div class="stat">
-            <strong>C#</strong>
-            <span>Language</span>
+        <div class="output-pane">
+          <div class="output-header"><span class="status-dot" id="statusDot"></span> OUTPUT</div>
+          <div class="output-body" id="outputBody"><span class="dim">// Click "Run Code" to see the output...</span></div>
         </div>
+      </div>
+    </section>
 
-        <div class="stat">
-            <strong>.NET</strong>
-            <span>Platform</span>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Walkthrough</div>
+        <h2>Step-by-Step <span class="grad">Explanation</span></h2>
+      </div>
+      <div class="step-viz reveal">
+        <div class="step-header">
+          <span class="title">Security.cs</span>
+          <div class="step-controls">
+            <button class="step-btn" id="prevBtn" onclick="stepPrev()" disabled>← Prev</button>
+            <button class="step-btn" id="nextBtn" onclick="stepNext()">Next Step →</button>
+            <button class="step-btn" onclick="stepReset()">↺ Reset</button>
+          </div>
         </div>
+        <div class="step-body">
+          <div class="step-code" id="stepCode"><div class="step-line" data-line="0">string userInput = &quot;'; DROP TABLE users; --&quot;;</div><div class="step-line" data-line="1"> </div><div class="step-line" data-line="2">string badQuery = $&quot;SELECT * FROM users WHERE name = '{userInput}'&quot;;</div><div class="step-line" data-line="3">// ↑ NEVER do this — SQL injection!</div><div class="step-line" data-line="4"> </div><div class="step-line" data-line="5">string clean = Regex.Replace(userInput, @&quot;[^a-zA-Z0-9 ]&quot;, &quot;&quot;);</div><div class="step-line" data-line="6">// ↑ Sanitize by removing non-alphanumeric characters</div><div class="step-line" data-line="7"> </div><div class="step-line" data-line="8">// Real fix: use parameterized queries</div></div>
+          <div class="step-info">
+            <div class="explain" id="stepExplain">Click <strong>Next Step</strong> to begin.</div>
+            <div class="tag-list" id="stepTags"><span style="font-size:.72rem;color:#484f58;">Waiting to start</span></div>
+          </div>
+        </div>
+        <div class="step-progress">
+          <div class="bar"><div class="bar-fill" id="stepBar"></div></div>
+          <div class="count" id="stepCount">0 / 4</div>
+        </div>
+      </div>
+    </section>
 
-    </div>
+    <section>
+      <div class="sec-head reveal">
+        <div class="stag">Recap</div>
+        <h2>Key <span class="grad">Takeaways</span></h2>
+      </div>
+      <div class="recap-grid"><div class="recap" style="--rc:#7c3aed">
+      <div class="t">Never Trust Input</div>
+      <div class="d">All data from outside is suspect.</div>
+    </div><div class="recap" style="--rc:#06b6d4">
+      <div class="t">Parameterize SQL</div>
+      <div class="d">Use <code>SqlParameter</code> — not string concatenation.</div>
+    </div><div class="recap" style="--rc:#f59e0b">
+      <div class="t">Sanitize</div>
+      <div class="d">Regex and allowlists for known-safe characters.</div>
+    </div><div class="recap" style="--rc:#22c55e">
+      <div class="t">Defense in Depth</div>
+      <div class="d">Multiple layers of protection.</div>
+    </div></div>
+    </section>
+  </div>
 
-    <h1>
-        Iterators and Enumerators: Security and Reliability
-    </h1>
-
-    <p>
-        C# learning topic 0559.
-    </p>
-
-</section>
-
-<div class="lesson-card">
-
-    <h2>
-        Iterators and Enumerators: Security and Reliability
-    </h2>
-
-    <p>
-        This is topic 0559 in the XTutiRaiseUp
-        C# learning roadmap.
-    </p>
-
-    <br>
-
-    <p>
-        This page is ready for complete documentation,
-        C# source code, examples, explanations,
-        diagrams, exercises, interview questions,
-        best practices, security notes and
-        real-world applications.
-    </p>
-
+  <footer>
+    <p>📘 Iterators And Enumerators: Security &amp; Reliability · C# Series · Built for learners</p>
+  </footer>
 </div>
 
-<div class="navigation">
-
-    <a
-        href="../0559-iterators-and-enumerators-performance-and-optimization/index.html"
-        class="nav-btn"
-    >
-        ← Previous
-    </a>
-
-    <a
-        href="../index.html"
-        class="nav-btn"
-    >
-        📚 All C# Topics
-    </a>
-
-    <button
-        onclick="history.back()"
-        class="nav-btn"
-        style="cursor:pointer;"
-    >
-        ↩ Back
-    </button>
-
-    <a
-        href="../0560-iterators-and-enumerators-troubleshooting-and-interview-questions/index.html"
-        class="nav-btn"
-    >
-        Next →
-    </a>
-
-    <a
-        href="../../../dashboard.html"
-        class="nav-btn"
-    >
-        🏠 Dashboard
-    </a>
-
-</div>
-
-</main>
-
-<footer>
-
-    XTutiRaiseUp by XSympan Technologies<br>
-    Developed with ❤️<br>
-    Support: fixitechsolution@gmail.com
-
-</footer>
-
-<script src="../assets/csharp.js"></script>
-
+<script>
+const STEPS = [{"line":0,"text":"Malicious user input can contain SQL injection payloads.","tags":["Threat"]},{"line":2,"text":"<strong>Never</strong> concatenate user input into SQL. This is the #1 security flaw.","tags":["SQL Injection"]},{"line":5,"text":"Sanitization removes dangerous characters — one layer of defense.","tags":["Validation"]},{"line":8,"text":"The real fix is <strong>parameterized queries</strong> — user input is never treated as SQL.","tags":["Fix"]}];
+(function(){
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+  }), {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+function stripComments(c){return c.replace(/\/\/.*$/gm,'').replace(/\/\*[\s\S]*?\*\//g,'')}
+function splitStmts(src){
+  const out=[];let cur='',inStr=false,depth=0;
+  for(let i=0;i<src.length;i++){
+    const c=src[i],p=src[i-1];
+    if(c==='"'&&p!=='\\')inStr=!inStr;
+    if(!inStr){
+      if(c==='{')depth++;
+      if(c==='}')depth--;
+      if(c===';'&&depth===0){out.push(cur.trim());cur='';continue}
+    }
+    cur+=c;
+  }
+  if(cur.trim())out.push(cur.trim());
+  return out;
+}
+function interpret(code){
+  const output=[],vars={};let error=null;
+  let clean=stripComments(code).replace(/using\s+[\w.]+;/g,'');
+  const mm=clean.match(/static\s+void\s+Main\s*\(\s*\)\s*\{([\s\S]*?)\n\s*\}\s*\}/);
+  if(!mm)return{output:[],error:'No static void Main() found'};
+  const body=mm[1];
+  function evalE(expr){
+    expr=expr.trim();
+    let sm=expr.match(/^"(.*)"$/);if(sm)return sm[1].replace(/\\n/g,'\n').replace(/\\t/g,'\t');
+    let im=expr.match(/^\$"(.*)"$/);
+    if(im)return im[1].replace(/\{(\w+)\}/g,(m,n)=>vars[n]!==undefined?vars[n]:'{'+n+'}');
+    if(/^-?\d+$/.test(expr))return parseInt(expr,10);
+    if(/^-?\d+\.\d+$/.test(expr))return parseFloat(expr);
+    if(expr==='true')return true;
+    if(expr==='false')return false;
+    if(vars[expr]!==undefined)return vars[expr];
+    let r=expr;
+    Object.keys(vars).sort((a,b)=>b.length-a.length).forEach(n=>{
+      r=r.replace(new RegExp('\\b'+n+'\\b','g'),'('+(typeof vars[n]==='string'?JSON.stringify(vars[n]):vars[n])+')');
+    });
+    try{return Function('"use strict";return('+r+')')()}catch{return 0}
+  }
+  function exec(list){
+    for(const st of list){
+      const s=st.trim();if(!s||s==='{'||s==='}')continue;
+      let w=s.match(/^Console\.WriteLine\s*\(([\s\S]+)\)$/);
+      if(w){output.push(String(evalE(w[1])));continue}
+      let d=s.match(/^(int|string|bool|double|long|float|var|object)\s+(\w+)\s*=\s*([\s\S]+)$/);
+      if(d){vars[d[2]]=evalE(d[3]);continue}
+      let dn=s.match(/^(int|string|bool|double|long|float|object)\s+(\w+)$/);
+      if(dn){vars[dn[2]]=0;continue}
+      let a=s.match(/^(\w+)\s*=\s*([\s\S]+)$/);
+      if(a&&vars[a[1]]!==undefined){vars[a[1]]=evalE(a[2]);continue}
+      let fm=s.match(/^for\s*\(\s*(?:int\s+)?(\w+)\s*=\s*(-?\d+)\s*;\s*\1\s*(<=|<)\s*(-?\d+)\s*;\s*\1\+\+\s*\)\s*\{([\s\S]*)\}$/);
+      if(fm){
+        const vn=fm[1],st0=parseInt(fm[2],10),op=fm[3],en=parseInt(fm[4],10);
+        const inner=splitStmts(fm[5]);
+        for(let i=st0;(op==='<'?i<en:i<=en);i++){vars[vn]=i;exec(inner)}
+        continue;
+      }
+      let im2=s.match(/^if\s*\(([\s\S]+?)\)\s*\{([\s\S]*?)\}(?:\s*else\s*\{([\s\S]*?)\})?$/);
+      if(im2){
+        if(evalE(im2[1]))exec(splitStmts(im2[2]));
+        else if(im2[3])exec(splitStmts(im2[3]));
+        continue;
+      }
+    }
+  }
+  try{exec(splitStmts(body))}catch(e){error=e.message}
+  return{output,vars,error};
+}
+function runCode(){
+  const code=document.getElementById('codeInput').value;
+  const r=interpret(code);
+  const ob=document.getElementById('outputBody'),sd=document.getElementById('statusDot');
+  ob.innerHTML='';
+  if(r.error){sd.className='status-dot err';ob.innerHTML='<span class="err">⚠ '+r.error+'</span>'}
+  else if(!r.output.length){sd.className='status-dot ok';ob.innerHTML='<span class="dim">// Program ran but printed nothing.</span>'}
+  else{sd.className='status-dot ok';r.output.forEach(l=>{const el=document.createElement('div');el.textContent=l;ob.appendChild(el)})}
+}
+let cur=-1;
+function update(){
+  document.querySelectorAll('.step-line').forEach(el=>el.classList.remove('active'));
+  if(cur<0){
+    document.getElementById('stepExplain').innerHTML='Click <strong>Next Step</strong> to begin.';
+    document.getElementById('stepTags').innerHTML='<span style="font-size:.72rem;color:#484f58;">Waiting to start</span>';
+    document.getElementById('stepBar').style.width='0%';
+    document.getElementById('stepCount').textContent='0 / '+STEPS.length;
+    document.getElementById('prevBtn').disabled=true;document.getElementById('nextBtn').disabled=false;
+    return;
+  }
+  const s=STEPS[cur];
+  const el=document.querySelector('.step-line[data-line="'+s.line+'"]');if(el)el.classList.add('active');
+  document.getElementById('stepExplain').innerHTML=s.text;
+  document.getElementById('stepTags').innerHTML=(s.tags||[]).map(t=>'<span class="tag">'+t+'</span>').join('');
+  document.getElementById('stepBar').style.width=((cur+1)/STEPS.length*100)+'%';
+  document.getElementById('stepCount').textContent=(cur+1)+' / '+STEPS.length;
+  document.getElementById('prevBtn').disabled=cur<=0;
+  document.getElementById('nextBtn').disabled=cur>=STEPS.length-1;
+}
+function stepNext(){if(cur<STEPS.length-1){cur++;update()}}
+function stepPrev(){if(cur>0){cur--;update()}}
+function stepReset(){cur=-1;update()}
+update();
+</script>
 </body>
 </html>
