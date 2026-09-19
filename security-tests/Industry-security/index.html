@@ -1,0 +1,633 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Industry Security | XTutiRaiseUp</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        sans-serif;
+
+    color: #f5f7ff;
+
+    background:
+        radial-gradient(
+            circle at 10% 25%,
+            rgba(0,190,255,.12),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at 90% 25%,
+            rgba(120,70,255,.14),
+            transparent 35%
+        ),
+        linear-gradient(
+            120deg,
+            #061b2b,
+            #080d1c 48%,
+            #140f2f
+        );
+}
+
+header {
+
+    height: 65px;
+
+    padding: 0 5%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    background:
+        rgba(4,8,20,.95);
+
+    border-bottom:
+        1px solid rgba(255,255,255,.08);
+}
+
+.brand {
+
+    color: white;
+
+    text-decoration: none;
+
+    font-size: 21px;
+
+    font-weight: 800;
+}
+
+.actions {
+
+    display: flex;
+
+    gap: 10px;
+}
+
+.btn {
+
+    color: #f2f5ff;
+
+    text-decoration: none;
+
+    padding: 9px 15px;
+
+    border:
+        1px solid rgba(0,190,255,.35);
+
+    border-radius: 10px;
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+main {
+
+    width: min(1250px,90%);
+
+    margin: auto;
+
+    padding: 75px 0;
+}
+
+.hero {
+
+    text-align: center;
+
+    margin-bottom: 45px;
+}
+
+.hero-label {
+
+    color: #76dfff;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 10px;
+}
+
+h1 {
+
+    font-size:
+        clamp(42px,5.5vw,72px);
+
+    font-weight: 900;
+
+    background:
+        linear-gradient(
+            90deg,
+            #39c6ff,
+            #8274ff,
+            #27d4d5
+        );
+
+    -webkit-background-clip: text;
+
+    -webkit-text-fill-color: transparent;
+}
+
+.hero p {
+
+    max-width: 900px;
+
+    margin: 18px auto 0;
+
+    color: #b4c0d8;
+
+    font-size: 18px;
+
+    line-height: 1.7;
+}
+
+.stats {
+
+    margin-top: 28px;
+
+    display: flex;
+
+    justify-content: center;
+
+    gap: 14px;
+
+    flex-wrap: wrap;
+}
+
+.stat {
+
+    min-width: 145px;
+
+    padding: 15px 25px;
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    border-radius: 14px;
+
+    background:
+        rgba(255,255,255,.025);
+}
+
+.stat strong {
+
+    display: block;
+
+    font-size: 23px;
+
+    margin-bottom: 4px;
+}
+
+.stat span {
+
+    color: #a7b3cc;
+
+    font-size: 13px;
+}
+
+.grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4,minmax(0,1fr));
+
+    gap: 15px;
+}
+
+.card {
+
+    min-height: 110px;
+
+    padding: 22px;
+
+    display: block;
+
+    text-decoration: none;
+
+    color: white;
+
+    background:
+        rgba(255,255,255,.035);
+
+    border:
+        1px solid rgba(255,255,255,.10);
+
+    border-radius: 15px;
+
+    transition: .2s ease;
+}
+
+.card:hover {
+
+    transform:
+        translateY(-3px);
+
+    border-color:
+        rgba(0,205,255,.40);
+
+    background:
+        rgba(0,180,255,.05);
+}
+
+.card strong {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: #08d7ff;
+
+    font-size: 13px;
+}
+
+.card h2 {
+
+    font-size: 16px;
+
+    line-height: 1.4;
+}
+
+footer {
+
+    width: min(1250px,90%);
+
+    margin: auto;
+
+    padding: 25px 0 35px;
+
+    border-top:
+        1px solid rgba(255,255,255,.07);
+
+    color: #75839e;
+
+    font-size: 12px;
+
+    display: flex;
+
+    justify-content: space-between;
+}
+
+@media(max-width:1000px) {
+
+    .grid {
+        grid-template-columns:
+            repeat(3,1fr);
+    }
+}
+
+@media(max-width:700px) {
+
+    .grid {
+        grid-template-columns:
+            repeat(2,1fr);
+    }
+
+    footer {
+        flex-direction: column;
+        gap: 8px;
+    }
+}
+
+@media(max-width:480px) {
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+    <a
+        class="brand"
+        href="../index.html">
+
+        XTutiRaiseUp
+
+    </a>
+
+    <div class="actions">
+
+        <a
+            class="btn"
+            href="../dashboard.html">
+
+            🏠 Dashboard
+
+        </a>
+
+        <a
+            class="btn"
+            href="../index.html">
+
+            ← Security
+
+        </a>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<section class="hero">
+
+    <div class="hero-label">
+        INDUSTRY CYBERSECURITY
+    </div>
+
+    <h1>
+        Industry Security
+    </h1>
+
+    <p>
+        Industry-specific cybersecurity covering healthcare,
+        education, finance, payments, manufacturing, government,
+        defense, transportation, telecom, cloud, AI, IoT,
+        critical infrastructure and other major sectors.
+    </p>
+
+    <div class="stats">
+
+        <div class="stat">
+            <strong>51</strong>
+            <span>Industries</span>
+        </div>
+
+        <div class="stat">
+            <strong>661</strong>
+            <span>Security Domains</span>
+        </div>
+
+        <div class="stat">
+            <strong>Industry</strong>
+            <span>Specialization</span>
+        </div>
+
+        <div class="stat">
+            <strong>Cybersecurity</strong>
+            <span>Domain</span>
+        </div>
+
+    </div>
+
+</section>
+
+
+<section class="grid">
+
+<a class="card" href="./01-healthcare-security/index.html">
+    <strong>01</strong>
+    <h2>Healthcare security</h2>
+</a>
+<a class="card" href="./02-education-security/index.html">
+    <strong>02</strong>
+    <h2>Education security</h2>
+</a>
+<a class="card" href="./03-fintech-and-banking-security/index.html">
+    <strong>03</strong>
+    <h2>Fintech and banking security</h2>
+</a>
+<a class="card" href="./04-payment-security/index.html">
+    <strong>04</strong>
+    <h2>Payment security</h2>
+</a>
+<a class="card" href="./05-insurance-security/index.html">
+    <strong>05</strong>
+    <h2>Insurance security</h2>
+</a>
+<a class="card" href="./06-government-security/index.html">
+    <strong>06</strong>
+    <h2>Government security</h2>
+</a>
+<a class="card" href="./07-defense-and-aerospace-security/index.html">
+    <strong>07</strong>
+    <h2>Defense and aerospace security</h2>
+</a>
+<a class="card" href="./08-law-enforcement-security/index.html">
+    <strong>08</strong>
+    <h2>Law enforcement security</h2>
+</a>
+<a class="card" href="./09-manufacturing-security/index.html">
+    <strong>09</strong>
+    <h2>Manufacturing security</h2>
+</a>
+<a class="card" href="./10-automotive-security/index.html">
+    <strong>10</strong>
+    <h2>Automotive security</h2>
+</a>
+<a class="card" href="./11-energy-security/index.html">
+    <strong>11</strong>
+    <h2>Energy security</h2>
+</a>
+<a class="card" href="./12-oil-and-gas-security/index.html">
+    <strong>12</strong>
+    <h2>Oil and gas security</h2>
+</a>
+<a class="card" href="./13-power-and-utility-security/index.html">
+    <strong>13</strong>
+    <h2>Power and utility security</h2>
+</a>
+<a class="card" href="./14-water-and-wastewater-security/index.html">
+    <strong>14</strong>
+    <h2>Water and wastewater security</h2>
+</a>
+<a class="card" href="./15-chemical-industry-security/index.html">
+    <strong>15</strong>
+    <h2>Chemical industry security</h2>
+</a>
+<a class="card" href="./16-pharmaceutical-security/index.html">
+    <strong>16</strong>
+    <h2>Pharmaceutical security</h2>
+</a>
+<a class="card" href="./17-biotech-and-life-sciences-security/index.html">
+    <strong>17</strong>
+    <h2>Biotech and life sciences security</h2>
+</a>
+<a class="card" href="./18-retail-security/index.html">
+    <strong>18</strong>
+    <h2>Retail security</h2>
+</a>
+<a class="card" href="./19-ecommerce-security/index.html">
+    <strong>19</strong>
+    <h2>Ecommerce security</h2>
+</a>
+<a class="card" href="./20-logistics-and-supply-chain-security/index.html">
+    <strong>20</strong>
+    <h2>Logistics and supply chain security</h2>
+</a>
+<a class="card" href="./21-transportation-security/index.html">
+    <strong>21</strong>
+    <h2>Transportation security</h2>
+</a>
+<a class="card" href="./22-aviation-security/index.html">
+    <strong>22</strong>
+    <h2>Aviation security</h2>
+</a>
+<a class="card" href="./23-maritime-and-port-security/index.html">
+    <strong>23</strong>
+    <h2>Maritime and port security</h2>
+</a>
+<a class="card" href="./24-railway-security/index.html">
+    <strong>24</strong>
+    <h2>Railway security</h2>
+</a>
+<a class="card" href="./25-telecom-security/index.html">
+    <strong>25</strong>
+    <h2>Telecom security</h2>
+</a>
+<a class="card" href="./26-media-and-entertainment-security/index.html">
+    <strong>26</strong>
+    <h2>Media and entertainment security</h2>
+</a>
+<a class="card" href="./27-social-media-security/index.html">
+    <strong>27</strong>
+    <h2>Social media security</h2>
+</a>
+<a class="card" href="./28-gaming-security/index.html">
+    <strong>28</strong>
+    <h2>Gaming security</h2>
+</a>
+<a class="card" href="./29-hospitality-and-hotel-security/index.html">
+    <strong>29</strong>
+    <h2>Hospitality and hotel security</h2>
+</a>
+<a class="card" href="./30-food-and-restaurant-security/index.html">
+    <strong>30</strong>
+    <h2>Food and restaurant security</h2>
+</a>
+<a class="card" href="./31-agriculture-and-farming-security/index.html">
+    <strong>31</strong>
+    <h2>Agriculture and farming security</h2>
+</a>
+<a class="card" href="./32-mining-security/index.html">
+    <strong>32</strong>
+    <h2>Mining security</h2>
+</a>
+<a class="card" href="./33-construction-security/index.html">
+    <strong>33</strong>
+    <h2>Construction security</h2>
+</a>
+<a class="card" href="./34-real-estate-security/index.html">
+    <strong>34</strong>
+    <h2>Real estate security</h2>
+</a>
+<a class="card" href="./35-legal-industry-security/index.html">
+    <strong>35</strong>
+    <h2>Legal industry security</h2>
+</a>
+<a class="card" href="./36-accounting-and-audit-security/index.html">
+    <strong>36</strong>
+    <h2>Accounting and audit security</h2>
+</a>
+<a class="card" href="./37-professional-services-security/index.html">
+    <strong>37</strong>
+    <h2>Professional services security</h2>
+</a>
+<a class="card" href="./38-human-resources-security/index.html">
+    <strong>38</strong>
+    <h2>Human resources security</h2>
+</a>
+<a class="card" href="./39-insurance-and-risk-security/index.html">
+    <strong>39</strong>
+    <h2>Insurance and risk security</h2>
+</a>
+<a class="card" href="./40-research-and-science-security/index.html">
+    <strong>40</strong>
+    <h2>Research and science security</h2>
+</a>
+<a class="card" href="./41-space-industry-security/index.html">
+    <strong>41</strong>
+    <h2>Space industry security</h2>
+</a>
+<a class="card" href="./42-smart-city-security/index.html">
+    <strong>42</strong>
+    <h2>Smart city security</h2>
+</a>
+<a class="card" href="./43-critical-infrastructure-security/index.html">
+    <strong>43</strong>
+    <h2>Critical infrastructure security</h2>
+</a>
+<a class="card" href="./44-cloud-service-provider-security/index.html">
+    <strong>44</strong>
+    <h2>Cloud service provider security</h2>
+</a>
+<a class="card" href="./45-data-center-security/index.html">
+    <strong>45</strong>
+    <h2>Data center security</h2>
+</a>
+<a class="card" href="./46-software-and-saas-security/index.html">
+    <strong>46</strong>
+    <h2>Software and saas security</h2>
+</a>
+<a class="card" href="./47-ai-and-ml-industry-security/index.html">
+    <strong>47</strong>
+    <h2>Ai and ml industry security</h2>
+</a>
+<a class="card" href="./48-iot-and-device-industry-security/index.html">
+    <strong>48</strong>
+    <h2>Iot and device industry security</h2>
+</a>
+<a class="card" href="./49-pharma-and-medical-device-security/index.html">
+    <strong>49</strong>
+    <h2>Pharma and medical device security</h2>
+</a>
+<a class="card" href="./50-nonprofit-and-charity-security/index.html">
+    <strong>50</strong>
+    <h2>Nonprofit and charity security</h2>
+</a>
+<a class="card" href="./51-consumer-services-security/index.html">
+    <strong>51</strong>
+    <h2>Consumer services security</h2>
+</a>
+
+</section>
+
+</main>
+
+
+<footer>
+
+    <span>
+        XTutiRaiseUp by XSympan Technologies
+    </span>
+
+    <span>
+        Developed with ❤️
+    </span>
+
+</footer>
+
+</body>
+
+</html>
