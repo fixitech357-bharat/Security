@@ -1,0 +1,944 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Day 08 — Arrays & Strings
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../course.css"
+    >
+
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="nav-inner">
+
+        <a
+            class="brand"
+            href="../index.html"
+        >
+            🛡️ Security Lab
+        </a>
+
+        <nav class="main-nav">
+
+            <a href="../index.html">
+                Course
+            </a>
+
+            <a href="../../dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="../../index.html">
+                Home
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="badge">
+            DAY 08
+        </div>
+
+        <h1>
+            Arrays & Strings
+        </h1>
+
+        <p>
+            Complete all topics in Day 08
+            to build your programming fundamentals step by step.
+        </p>
+
+    </section>
+
+
+    <section class="content">
+
+        <div class="stats">
+
+            <div class="stat">
+                <strong>38</strong>
+                <span>Topics</span>
+            </div>
+
+            <div class="stat">
+                <strong>08</strong>
+                <span>Course Day</span>
+            </div>
+
+            <div class="stat">
+                <strong>💻</strong>
+                <span>Learning</span>
+            </div>
+
+            <div class="stat">
+                <strong>→</strong>
+                <span>Step by Step</span>
+            </div>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                id="topicSearch"
+                type="search"
+                placeholder="Search topics in this day..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div
+            id="noResults"
+            class="no-results hidden"
+        >
+            No topic found in this day.
+        </div>
+
+
+        <div class="topic-grid">
+
+        <a
+            class="topic-card searchable"
+            href="./what-is-an-array/index.html"
+            data-search="What is an Array? what-is-an-array"
+        >
+
+            <div class="topic-number">
+                TOPIC 01
+            </div>
+
+            <h3>
+                What is an Array?
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./array-declaration/index.html"
+            data-search="Array Declaration array-declaration"
+        >
+
+            <div class="topic-number">
+                TOPIC 02
+            </div>
+
+            <h3>
+                Array Declaration
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./array-initialization/index.html"
+            data-search="Array Initialization array-initialization"
+        >
+
+            <div class="topic-number">
+                TOPIC 03
+            </div>
+
+            <h3>
+                Array Initialization
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./array-index/index.html"
+            data-search="Array Index array-index"
+        >
+
+            <div class="topic-number">
+                TOPIC 04
+            </div>
+
+            <h3>
+                Array Index
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./array-traversal/index.html"
+            data-search="Array Traversal array-traversal"
+        >
+
+            <div class="topic-number">
+                TOPIC 05
+            </div>
+
+            <h3>
+                Array Traversal
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./array-length/index.html"
+            data-search="Array Length array-length"
+        >
+
+            <div class="topic-number">
+                TOPIC 06
+            </div>
+
+            <h3>
+                Array Length
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./one-dimensional-array/index.html"
+            data-search="One-Dimensional Array one-dimensional-array"
+        >
+
+            <div class="topic-number">
+                TOPIC 07
+            </div>
+
+            <h3>
+                One-Dimensional Array
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./two-dimensional-array/index.html"
+            data-search="Two-Dimensional Array two-dimensional-array"
+        >
+
+            <div class="topic-number">
+                TOPIC 08
+            </div>
+
+            <h3>
+                Two-Dimensional Array
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./multidimensional-array/index.html"
+            data-search="Multidimensional Array multidimensional-array"
+        >
+
+            <div class="topic-number">
+                TOPIC 09
+            </div>
+
+            <h3>
+                Multidimensional Array
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./array-input/index.html"
+            data-search="Array Input array-input"
+        >
+
+            <div class="topic-number">
+                TOPIC 10
+            </div>
+
+            <h3>
+                Array Input
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./array-output/index.html"
+            data-search="Array Output array-output"
+        >
+
+            <div class="topic-number">
+                TOPIC 11
+            </div>
+
+            <h3>
+                Array Output
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./sum-of-array/index.html"
+            data-search="Sum of Array sum-of-array"
+        >
+
+            <div class="topic-number">
+                TOPIC 12
+            </div>
+
+            <h3>
+                Sum of Array
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./average-of-array/index.html"
+            data-search="Average of Array average-of-array"
+        >
+
+            <div class="topic-number">
+                TOPIC 13
+            </div>
+
+            <h3>
+                Average of Array
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./maximum-element/index.html"
+            data-search="Maximum Element maximum-element"
+        >
+
+            <div class="topic-number">
+                TOPIC 14
+            </div>
+
+            <h3>
+                Maximum Element
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./minimum-element/index.html"
+            data-search="Minimum Element minimum-element"
+        >
+
+            <div class="topic-number">
+                TOPIC 15
+            </div>
+
+            <h3>
+                Minimum Element
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./search-element/index.html"
+            data-search="Search Element search-element"
+        >
+
+            <div class="topic-number">
+                TOPIC 16
+            </div>
+
+            <h3>
+                Search Element
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./linear-search/index.html"
+            data-search="Linear Search linear-search"
+        >
+
+            <div class="topic-number">
+                TOPIC 17
+            </div>
+
+            <h3>
+                Linear Search
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./reverse-array/index.html"
+            data-search="Reverse Array reverse-array"
+        >
+
+            <div class="topic-number">
+                TOPIC 18
+            </div>
+
+            <h3>
+                Reverse Array
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./copy-array/index.html"
+            data-search="Copy Array copy-array"
+        >
+
+            <div class="topic-number">
+                TOPIC 19
+            </div>
+
+            <h3>
+                Copy Array
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./sort-array/index.html"
+            data-search="Sort Array sort-array"
+        >
+
+            <div class="topic-number">
+                TOPIC 20
+            </div>
+
+            <h3>
+                Sort Array
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./duplicate-elements/index.html"
+            data-search="Duplicate Elements duplicate-elements"
+        >
+
+            <div class="topic-number">
+                TOPIC 21
+            </div>
+
+            <h3>
+                Duplicate Elements
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./what-is-a-string/index.html"
+            data-search="What is a String? what-is-a-string"
+        >
+
+            <div class="topic-number">
+                TOPIC 22
+            </div>
+
+            <h3>
+                What is a String?
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-creation/index.html"
+            data-search="String Creation string-creation"
+        >
+
+            <div class="topic-number">
+                TOPIC 23
+            </div>
+
+            <h3>
+                String Creation
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-length/index.html"
+            data-search="String Length string-length"
+        >
+
+            <div class="topic-number">
+                TOPIC 24
+            </div>
+
+            <h3>
+                String Length
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-indexing/index.html"
+            data-search="String Indexing string-indexing"
+        >
+
+            <div class="topic-number">
+                TOPIC 25
+            </div>
+
+            <h3>
+                String Indexing
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-concatenation/index.html"
+            data-search="String Concatenation string-concatenation"
+        >
+
+            <div class="topic-number">
+                TOPIC 26
+            </div>
+
+            <h3>
+                String Concatenation
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-comparison/index.html"
+            data-search="String Comparison string-comparison"
+        >
+
+            <div class="topic-number">
+                TOPIC 27
+            </div>
+
+            <h3>
+                String Comparison
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-search/index.html"
+            data-search="String Search string-search"
+        >
+
+            <div class="topic-number">
+                TOPIC 28
+            </div>
+
+            <h3>
+                String Search
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-substring/index.html"
+            data-search="String Substring string-substring"
+        >
+
+            <div class="topic-number">
+                TOPIC 29
+            </div>
+
+            <h3>
+                String Substring
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-replace/index.html"
+            data-search="String Replace string-replace"
+        >
+
+            <div class="topic-number">
+                TOPIC 30
+            </div>
+
+            <h3>
+                String Replace
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-split/index.html"
+            data-search="String Split string-split"
+        >
+
+            <div class="topic-number">
+                TOPIC 31
+            </div>
+
+            <h3>
+                String Split
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-reverse/index.html"
+            data-search="String Reverse string-reverse"
+        >
+
+            <div class="topic-number">
+                TOPIC 32
+            </div>
+
+            <h3>
+                String Reverse
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-palindrome/index.html"
+            data-search="String Palindrome string-palindrome"
+        >
+
+            <div class="topic-number">
+                TOPIC 33
+            </div>
+
+            <h3>
+                String Palindrome
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./student-marks-array/index.html"
+            data-search="Student Marks Array student-marks-array"
+        >
+
+            <div class="topic-number">
+                TOPIC 34
+            </div>
+
+            <h3>
+                Student Marks Array
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./search-an-element/index.html"
+            data-search="Search an Element search-an-element"
+        >
+
+            <div class="topic-number">
+                TOPIC 35
+            </div>
+
+            <h3>
+                Search an Element
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./find-largest-number/index.html"
+            data-search="Find Largest Number find-largest-number"
+        >
+
+            <div class="topic-number">
+                TOPIC 36
+            </div>
+
+            <h3>
+                Find Largest Number
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./reverse-a-string/index.html"
+            data-search="Reverse a String reverse-a-string"
+        >
+
+            <div class="topic-number">
+                TOPIC 37
+            </div>
+
+            <h3>
+                Reverse a String
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./count-characters/index.html"
+            data-search="Count Characters count-characters"
+        >
+
+            <div class="topic-number">
+                TOPIC 38
+            </div>
+
+            <h3>
+                Count Characters
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="footer-brand">
+        🔐 XTutiRaiseUp
+    </div>
+
+    <p class="footer-tagline">
+        by XSympan Technologies
+    </p>
+
+    <div class="footer-links">
+        <span>Programming</span>
+        <span>•</span>
+        <span>Cybersecurity</span>
+        <span>•</span>
+        <span>Documentation</span>
+    </div>
+
+    <p class="footer-copy">
+        © 2026 XTutiRaiseUp. All rights reserved.
+    </p>
+
+    <p class="footer-support">
+        Developed with ❤️ for developers and security learners
+    </p>
+
+    <a
+        class="footer-email"
+        href="mailto:fixitechsolution@gmail.com"
+    >
+        ✉ fixitechsolution@gmail.com
+    </a>
+
+</footer>
+
+
+<script>
+
+const input =
+    document.getElementById("topicSearch");
+
+const cards =
+    document.querySelectorAll(".searchable");
+
+const noResults =
+    document.getElementById("noResults");
+
+input.addEventListener("input", function () {
+
+    const query =
+        this.value.trim().toLowerCase();
+
+    let visible = 0;
+
+    cards.forEach(function(card) {
+
+        const text =
+            card.dataset.search.toLowerCase();
+
+        if (
+            query === "" ||
+            text.includes(query)
+        ) {
+
+            card.classList.remove("hidden");
+
+            visible++;
+
+        } else {
+
+            card.classList.add("hidden");
+
+        }
+
+    });
+
+    if (visible === 0) {
+        noResults.classList.remove("hidden");
+    } else {
+        noResults.classList.add("hidden");
+    }
+
+});
+
+</script>
+
+</body>
+</html>

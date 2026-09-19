@@ -1,0 +1,963 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Day 06 — Loops & Logic
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../course.css"
+    >
+
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="nav-inner">
+
+        <a
+            class="brand"
+            href="../index.html"
+        >
+            🛡️ Security Lab
+        </a>
+
+        <nav class="main-nav">
+
+            <a href="../index.html">
+                Course
+            </a>
+
+            <a href="../../dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="../../index.html">
+                Home
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="badge">
+            DAY 06
+        </div>
+
+        <h1>
+            Loops & Logic
+        </h1>
+
+        <p>
+            Complete all topics in Day 06
+            to build your programming fundamentals step by step.
+        </p>
+
+    </section>
+
+
+    <section class="content">
+
+        <div class="stats">
+
+            <div class="stat">
+                <strong>39</strong>
+                <span>Topics</span>
+            </div>
+
+            <div class="stat">
+                <strong>06</strong>
+                <span>Course Day</span>
+            </div>
+
+            <div class="stat">
+                <strong>💻</strong>
+                <span>Learning</span>
+            </div>
+
+            <div class="stat">
+                <strong>→</strong>
+                <span>Step by Step</span>
+            </div>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                id="topicSearch"
+                type="search"
+                placeholder="Search topics in this day..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div
+            id="noResults"
+            class="no-results hidden"
+        >
+            No topic found in this day.
+        </div>
+
+
+        <div class="topic-grid">
+
+        <a
+            class="topic-card searchable"
+            href="./why-loops/index.html"
+            data-search="Why Loops? why-loops"
+        >
+
+            <div class="topic-number">
+                TOPIC 01
+            </div>
+
+            <h3>
+                Why Loops?
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./for-loop/index.html"
+            data-search="for Loop for-loop"
+        >
+
+            <div class="topic-number">
+                TOPIC 02
+            </div>
+
+            <h3>
+                for Loop
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./while-loop/index.html"
+            data-search="while Loop while-loop"
+        >
+
+            <div class="topic-number">
+                TOPIC 03
+            </div>
+
+            <h3>
+                while Loop
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./do-while-loop/index.html"
+            data-search="do-while Loop do-while-loop"
+        >
+
+            <div class="topic-number">
+                TOPIC 04
+            </div>
+
+            <h3>
+                do-while Loop
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./loop-initialization/index.html"
+            data-search="Loop Initialization loop-initialization"
+        >
+
+            <div class="topic-number">
+                TOPIC 05
+            </div>
+
+            <h3>
+                Loop Initialization
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./loop-condition/index.html"
+            data-search="Loop Condition loop-condition"
+        >
+
+            <div class="topic-number">
+                TOPIC 06
+            </div>
+
+            <h3>
+                Loop Condition
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./loop-update/index.html"
+            data-search="Loop Update loop-update"
+        >
+
+            <div class="topic-number">
+                TOPIC 07
+            </div>
+
+            <h3>
+                Loop Update
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./infinite-loop/index.html"
+            data-search="Infinite Loop infinite-loop"
+        >
+
+            <div class="topic-number">
+                TOPIC 08
+            </div>
+
+            <h3>
+                Infinite Loop
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./break/index.html"
+            data-search="break break"
+        >
+
+            <div class="topic-number">
+                TOPIC 09
+            </div>
+
+            <h3>
+                break
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./continue/index.html"
+            data-search="continue continue"
+        >
+
+            <div class="topic-number">
+                TOPIC 10
+            </div>
+
+            <h3>
+                continue
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./nested-loops/index.html"
+            data-search="Nested Loops nested-loops"
+        >
+
+            <div class="topic-number">
+                TOPIC 11
+            </div>
+
+            <h3>
+                Nested Loops
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./loop-counters/index.html"
+            data-search="Loop Counters loop-counters"
+        >
+
+            <div class="topic-number">
+                TOPIC 12
+            </div>
+
+            <h3>
+                Loop Counters
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./loop-conditions/index.html"
+            data-search="Loop Conditions loop-conditions"
+        >
+
+            <div class="topic-number">
+                TOPIC 13
+            </div>
+
+            <h3>
+                Loop Conditions
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./reverse-loop/index.html"
+            data-search="Reverse Loop reverse-loop"
+        >
+
+            <div class="topic-number">
+                TOPIC 14
+            </div>
+
+            <h3>
+                Reverse Loop
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./incrementing-loop/index.html"
+            data-search="Incrementing Loop incrementing-loop"
+        >
+
+            <div class="topic-number">
+                TOPIC 15
+            </div>
+
+            <h3>
+                Incrementing Loop
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./decrementing-loop/index.html"
+            data-search="Decrementing Loop decrementing-loop"
+        >
+
+            <div class="topic-number">
+                TOPIC 16
+            </div>
+
+            <h3>
+                Decrementing Loop
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./counting-numbers/index.html"
+            data-search="Counting Numbers counting-numbers"
+        >
+
+            <div class="topic-number">
+                TOPIC 17
+            </div>
+
+            <h3>
+                Counting Numbers
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./sum-of-numbers/index.html"
+            data-search="Sum of Numbers sum-of-numbers"
+        >
+
+            <div class="topic-number">
+                TOPIC 18
+            </div>
+
+            <h3>
+                Sum of Numbers
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./average/index.html"
+            data-search="Average average"
+        >
+
+            <div class="topic-number">
+                TOPIC 19
+            </div>
+
+            <h3>
+                Average
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./factorial/index.html"
+            data-search="Factorial factorial"
+        >
+
+            <div class="topic-number">
+                TOPIC 20
+            </div>
+
+            <h3>
+                Factorial
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./multiplication-table/index.html"
+            data-search="Multiplication Table multiplication-table"
+        >
+
+            <div class="topic-number">
+                TOPIC 21
+            </div>
+
+            <h3>
+                Multiplication Table
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./power-calculation/index.html"
+            data-search="Power Calculation power-calculation"
+        >
+
+            <div class="topic-number">
+                TOPIC 22
+            </div>
+
+            <h3>
+                Power Calculation
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./digit-counting/index.html"
+            data-search="Digit Counting digit-counting"
+        >
+
+            <div class="topic-number">
+                TOPIC 23
+            </div>
+
+            <h3>
+                Digit Counting
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./reverse-number/index.html"
+            data-search="Reverse Number reverse-number"
+        >
+
+            <div class="topic-number">
+                TOPIC 24
+            </div>
+
+            <h3>
+                Reverse Number
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./palindrome-number/index.html"
+            data-search="Palindrome Number palindrome-number"
+        >
+
+            <div class="topic-number">
+                TOPIC 25
+            </div>
+
+            <h3>
+                Palindrome Number
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./armstrong-number/index.html"
+            data-search="Armstrong Number armstrong-number"
+        >
+
+            <div class="topic-number">
+                TOPIC 26
+            </div>
+
+            <h3>
+                Armstrong Number
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./prime-number/index.html"
+            data-search="Prime Number prime-number"
+        >
+
+            <div class="topic-number">
+                TOPIC 27
+            </div>
+
+            <h3>
+                Prime Number
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./fibonacci-series/index.html"
+            data-search="Fibonacci Series fibonacci-series"
+        >
+
+            <div class="topic-number">
+                TOPIC 28
+            </div>
+
+            <h3>
+                Fibonacci Series
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./gcd/index.html"
+            data-search="GCD gcd"
+        >
+
+            <div class="topic-number">
+                TOPIC 29
+            </div>
+
+            <h3>
+                GCD
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./lcm/index.html"
+            data-search="LCM lcm"
+        >
+
+            <div class="topic-number">
+                TOPIC 30
+            </div>
+
+            <h3>
+                LCM
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./star-patterns/index.html"
+            data-search="Star Patterns star-patterns"
+        >
+
+            <div class="topic-number">
+                TOPIC 31
+            </div>
+
+            <h3>
+                Star Patterns
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./number-patterns/index.html"
+            data-search="Number Patterns number-patterns"
+        >
+
+            <div class="topic-number">
+                TOPIC 32
+            </div>
+
+            <h3>
+                Number Patterns
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./triangle-patterns/index.html"
+            data-search="Triangle Patterns triangle-patterns"
+        >
+
+            <div class="topic-number">
+                TOPIC 33
+            </div>
+
+            <h3>
+                Triangle Patterns
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./pyramid-patterns/index.html"
+            data-search="Pyramid Patterns pyramid-patterns"
+        >
+
+            <div class="topic-number">
+                TOPIC 34
+            </div>
+
+            <h3>
+                Pyramid Patterns
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./reverse-patterns/index.html"
+            data-search="Reverse Patterns reverse-patterns"
+        >
+
+            <div class="topic-number">
+                TOPIC 35
+            </div>
+
+            <h3>
+                Reverse Patterns
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./number-guessing-logic/index.html"
+            data-search="Number Guessing Logic number-guessing-logic"
+        >
+
+            <div class="topic-number">
+                TOPIC 36
+            </div>
+
+            <h3>
+                Number Guessing Logic
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./multiplication-table-generator/index.html"
+            data-search="Multiplication Table Generator multiplication-table-generator"
+        >
+
+            <div class="topic-number">
+                TOPIC 37
+            </div>
+
+            <h3>
+                Multiplication Table Generator
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./prime-number-checker/index.html"
+            data-search="Prime-Number Checker prime-number-checker"
+        >
+
+            <div class="topic-number">
+                TOPIC 38
+            </div>
+
+            <h3>
+                Prime-Number Checker
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./pattern-printing-exercises/index.html"
+            data-search="Pattern Printing Exercises pattern-printing-exercises"
+        >
+
+            <div class="topic-number">
+                TOPIC 39
+            </div>
+
+            <h3>
+                Pattern Printing Exercises
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="footer-brand">
+        🔐 XTutiRaiseUp
+    </div>
+
+    <p class="footer-tagline">
+        by XSympan Technologies
+    </p>
+
+    <div class="footer-links">
+        <span>Programming</span>
+        <span>•</span>
+        <span>Cybersecurity</span>
+        <span>•</span>
+        <span>Documentation</span>
+    </div>
+
+    <p class="footer-copy">
+        © 2026 XTutiRaiseUp. All rights reserved.
+    </p>
+
+    <p class="footer-support">
+        Developed with ❤️ for developers and security learners
+    </p>
+
+    <a
+        class="footer-email"
+        href="mailto:fixitechsolution@gmail.com"
+    >
+        ✉ fixitechsolution@gmail.com
+    </a>
+
+</footer>
+
+
+<script>
+
+const input =
+    document.getElementById("topicSearch");
+
+const cards =
+    document.querySelectorAll(".searchable");
+
+const noResults =
+    document.getElementById("noResults");
+
+input.addEventListener("input", function () {
+
+    const query =
+        this.value.trim().toLowerCase();
+
+    let visible = 0;
+
+    cards.forEach(function(card) {
+
+        const text =
+            card.dataset.search.toLowerCase();
+
+        if (
+            query === "" ||
+            text.includes(query)
+        ) {
+
+            card.classList.remove("hidden");
+
+            visible++;
+
+        } else {
+
+            card.classList.add("hidden");
+
+        }
+
+    });
+
+    if (visible === 0) {
+        noResults.classList.remove("hidden");
+    } else {
+        noResults.classList.add("hidden");
+    }
+
+});
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,792 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Day 05 — Conditions & Decision Making
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../course.css"
+    >
+
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="nav-inner">
+
+        <a
+            class="brand"
+            href="../index.html"
+        >
+            🛡️ Security Lab
+        </a>
+
+        <nav class="main-nav">
+
+            <a href="../index.html">
+                Course
+            </a>
+
+            <a href="../../dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="../../index.html">
+                Home
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="badge">
+            DAY 05
+        </div>
+
+        <h1>
+            Conditions & Decision Making
+        </h1>
+
+        <p>
+            Complete all topics in Day 05
+            to build your programming fundamentals step by step.
+        </p>
+
+    </section>
+
+
+    <section class="content">
+
+        <div class="stats">
+
+            <div class="stat">
+                <strong>30</strong>
+                <span>Topics</span>
+            </div>
+
+            <div class="stat">
+                <strong>05</strong>
+                <span>Course Day</span>
+            </div>
+
+            <div class="stat">
+                <strong>💻</strong>
+                <span>Learning</span>
+            </div>
+
+            <div class="stat">
+                <strong>→</strong>
+                <span>Step by Step</span>
+            </div>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                id="topicSearch"
+                type="search"
+                placeholder="Search topics in this day..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div
+            id="noResults"
+            class="no-results hidden"
+        >
+            No topic found in this day.
+        </div>
+
+
+        <div class="topic-grid">
+
+        <a
+            class="topic-card searchable"
+            href="./decision-making/index.html"
+            data-search="Decision Making decision-making"
+        >
+
+            <div class="topic-number">
+                TOPIC 01
+            </div>
+
+            <h3>
+                Decision Making
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./boolean-conditions/index.html"
+            data-search="Boolean Conditions boolean-conditions"
+        >
+
+            <div class="topic-number">
+                TOPIC 02
+            </div>
+
+            <h3>
+                Boolean Conditions
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./if/index.html"
+            data-search="if if"
+        >
+
+            <div class="topic-number">
+                TOPIC 03
+            </div>
+
+            <h3>
+                if
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./if-else/index.html"
+            data-search="if-else if-else"
+        >
+
+            <div class="topic-number">
+                TOPIC 04
+            </div>
+
+            <h3>
+                if-else
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./else-if/index.html"
+            data-search="else-if else-if"
+        >
+
+            <div class="topic-number">
+                TOPIC 05
+            </div>
+
+            <h3>
+                else-if
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./nested-if/index.html"
+            data-search="Nested if nested-if"
+        >
+
+            <div class="topic-number">
+                TOPIC 06
+            </div>
+
+            <h3>
+                Nested if
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./multiple-conditions/index.html"
+            data-search="Multiple Conditions multiple-conditions"
+        >
+
+            <div class="topic-number">
+                TOPIC 07
+            </div>
+
+            <h3>
+                Multiple Conditions
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./logical-and/index.html"
+            data-search="Logical AND logical-and"
+        >
+
+            <div class="topic-number">
+                TOPIC 08
+            </div>
+
+            <h3>
+                Logical AND
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./logical-or/index.html"
+            data-search="Logical OR logical-or"
+        >
+
+            <div class="topic-number">
+                TOPIC 09
+            </div>
+
+            <h3>
+                Logical OR
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./logical-not/index.html"
+            data-search="Logical NOT logical-not"
+        >
+
+            <div class="topic-number">
+                TOPIC 10
+            </div>
+
+            <h3>
+                Logical NOT
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./switch-statement/index.html"
+            data-search="switch Statement switch-statement"
+        >
+
+            <div class="topic-number">
+                TOPIC 11
+            </div>
+
+            <h3>
+                switch Statement
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./case/index.html"
+            data-search="case case"
+        >
+
+            <div class="topic-number">
+                TOPIC 12
+            </div>
+
+            <h3>
+                case
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./break/index.html"
+            data-search="break break"
+        >
+
+            <div class="topic-number">
+                TOPIC 13
+            </div>
+
+            <h3>
+                break
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./default/index.html"
+            data-search="default default"
+        >
+
+            <div class="topic-number">
+                TOPIC 14
+            </div>
+
+            <h3>
+                default
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./multiple-cases/index.html"
+            data-search="Multiple Cases multiple-cases"
+        >
+
+            <div class="topic-number">
+                TOPIC 15
+            </div>
+
+            <h3>
+                Multiple Cases
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./switch-vs-if-else/index.html"
+            data-search="Switch vs if-else switch-vs-if-else"
+        >
+
+            <div class="topic-number">
+                TOPIC 16
+            </div>
+
+            <h3>
+                Switch vs if-else
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./age-eligibility/index.html"
+            data-search="Age Eligibility age-eligibility"
+        >
+
+            <div class="topic-number">
+                TOPIC 17
+            </div>
+
+            <h3>
+                Age Eligibility
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./pass-fail/index.html"
+            data-search="Pass/Fail pass-fail"
+        >
+
+            <div class="topic-number">
+                TOPIC 18
+            </div>
+
+            <h3>
+                Pass/Fail
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./grade-calculation/index.html"
+            data-search="Grade Calculation grade-calculation"
+        >
+
+            <div class="topic-number">
+                TOPIC 19
+            </div>
+
+            <h3>
+                Grade Calculation
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./login-validation/index.html"
+            data-search="Login Validation login-validation"
+        >
+
+            <div class="topic-number">
+                TOPIC 20
+            </div>
+
+            <h3>
+                Login Validation
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./largest-number/index.html"
+            data-search="Largest Number largest-number"
+        >
+
+            <div class="topic-number">
+                TOPIC 21
+            </div>
+
+            <h3>
+                Largest Number
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./smallest-number/index.html"
+            data-search="Smallest Number smallest-number"
+        >
+
+            <div class="topic-number">
+                TOPIC 22
+            </div>
+
+            <h3>
+                Smallest Number
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./positive-negative-number/index.html"
+            data-search="Positive/Negative Number positive-negative-number"
+        >
+
+            <div class="topic-number">
+                TOPIC 23
+            </div>
+
+            <h3>
+                Positive/Negative Number
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./even-odd/index.html"
+            data-search="Even/Odd even-odd"
+        >
+
+            <div class="topic-number">
+                TOPIC 24
+            </div>
+
+            <h3>
+                Even/Odd
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./leap-year/index.html"
+            data-search="Leap Year leap-year"
+        >
+
+            <div class="topic-number">
+                TOPIC 25
+            </div>
+
+            <h3>
+                Leap Year
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./voting-eligibility/index.html"
+            data-search="Voting Eligibility voting-eligibility"
+        >
+
+            <div class="topic-number">
+                TOPIC 26
+            </div>
+
+            <h3>
+                Voting Eligibility
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./grade-calculator/index.html"
+            data-search="Grade Calculator grade-calculator"
+        >
+
+            <div class="topic-number">
+                TOPIC 27
+            </div>
+
+            <h3>
+                Grade Calculator
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./login-system/index.html"
+            data-search="Login System login-system"
+        >
+
+            <div class="topic-number">
+                TOPIC 28
+            </div>
+
+            <h3>
+                Login System
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./electricity-bill-calculator/index.html"
+            data-search="Electricity Bill Calculator electricity-bill-calculator"
+        >
+
+            <div class="topic-number">
+                TOPIC 29
+            </div>
+
+            <h3>
+                Electricity Bill Calculator
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./menu-driven-program/index.html"
+            data-search="Menu-Driven Program menu-driven-program"
+        >
+
+            <div class="topic-number">
+                TOPIC 30
+            </div>
+
+            <h3>
+                Menu-Driven Program
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="footer-brand">
+        🔐 XTutiRaiseUp
+    </div>
+
+    <p class="footer-tagline">
+        by XSympan Technologies
+    </p>
+
+    <div class="footer-links">
+        <span>Programming</span>
+        <span>•</span>
+        <span>Cybersecurity</span>
+        <span>•</span>
+        <span>Documentation</span>
+    </div>
+
+    <p class="footer-copy">
+        © 2026 XTutiRaiseUp. All rights reserved.
+    </p>
+
+    <p class="footer-support">
+        Developed with ❤️ for developers and security learners
+    </p>
+
+    <a
+        class="footer-email"
+        href="mailto:fixitechsolution@gmail.com"
+    >
+        ✉ fixitechsolution@gmail.com
+    </a>
+
+</footer>
+
+
+<script>
+
+const input =
+    document.getElementById("topicSearch");
+
+const cards =
+    document.querySelectorAll(".searchable");
+
+const noResults =
+    document.getElementById("noResults");
+
+input.addEventListener("input", function () {
+
+    const query =
+        this.value.trim().toLowerCase();
+
+    let visible = 0;
+
+    cards.forEach(function(card) {
+
+        const text =
+            card.dataset.search.toLowerCase();
+
+        if (
+            query === "" ||
+            text.includes(query)
+        ) {
+
+            card.classList.remove("hidden");
+
+            visible++;
+
+        } else {
+
+            card.classList.add("hidden");
+
+        }
+
+    });
+
+    if (visible === 0) {
+        noResults.classList.remove("hidden");
+    } else {
+        noResults.classList.add("hidden");
+    }
+
+});
+
+</script>
+
+</body>
+</html>

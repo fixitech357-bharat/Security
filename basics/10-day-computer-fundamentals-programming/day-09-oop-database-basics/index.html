@@ -1,0 +1,1267 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Day 09 — OOP & Database Basics
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../course.css"
+    >
+
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="nav-inner">
+
+        <a
+            class="brand"
+            href="../index.html"
+        >
+            🛡️ Security Lab
+        </a>
+
+        <nav class="main-nav">
+
+            <a href="../index.html">
+                Course
+            </a>
+
+            <a href="../../dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="../../index.html">
+                Home
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="badge">
+            DAY 09
+        </div>
+
+        <h1>
+            OOP & Database Basics
+        </h1>
+
+        <p>
+            Complete all topics in Day 09
+            to build your programming fundamentals step by step.
+        </p>
+
+    </section>
+
+
+    <section class="content">
+
+        <div class="stats">
+
+            <div class="stat">
+                <strong>55</strong>
+                <span>Topics</span>
+            </div>
+
+            <div class="stat">
+                <strong>09</strong>
+                <span>Course Day</span>
+            </div>
+
+            <div class="stat">
+                <strong>💻</strong>
+                <span>Learning</span>
+            </div>
+
+            <div class="stat">
+                <strong>→</strong>
+                <span>Step by Step</span>
+            </div>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                id="topicSearch"
+                type="search"
+                placeholder="Search topics in this day..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div
+            id="noResults"
+            class="no-results hidden"
+        >
+            No topic found in this day.
+        </div>
+
+
+        <div class="topic-grid">
+
+        <a
+            class="topic-card searchable"
+            href="./what-is-oop/index.html"
+            data-search="What is OOP? what-is-oop"
+        >
+
+            <div class="topic-number">
+                TOPIC 01
+            </div>
+
+            <h3>
+                What is OOP?
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./object/index.html"
+            data-search="Object object"
+        >
+
+            <div class="topic-number">
+                TOPIC 02
+            </div>
+
+            <h3>
+                Object
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./class/index.html"
+            data-search="Class class"
+        >
+
+            <div class="topic-number">
+                TOPIC 03
+            </div>
+
+            <h3>
+                Class
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./class-members/index.html"
+            data-search="Class Members class-members"
+        >
+
+            <div class="topic-number">
+                TOPIC 04
+            </div>
+
+            <h3>
+                Class Members
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./attributes/index.html"
+            data-search="Attributes attributes"
+        >
+
+            <div class="topic-number">
+                TOPIC 05
+            </div>
+
+            <h3>
+                Attributes
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./methods/index.html"
+            data-search="Methods methods"
+        >
+
+            <div class="topic-number">
+                TOPIC 06
+            </div>
+
+            <h3>
+                Methods
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./constructor/index.html"
+            data-search="Constructor constructor"
+        >
+
+            <div class="topic-number">
+                TOPIC 07
+            </div>
+
+            <h3>
+                Constructor
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./encapsulation/index.html"
+            data-search="Encapsulation encapsulation"
+        >
+
+            <div class="topic-number">
+                TOPIC 08
+            </div>
+
+            <h3>
+                Encapsulation
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./inheritance/index.html"
+            data-search="Inheritance inheritance"
+        >
+
+            <div class="topic-number">
+                TOPIC 09
+            </div>
+
+            <h3>
+                Inheritance
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./polymorphism/index.html"
+            data-search="Polymorphism polymorphism"
+        >
+
+            <div class="topic-number">
+                TOPIC 10
+            </div>
+
+            <h3>
+                Polymorphism
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./abstraction/index.html"
+            data-search="Abstraction abstraction"
+        >
+
+            <div class="topic-number">
+                TOPIC 11
+            </div>
+
+            <h3>
+                Abstraction
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./interface-concept/index.html"
+            data-search="Interface Concept interface-concept"
+        >
+
+            <div class="topic-number">
+                TOPIC 12
+            </div>
+
+            <h3>
+                Interface Concept
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./access-modifiers/index.html"
+            data-search="Access Modifiers access-modifiers"
+        >
+
+            <div class="topic-number">
+                TOPIC 13
+            </div>
+
+            <h3>
+                Access Modifiers
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./public/index.html"
+            data-search="Public public"
+        >
+
+            <div class="topic-number">
+                TOPIC 14
+            </div>
+
+            <h3>
+                Public
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./private/index.html"
+            data-search="Private private"
+        >
+
+            <div class="topic-number">
+                TOPIC 15
+            </div>
+
+            <h3>
+                Private
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./protected/index.html"
+            data-search="Protected protected"
+        >
+
+            <div class="topic-number">
+                TOPIC 16
+            </div>
+
+            <h3>
+                Protected
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./student-class/index.html"
+            data-search="Student Class student-class"
+        >
+
+            <div class="topic-number">
+                TOPIC 17
+            </div>
+
+            <h3>
+                Student Class
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./employee-class/index.html"
+            data-search="Employee Class employee-class"
+        >
+
+            <div class="topic-number">
+                TOPIC 18
+            </div>
+
+            <h3>
+                Employee Class
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./bank-account-class/index.html"
+            data-search="Bank Account Class bank-account-class"
+        >
+
+            <div class="topic-number">
+                TOPIC 19
+            </div>
+
+            <h3>
+                Bank Account Class
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./simple-inheritance-example/index.html"
+            data-search="Simple Inheritance Example simple-inheritance-example"
+        >
+
+            <div class="topic-number">
+                TOPIC 20
+            </div>
+
+            <h3>
+                Simple Inheritance Example
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./what-is-data/index.html"
+            data-search="What is Data? what-is-data"
+        >
+
+            <div class="topic-number">
+                TOPIC 21
+            </div>
+
+            <h3>
+                What is Data?
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./what-is-a-database/index.html"
+            data-search="What is a Database? what-is-a-database"
+        >
+
+            <div class="topic-number">
+                TOPIC 22
+            </div>
+
+            <h3>
+                What is a Database?
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./dbms/index.html"
+            data-search="DBMS dbms"
+        >
+
+            <div class="topic-number">
+                TOPIC 23
+            </div>
+
+            <h3>
+                DBMS
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./rdbms/index.html"
+            data-search="RDBMS rdbms"
+        >
+
+            <div class="topic-number">
+                TOPIC 24
+            </div>
+
+            <h3>
+                RDBMS
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./sql/index.html"
+            data-search="SQL sql"
+        >
+
+            <div class="topic-number">
+                TOPIC 25
+            </div>
+
+            <h3>
+                SQL
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./table/index.html"
+            data-search="Table table"
+        >
+
+            <div class="topic-number">
+                TOPIC 26
+            </div>
+
+            <h3>
+                Table
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./row/index.html"
+            data-search="Row row"
+        >
+
+            <div class="topic-number">
+                TOPIC 27
+            </div>
+
+            <h3>
+                Row
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./column/index.html"
+            data-search="Column column"
+        >
+
+            <div class="topic-number">
+                TOPIC 28
+            </div>
+
+            <h3>
+                Column
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./record/index.html"
+            data-search="Record record"
+        >
+
+            <div class="topic-number">
+                TOPIC 29
+            </div>
+
+            <h3>
+                Record
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./primary-key/index.html"
+            data-search="Primary Key primary-key"
+        >
+
+            <div class="topic-number">
+                TOPIC 30
+            </div>
+
+            <h3>
+                Primary Key
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./foreign-key/index.html"
+            data-search="Foreign Key foreign-key"
+        >
+
+            <div class="topic-number">
+                TOPIC 31
+            </div>
+
+            <h3>
+                Foreign Key
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./candidate-key/index.html"
+            data-search="Candidate Key candidate-key"
+        >
+
+            <div class="topic-number">
+                TOPIC 32
+            </div>
+
+            <h3>
+                Candidate Key
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./unique-key/index.html"
+            data-search="Unique Key unique-key"
+        >
+
+            <div class="topic-number">
+                TOPIC 33
+            </div>
+
+            <h3>
+                Unique Key
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./relationships/index.html"
+            data-search="Relationships relationships"
+        >
+
+            <div class="topic-number">
+                TOPIC 34
+            </div>
+
+            <h3>
+                Relationships
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./one-to-one/index.html"
+            data-search="One-to-One one-to-one"
+        >
+
+            <div class="topic-number">
+                TOPIC 35
+            </div>
+
+            <h3>
+                One-to-One
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./one-to-many/index.html"
+            data-search="One-to-Many one-to-many"
+        >
+
+            <div class="topic-number">
+                TOPIC 36
+            </div>
+
+            <h3>
+                One-to-Many
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./many-to-many/index.html"
+            data-search="Many-to-Many many-to-many"
+        >
+
+            <div class="topic-number">
+                TOPIC 37
+            </div>
+
+            <h3>
+                Many-to-Many
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./create/index.html"
+            data-search="CREATE create"
+        >
+
+            <div class="topic-number">
+                TOPIC 38
+            </div>
+
+            <h3>
+                CREATE
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./insert/index.html"
+            data-search="INSERT insert"
+        >
+
+            <div class="topic-number">
+                TOPIC 39
+            </div>
+
+            <h3>
+                INSERT
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./select/index.html"
+            data-search="SELECT select"
+        >
+
+            <div class="topic-number">
+                TOPIC 40
+            </div>
+
+            <h3>
+                SELECT
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./update/index.html"
+            data-search="UPDATE update"
+        >
+
+            <div class="topic-number">
+                TOPIC 41
+            </div>
+
+            <h3>
+                UPDATE
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./delete/index.html"
+            data-search="DELETE delete"
+        >
+
+            <div class="topic-number">
+                TOPIC 42
+            </div>
+
+            <h3>
+                DELETE
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./where/index.html"
+            data-search="WHERE where"
+        >
+
+            <div class="topic-number">
+                TOPIC 43
+            </div>
+
+            <h3>
+                WHERE
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./order-by/index.html"
+            data-search="ORDER BY order-by"
+        >
+
+            <div class="topic-number">
+                TOPIC 44
+            </div>
+
+            <h3>
+                ORDER BY
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./group-by/index.html"
+            data-search="GROUP BY group-by"
+        >
+
+            <div class="topic-number">
+                TOPIC 45
+            </div>
+
+            <h3>
+                GROUP BY
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./count/index.html"
+            data-search="COUNT count"
+        >
+
+            <div class="topic-number">
+                TOPIC 46
+            </div>
+
+            <h3>
+                COUNT
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./sum/index.html"
+            data-search="SUM sum"
+        >
+
+            <div class="topic-number">
+                TOPIC 47
+            </div>
+
+            <h3>
+                SUM
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./avg/index.html"
+            data-search="AVG avg"
+        >
+
+            <div class="topic-number">
+                TOPIC 48
+            </div>
+
+            <h3>
+                AVG
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./join-introduction/index.html"
+            data-search="JOIN Introduction join-introduction"
+        >
+
+            <div class="topic-number">
+                TOPIC 49
+            </div>
+
+            <h3>
+                JOIN Introduction
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./create-a-database/index.html"
+            data-search="Create a Database create-a-database"
+        >
+
+            <div class="topic-number">
+                TOPIC 50
+            </div>
+
+            <h3>
+                Create a Database
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./create-student-table/index.html"
+            data-search="Create Student Table create-student-table"
+        >
+
+            <div class="topic-number">
+                TOPIC 51
+            </div>
+
+            <h3>
+                Create Student Table
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./insert-student-records/index.html"
+            data-search="Insert Student Records insert-student-records"
+        >
+
+            <div class="topic-number">
+                TOPIC 52
+            </div>
+
+            <h3>
+                Insert Student Records
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./query-student-records/index.html"
+            data-search="Query Student Records query-student-records"
+        >
+
+            <div class="topic-number">
+                TOPIC 53
+            </div>
+
+            <h3>
+                Query Student Records
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./update-a-record/index.html"
+            data-search="Update a Record update-a-record"
+        >
+
+            <div class="topic-number">
+                TOPIC 54
+            </div>
+
+            <h3>
+                Update a Record
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./delete-a-record/index.html"
+            data-search="Delete a Record delete-a-record"
+        >
+
+            <div class="topic-number">
+                TOPIC 55
+            </div>
+
+            <h3>
+                Delete a Record
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="footer-brand">
+        🔐 XTutiRaiseUp
+    </div>
+
+    <p class="footer-tagline">
+        by XSympan Technologies
+    </p>
+
+    <div class="footer-links">
+        <span>Programming</span>
+        <span>•</span>
+        <span>Cybersecurity</span>
+        <span>•</span>
+        <span>Documentation</span>
+    </div>
+
+    <p class="footer-copy">
+        © 2026 XTutiRaiseUp. All rights reserved.
+    </p>
+
+    <p class="footer-support">
+        Developed with ❤️ for developers and security learners
+    </p>
+
+    <a
+        class="footer-email"
+        href="mailto:fixitechsolution@gmail.com"
+    >
+        ✉ fixitechsolution@gmail.com
+    </a>
+
+</footer>
+
+
+<script>
+
+const input =
+    document.getElementById("topicSearch");
+
+const cards =
+    document.querySelectorAll(".searchable");
+
+const noResults =
+    document.getElementById("noResults");
+
+input.addEventListener("input", function () {
+
+    const query =
+        this.value.trim().toLowerCase();
+
+    let visible = 0;
+
+    cards.forEach(function(card) {
+
+        const text =
+            card.dataset.search.toLowerCase();
+
+        if (
+            query === "" ||
+            text.includes(query)
+        ) {
+
+            card.classList.remove("hidden");
+
+            visible++;
+
+        } else {
+
+            card.classList.add("hidden");
+
+        }
+
+    });
+
+    if (visible === 0) {
+        noResults.classList.remove("hidden");
+    } else {
+        noResults.classList.add("hidden");
+    }
+
+});
+
+</script>
+
+</body>
+</html>

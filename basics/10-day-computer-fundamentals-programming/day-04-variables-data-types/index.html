@@ -1,0 +1,1001 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Day 04 — Variables & Data Types
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="../course.css"
+    >
+
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="nav-inner">
+
+        <a
+            class="brand"
+            href="../index.html"
+        >
+            🛡️ Security Lab
+        </a>
+
+        <nav class="main-nav">
+
+            <a href="../index.html">
+                Course
+            </a>
+
+            <a href="../../dashboard.html">
+                Dashboard
+            </a>
+
+            <a href="../../index.html">
+                Home
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="hero">
+
+        <div class="badge">
+            DAY 04
+        </div>
+
+        <h1>
+            Variables & Data Types
+        </h1>
+
+        <p>
+            Complete all topics in Day 04
+            to build your programming fundamentals step by step.
+        </p>
+
+    </section>
+
+
+    <section class="content">
+
+        <div class="stats">
+
+            <div class="stat">
+                <strong>41</strong>
+                <span>Topics</span>
+            </div>
+
+            <div class="stat">
+                <strong>04</strong>
+                <span>Course Day</span>
+            </div>
+
+            <div class="stat">
+                <strong>💻</strong>
+                <span>Learning</span>
+            </div>
+
+            <div class="stat">
+                <strong>→</strong>
+                <span>Step by Step</span>
+            </div>
+
+        </div>
+
+
+        <div class="search-box">
+
+            <input
+                id="topicSearch"
+                type="search"
+                placeholder="Search topics in this day..."
+                autocomplete="off"
+            >
+
+        </div>
+
+
+        <div
+            id="noResults"
+            class="no-results hidden"
+        >
+            No topic found in this day.
+        </div>
+
+
+        <div class="topic-grid">
+
+        <a
+            class="topic-card searchable"
+            href="./what-is-a-variable/index.html"
+            data-search="What is a Variable? what-is-a-variable"
+        >
+
+            <div class="topic-number">
+                TOPIC 01
+            </div>
+
+            <h3>
+                What is a Variable?
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./variable-declaration/index.html"
+            data-search="Variable Declaration variable-declaration"
+        >
+
+            <div class="topic-number">
+                TOPIC 02
+            </div>
+
+            <h3>
+                Variable Declaration
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./variable-initialization/index.html"
+            data-search="Variable Initialization variable-initialization"
+        >
+
+            <div class="topic-number">
+                TOPIC 03
+            </div>
+
+            <h3>
+                Variable Initialization
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./variable-assignment/index.html"
+            data-search="Variable Assignment variable-assignment"
+        >
+
+            <div class="topic-number">
+                TOPIC 04
+            </div>
+
+            <h3>
+                Variable Assignment
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./variable-naming-rules/index.html"
+            data-search="Variable Naming Rules variable-naming-rules"
+        >
+
+            <div class="topic-number">
+                TOPIC 05
+            </div>
+
+            <h3>
+                Variable Naming Rules
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./constants/index.html"
+            data-search="Constants constants"
+        >
+
+            <div class="topic-number">
+                TOPIC 06
+            </div>
+
+            <h3>
+                Constants
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./scope-introduction/index.html"
+            data-search="Scope Introduction scope-introduction"
+        >
+
+            <div class="topic-number">
+                TOPIC 07
+            </div>
+
+            <h3>
+                Scope Introduction
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./local-variables/index.html"
+            data-search="Local Variables local-variables"
+        >
+
+            <div class="topic-number">
+                TOPIC 08
+            </div>
+
+            <h3>
+                Local Variables
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./global-variables/index.html"
+            data-search="Global Variables global-variables"
+        >
+
+            <div class="topic-number">
+                TOPIC 09
+            </div>
+
+            <h3>
+                Global Variables
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./integer/index.html"
+            data-search="Integer integer"
+        >
+
+            <div class="topic-number">
+                TOPIC 10
+            </div>
+
+            <h3>
+                Integer
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./float/index.html"
+            data-search="Float float"
+        >
+
+            <div class="topic-number">
+                TOPIC 11
+            </div>
+
+            <h3>
+                Float
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./double/index.html"
+            data-search="Double double"
+        >
+
+            <div class="topic-number">
+                TOPIC 12
+            </div>
+
+            <h3>
+                Double
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./character/index.html"
+            data-search="Character character"
+        >
+
+            <div class="topic-number">
+                TOPIC 13
+            </div>
+
+            <h3>
+                Character
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string/index.html"
+            data-search="String string"
+        >
+
+            <div class="topic-number">
+                TOPIC 14
+            </div>
+
+            <h3>
+                String
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./boolean/index.html"
+            data-search="Boolean boolean"
+        >
+
+            <div class="topic-number">
+                TOPIC 15
+            </div>
+
+            <h3>
+                Boolean
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./byte/index.html"
+            data-search="Byte byte"
+        >
+
+            <div class="topic-number">
+                TOPIC 16
+            </div>
+
+            <h3>
+                Byte
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./short/index.html"
+            data-search="Short short"
+        >
+
+            <div class="topic-number">
+                TOPIC 17
+            </div>
+
+            <h3>
+                Short
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./long/index.html"
+            data-search="Long long"
+        >
+
+            <div class="topic-number">
+                TOPIC 18
+            </div>
+
+            <h3>
+                Long
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./null-none-concept/index.html"
+            data-search="Null / None Concept null-none-concept"
+        >
+
+            <div class="topic-number">
+                TOPIC 19
+            </div>
+
+            <h3>
+                Null / None Concept
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./implicit-conversion/index.html"
+            data-search="Implicit Conversion implicit-conversion"
+        >
+
+            <div class="topic-number">
+                TOPIC 20
+            </div>
+
+            <h3>
+                Implicit Conversion
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./explicit-conversion/index.html"
+            data-search="Explicit Conversion explicit-conversion"
+        >
+
+            <div class="topic-number">
+                TOPIC 21
+            </div>
+
+            <h3>
+                Explicit Conversion
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./type-casting/index.html"
+            data-search="Type Casting type-casting"
+        >
+
+            <div class="topic-number">
+                TOPIC 22
+            </div>
+
+            <h3>
+                Type Casting
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./string-to-number/index.html"
+            data-search="String to Number string-to-number"
+        >
+
+            <div class="topic-number">
+                TOPIC 23
+            </div>
+
+            <h3>
+                String to Number
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./number-to-string/index.html"
+            data-search="Number to String number-to-string"
+        >
+
+            <div class="topic-number">
+                TOPIC 24
+            </div>
+
+            <h3>
+                Number to String
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./character-conversion/index.html"
+            data-search="Character Conversion character-conversion"
+        >
+
+            <div class="topic-number">
+                TOPIC 25
+            </div>
+
+            <h3>
+                Character Conversion
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./boolean-values/index.html"
+            data-search="Boolean Values boolean-values"
+        >
+
+            <div class="topic-number">
+                TOPIC 26
+            </div>
+
+            <h3>
+                Boolean Values
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./arithmetic-operators/index.html"
+            data-search="Arithmetic Operators arithmetic-operators"
+        >
+
+            <div class="topic-number">
+                TOPIC 27
+            </div>
+
+            <h3>
+                Arithmetic Operators
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./relational-operators/index.html"
+            data-search="Relational Operators relational-operators"
+        >
+
+            <div class="topic-number">
+                TOPIC 28
+            </div>
+
+            <h3>
+                Relational Operators
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./comparison-operators/index.html"
+            data-search="Comparison Operators comparison-operators"
+        >
+
+            <div class="topic-number">
+                TOPIC 29
+            </div>
+
+            <h3>
+                Comparison Operators
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./logical-operators/index.html"
+            data-search="Logical Operators logical-operators"
+        >
+
+            <div class="topic-number">
+                TOPIC 30
+            </div>
+
+            <h3>
+                Logical Operators
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./assignment-operators/index.html"
+            data-search="Assignment Operators assignment-operators"
+        >
+
+            <div class="topic-number">
+                TOPIC 31
+            </div>
+
+            <h3>
+                Assignment Operators
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./increment-operator/index.html"
+            data-search="Increment Operator increment-operator"
+        >
+
+            <div class="topic-number">
+                TOPIC 32
+            </div>
+
+            <h3>
+                Increment Operator
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./decrement-operator/index.html"
+            data-search="Decrement Operator decrement-operator"
+        >
+
+            <div class="topic-number">
+                TOPIC 33
+            </div>
+
+            <h3>
+                Decrement Operator
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./unary-operators/index.html"
+            data-search="Unary Operators unary-operators"
+        >
+
+            <div class="topic-number">
+                TOPIC 34
+            </div>
+
+            <h3>
+                Unary Operators
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./ternary-operator/index.html"
+            data-search="Ternary Operator ternary-operator"
+        >
+
+            <div class="topic-number">
+                TOPIC 35
+            </div>
+
+            <h3>
+                Ternary Operator
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./bitwise-operators/index.html"
+            data-search="Bitwise Operators bitwise-operators"
+        >
+
+            <div class="topic-number">
+                TOPIC 36
+            </div>
+
+            <h3>
+                Bitwise Operators
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./operator-precedence/index.html"
+            data-search="Operator Precedence operator-precedence"
+        >
+
+            <div class="topic-number">
+                TOPIC 37
+            </div>
+
+            <h3>
+                Operator Precedence
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./student-marks-program/index.html"
+            data-search="Student Marks Program student-marks-program"
+        >
+
+            <div class="topic-number">
+                TOPIC 38
+            </div>
+
+            <h3>
+                Student Marks Program
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./age-calculator/index.html"
+            data-search="Age Calculator age-calculator"
+        >
+
+            <div class="topic-number">
+                TOPIC 39
+            </div>
+
+            <h3>
+                Age Calculator
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./temperature-converter/index.html"
+            data-search="Temperature Converter temperature-converter"
+        >
+
+            <div class="topic-number">
+                TOPIC 40
+            </div>
+
+            <h3>
+                Temperature Converter
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+        <a
+            class="topic-card searchable"
+            href="./simple-billing-program/index.html"
+            data-search="Simple Billing Program simple-billing-program"
+        >
+
+            <div class="topic-number">
+                TOPIC 41
+            </div>
+
+            <h3>
+                Simple Billing Program
+            </h3>
+
+            <span>
+                Open Topic →
+            </span>
+
+        </a>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer class="site-footer">
+
+    <div class="footer-brand">
+        🔐 XTutiRaiseUp
+    </div>
+
+    <p class="footer-tagline">
+        by XSympan Technologies
+    </p>
+
+    <div class="footer-links">
+        <span>Programming</span>
+        <span>•</span>
+        <span>Cybersecurity</span>
+        <span>•</span>
+        <span>Documentation</span>
+    </div>
+
+    <p class="footer-copy">
+        © 2026 XTutiRaiseUp. All rights reserved.
+    </p>
+
+    <p class="footer-support">
+        Developed with ❤️ for developers and security learners
+    </p>
+
+    <a
+        class="footer-email"
+        href="mailto:fixitechsolution@gmail.com"
+    >
+        ✉ fixitechsolution@gmail.com
+    </a>
+
+</footer>
+
+
+<script>
+
+const input =
+    document.getElementById("topicSearch");
+
+const cards =
+    document.querySelectorAll(".searchable");
+
+const noResults =
+    document.getElementById("noResults");
+
+input.addEventListener("input", function () {
+
+    const query =
+        this.value.trim().toLowerCase();
+
+    let visible = 0;
+
+    cards.forEach(function(card) {
+
+        const text =
+            card.dataset.search.toLowerCase();
+
+        if (
+            query === "" ||
+            text.includes(query)
+        ) {
+
+            card.classList.remove("hidden");
+
+            visible++;
+
+        } else {
+
+            card.classList.add("hidden");
+
+        }
+
+    });
+
+    if (visible === 0) {
+        noResults.classList.remove("hidden");
+    } else {
+        noResults.classList.add("hidden");
+    }
+
+});
+
+</script>
+
+</body>
+</html>
