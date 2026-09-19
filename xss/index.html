@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Awareness · Interactive Visualization</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{overflow-x:hidden}
+  body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:#05070f;color:#e8edf5;line-height:1.6}
+
+  /* ================= ANIMATED BACKGROUND ================= */
+  .bg{position:fixed;inset:0;z-index:-3;background:
+    radial-gradient(circle at 20% 30%,rgba(59,130,246,.15),transparent 50%),
+    radial-gradient(circle at 80% 70%,rgba(168,85,247,.13),transparent 50%),
+    radial-gradient(circle at 50% 50%,rgba(239,68,68,.08),transparent 60%)}
+  .grid{position:fixed;inset:0;z-index:-2;
+    background-image:
+      linear-gradient(rgba(96,165,250,.05) 1px,transparent 1px),
+      linear-gradient(90deg,rgba(96,165,250,.05) 1px,transparent 1px);
+    background-size:60px 60px;
+    mask-image:radial-gradient(ellipse at center,black 30%,transparent 80%);
+    animation:gridMove 20s linear infinite}
+  @keyframes gridMove{from{background-position:0 0}to{background-position:60px 60px}}
+
+  /* ================= SCANLINE / RADAR ================= */
+  .scanline{position:fixed;left:0;right:0;height:2px;z-index:-1;
+    background:linear-gradient(90deg,transparent,rgba(96,165,250,.6),transparent);
+    box-shadow:0 0 20px rgba(96,165,250,.5);
+    animation:scan 8s linear infinite}
+  @keyframes scan{0%{top:-2px;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:100%;opacity:0}}
+
+  /* ================= FLOATING PARTICLES ================= */
+  .particles{position:fixed;inset:0;z-index:-1;pointer-events:none}
+  .particle{position:absolute;width:2px;height:2px;background:#60a5fa;border-radius:50%;
+    box-shadow:0 0 6px #60a5fa;animation:float linear infinite}
+  @keyframes float{0%{transform:translateY(100vh) translateX(0);opacity:0}
+    10%{opacity:1}90%{opacity:1}
+    100%{transform:translateY(-100px) translateX(50px);opacity:0}}
+
+  /* ================= HERO ================= */
+  .hero{min-height:90vh;display:flex;flex-direction:column;justify-content:center;
+    align-items:center;text-align:center;padding:3rem 1.5rem;position:relative}
+  .shield-wrap{position:relative;width:200px;height:200px;margin-bottom:2rem}
+  .shield{width:200px;height:200px;
+    filter:drop-shadow(0 0 30px rgba(96,165,250,.6));
+    animation:shieldPulse 3s ease-in-out infinite}
+  @keyframes shieldPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+  .shield-ring{position:absolute;inset:-30px;border-radius:50%;
+    border:2px dashed rgba(96,165,250,.3);
+    animation:rotate 20s linear infinite}
+  .shield-ring:nth-child(2){inset:-50px;border-color:rgba(168,85,247,.25);
+    animation:rotate 30s linear infinite reverse}
+  .shield-ring:nth-child(3){inset:-70px;border-color:rgba(239,68,68,.2);
+    animation:rotate 40s linear infinite}
+  @keyframes rotate{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+
+  .hero h1{font-size:clamp(2.2rem,6vw,4.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-bottom:1rem}
+  .gradient{background:linear-gradient(135deg,#60a5fa 0%,#a78bfa 40%,#f472b6 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .danger-grad{background:linear-gradient(135deg,#ef4444,#f59e0b);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  .hero p{font-size:1.1rem;color:#94a3b8;max-width:640px;margin:0 auto 2rem}
+  .pulse-dot{display:inline-block;width:10px;height:10px;background:#ef4444;border-radius:50%;
+    margin-right:.5rem;animation:blink 1.2s infinite}
+  @keyframes blink{0%,100%{opacity:1;box-shadow:0 0 12px #ef4444}50%{opacity:.3;box-shadow:0 0 4px #ef4444}}
+  .badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(239,68,68,.1);
+    border:1px solid rgba(239,68,68,.35);color:#fca5a5;border-radius:999px;
+    padding:.4rem 1rem;font-size:.75rem;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;margin-bottom:1.5rem}
+
+  /* ================= CONTAINER ================= */
+  .container{max-width:1200px;margin:0 auto;padding:0 1.5rem}
+  .section{padding:4rem 0}
+  .section-head{text-align:center;margin-bottom:3rem}
+  .section-head h2{font-size:clamp(1.8rem,4vw,2.8rem);font-weight:800;letter-spacing:-.02em;margin-bottom:.6rem}
+  .section-head p{color:#94a3b8;max-width:600px;margin:0 auto}
+  .label{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;
+    text-transform:uppercase;letter-spacing:.12em;color:#60a5fa;margin-bottom:.8rem}
+  .label .d{width:6px;height:6px;background:#60a5fa;border-radius:50%;animation:blink 1.6s infinite}
+
+  /* ================= STATS COUNTER ================= */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:3rem}
+  .stat{background:rgba(15,23,42,.6);backdrop-filter:blur(20px);border:1px solid rgba(148,163,184,.12);
+    border-radius:1.2rem;padding:1.5rem;text-align:center;position:relative;overflow:hidden}
+  .stat::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:linear-gradient(90deg,var(--sc,#60a5fa),transparent)}
+  .stat .num{font-size:2.2rem;font-weight:800;
+    background:linear-gradient(135deg,var(--sc,#60a5fa),#fff);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:.4rem}
+  .stat .lbl{font-size:.8rem;color:#94a3b8;text-transform:uppercase;letter-spacing:.06em;font-weight:600}
+
+  /* ================= SECURITY SECTORS GRID ================= */
+  .sectors{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.2rem}
+  .sector{background:rgba(15,23,42,.6);backdrop-filter:blur(20px);
+    border:1px solid rgba(148,163,184,.12);border-radius:1.5rem;padding:1.6rem;
+    position:relative;overflow:hidden;cursor:pointer;
+    transition:all .35s cubic-bezier(.4,0,.2,1)}
+  .sector::before{content:'';position:absolute;inset:0;border-radius:1.5rem;
+    background:radial-gradient(circle at var(--mx,50%) var(--my,50%),
+      rgba(96,165,250,.12),transparent 40%);
+    opacity:0;transition:opacity .3s}
+  .sector:hover{transform:translateY(-6px);border-color:var(--sc,#60a5fa);
+    box-shadow:0 20px 40px -12px var(--sc,#60a5fa)}
+  .sector:hover::before{opacity:1}
+  .sector-icon{width:60px;height:60px;border-radius:16px;
+    background:linear-gradient(135deg,var(--sc,#60a5fa),var(--sc2,#a78bfa));
+    display:flex;align-items:center;justify-content:center;font-size:1.8rem;
+    margin-bottom:1rem;box-shadow:0 8px 24px -8px var(--sc,#60a5fa);
+    animation:iconFloat 4s ease-in-out infinite}
+  @keyframes iconFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  .sector h3{font-size:1.15rem;font-weight:700;color:#f1f5f9;margin-bottom:.5rem}
+  .sector p{font-size:.85rem;color:#94a3b8;line-height:1.55}
+  .sector .risk{margin-top:1rem;display:inline-flex;align-items:center;gap:.4rem;
+    font-size:.7rem;font-weight:700;padding:.25rem .7rem;border-radius:999px;
+    text-transform:uppercase;letter-spacing:.06em}
+  .risk-high{background:rgba(239,68,68,.15);color:#fca5a5;border:1px solid rgba(239,68,68,.3)}
+  .risk-med{background:rgba(245,158,11,.15);color:#fcd34d;border:1px solid rgba(245,158,11,.3)}
+  .risk-low{background:rgba(34,197,94,.15);color:#86efac;border:1px solid rgba(34,197,94,.3)}
+
+  /* ================= THREAT RADAR ================= */
+  .radar-wrap{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:center}
+  .radar{position:relative;width:100%;aspect-ratio:1;max-width:420px;margin:0 auto}
+  .radar-circle{position:absolute;inset:0;border-radius:50%;
+    border:1px solid rgba(96,165,250,.25)}
+  .radar-circle:nth-child(2){inset:15%;border-color:rgba(96,165,250,.35)}
+  .radar-circle:nth-child(3){inset:30%;border-color:rgba(96,165,250,.45)}
+  .radar-circle:nth-child(4){inset:45%;border-color:rgba(96,165,250,.55)}
+  .radar-sweep{position:absolute;inset:0;border-radius:50%;
+    background:conic-gradient(from 0deg,transparent 0deg,
+      rgba(96,165,250,.4) 40deg,transparent 90deg);
+    animation:sweep 4s linear infinite}
+  @keyframes sweep{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+  .radar-dot{position:absolute;width:8px;height:8px;border-radius:50%;
+    background:#ef4444;box-shadow:0 0 12px #ef4444;animation:ping 2s infinite}
+  .radar-dot.green{background:#22c55e;box-shadow:0 0 12px #22c55e}
+  .radar-dot.yellow{background:#f59e0b;box-shadow:0 0 12px #f59e0b}
+  @keyframes ping{0%{transform:scale(.5);opacity:1}100%{transform:scale(2.5);opacity:0}}
+  .radar-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:20px;height:20px;background:#60a5fa;border-radius:50%;
+    box-shadow:0 0 30px #60a5fa}
+
+  .radar-legend{display:flex;flex-direction:column;gap:1rem}
+  .legend-item{display:flex;gap:1rem;padding:1.2rem;background:rgba(15,23,42,.6);
+    border:1px solid rgba(148,163,184,.1);border-radius:1rem;
+    transition:all .3s;cursor:pointer}
+  .legend-item:hover{transform:translateX(6px);border-color:rgba(96,165,250,.4)}
+  .legend-dot{width:12px;height:12px;border-radius:50%;margin-top:.4rem;flex-shrink:0}
+  .legend-text h4{font-size:.95rem;font-weight:700;color:#f1f5f9;margin-bottom:.2rem}
+  .legend-text p{font-size:.82rem;color:#94a3b8}
+
+  /* ================= ATTACK ANIMATION ================= */
+  .attack-flow{background:rgba(15,23,42,.6);backdrop-filter:blur(20px);
+    border:1px solid rgba(148,163,184,.12);border-radius:1.5rem;
+    padding:2rem;margin-top:3rem;overflow:hidden;position:relative}
+  .flow-title{font-size:1.2rem;font-weight:700;color:#f1f5f9;margin-bottom:1.5rem;
+    display:flex;align-items:center;gap:.6rem}
+  .flow-line{display:flex;align-items:center;justify-content:space-between;
+    gap:1rem;position:relative;padding:1rem 0}
+  .flow-node{width:70px;height:70px;border-radius:50%;display:flex;
+    align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0;
+    background:rgba(30,41,59,.9);border:2px solid rgba(148,163,184,.2);
+    position:relative;z-index:2;transition:all .3s}
+  .flow-node.active{border-color:#ef4444;box-shadow:0 0 20px #ef4444}
+  .flow-node.safe{border-color:#22c55e;box-shadow:0 0 20px #22c55e}
+  .flow-track{position:absolute;top:50%;left:70px;right:70px;height:2px;
+    background:rgba(148,163,184,.15);overflow:hidden;z-index:1}
+  .flow-track::after{content:'';position:absolute;inset:0;
+    background:linear-gradient(90deg,transparent,#ef4444,transparent);
+    animation:flow 3s linear infinite}
+  @keyframes flow{from{transform:translateX(-100%)}to{transform:translateX(100%)}}
+  .flow-packet{position:absolute;top:50%;width:10px;height:10px;
+    background:#ef4444;border-radius:50%;box-shadow:0 0 12px #ef4444;
+    animation:packet 3s linear infinite}
+  @keyframes packet{from{left:70px}to{left:calc(100% - 70px)}}
+  .flow-labels{display:flex;justify-content:space-between;gap:1rem;
+    margin-top:.5rem;font-size:.72rem;color:#94a3b8;text-transform:uppercase;
+    letter-spacing:.06em;font-weight:600}
+
+  /* ================= AWARENESS TIPS ================= */
+  .tips{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.2rem}
+  .tip{background:rgba(15,23,42,.6);backdrop-filter:blur(20px);
+    border:1px solid rgba(148,163,184,.12);border-radius:1.2rem;padding:1.6rem;
+    position:relative;overflow:hidden;transition:all .3s}
+  .tip:hover{transform:translateY(-4px);border-color:var(--tc,#60a5fa);
+    box-shadow:0 16px 32px -12px var(--tc,#60a5fa)}
+  .tip::before{content:attr(data-num);position:absolute;top:-20px;right:10px;
+    font-size:5rem;font-weight:900;color:rgba(96,165,250,.06);
+    font-family:'Inter',sans-serif;line-height:1}
+  .tip-icon{width:48px;height:48px;border-radius:12px;display:flex;
+    align-items:center;justify-content:center;font-size:1.4rem;
+    background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);
+    margin-bottom:.9rem;color:var(--tc,#60a5fa)}
+  .tip h4{font-size:1rem;font-weight:700;color:#f1f5f9;margin-bottom:.4rem}
+  .tip p{font-size:.85rem;color:#94a3b8;line-height:1.55}
+
+  /* ================= TERMINAL ATTACK DEMO ================= */
+  .terminal{background:#0a0e17;border:1px solid rgba(148,163,184,.15);
+    border-radius:1rem;overflow:hidden;font-family:'Fira Code',monospace;
+    box-shadow:0 20px 60px -20px rgba(0,0,0,.8)}
+  .term-bar{background:#161b22;padding:.7rem 1rem;display:flex;align-items:center;gap:.5rem;
+    border-bottom:1px solid rgba(148,163,184,.1)}
+  .term-bar .dots{display:flex;gap:6px}
+  .term-bar .dots span{width:11px;height:11px;border-radius:50%}
+  .term-bar .dots span:nth-child(1){background:#ff5f56}
+  .term-bar .dots span:nth-child(2){background:#ffbd2e}
+  .term-bar .dots span:nth-child(3){background:#27c93f}
+  .term-bar .ttl{font-size:.75rem;color:#8b949e;margin-left:.5rem}
+  .term-body{padding:1.2rem 1.4rem;font-size:.85rem;line-height:1.8;
+    color:#7ee787;min-height:280px;white-space:pre-wrap}
+  .term-body .err{color:#ff7b72}
+  .term-body .warn{color:#fcd34d}
+  .term-body .info{color:#60a5fa}
+  .term-body .dim{color:#484f58}
+  .term-body .cursor{display:inline-block;width:8px;height:1em;background:#7ee787;
+    vertical-align:text-bottom;animation:blink2 .8s step-end infinite}
+  @keyframes blink2{50%{opacity:0}}
+
+  /* ================= CTA ================= */
+  .cta{text-align:center;padding:4rem 2rem;border-radius:2rem;
+    background:linear-gradient(135deg,rgba(59,130,246,.1),rgba(168,85,247,.1));
+    border:1px solid rgba(96,165,250,.2);position:relative;overflow:hidden}
+  .cta::before{content:'';position:absolute;inset:-50%;
+    background:conic-gradient(from 0deg,transparent,rgba(96,165,250,.15),transparent);
+    animation:rotate 10s linear infinite}
+  .cta-content{position:relative;z-index:2}
+  .cta h2{font-size:clamp(1.6rem,4vw,2.4rem);font-weight:800;margin-bottom:1rem}
+  .cta p{color:#94a3b8;max-width:500px;margin:0 auto 2rem}
+  .btn{display:inline-flex;align-items:center;gap:.6rem;
+    background:linear-gradient(135deg,#3b82f6,#8b5cf6);color:#fff;
+    border:none;border-radius:999px;padding:1rem 2.2rem;font-size:1rem;
+    font-weight:700;cursor:pointer;text-decoration:none;
+    box-shadow:0 12px 32px -8px rgba(59,130,246,.6);
+    transition:all .3s;font-family:inherit}
+  .btn:hover{transform:translateY(-3px);box-shadow:0 20px 40px -8px rgba(59,130,246,.8)}
+
+  /* ================= FOOTER ================= */
+  footer{text-align:center;padding:3rem 1.5rem;border-top:1px solid rgba(148,163,184,.1);
+    color:#64748b;font-size:.85rem}
+
+  /* ================= RESPONSIVE ================= */
+  @media(max-width:800px){
+    .radar-wrap{grid-template-columns:1fr;gap:2rem}
+    .flow-node{width:56px;height:56px;font-size:1.4rem}
+    .flow-track{left:56px;right:56px}
+    .flow-packet{animation-name:packet-sm}
+    @keyframes packet-sm{from{left:56px}to{left:calc(100% - 56px)}}
+  }
+
+  /* ================= SCROLL REVEAL ================= */
+  .reveal{opacity:0;transform:translateY(30px);transition:all .8s ease}
+  .reveal.in{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="grid"></div>
+<div class="scanline"></div>
+<div class="particles" id="particles"></div>
+
+<!-- ================= HERO ================= -->
+<div class="hero">
+  <div class="badge"><span class="pulse-dot"></span> Live Threat Awareness</div>
+
+  <div class="shield-wrap">
+    <div class="shield-ring"></div>
+    <div class="shield-ring"></div>
+    <div class="shield-ring"></div>
+    <svg class="shield" viewBox="0 0 100 120" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="shieldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#60a5fa"/>
+          <stop offset="50%" stop-color="#a78bfa"/>
+          <stop offset="100%" stop-color="#f472b6"/>
+        </linearGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="2" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <path d="M50 5 L90 20 L90 60 Q90 95 50 115 Q10 95 10 60 L10 20 Z"
+        fill="url(#shieldGrad)" opacity="0.15" stroke="url(#shieldGrad)" stroke-width="2"/>
+      <path d="M50 15 L80 27 L80 60 Q80 88 50 105 Q20 88 20 60 L20 27 Z"
+        fill="none" stroke="url(#shieldGrad)" stroke-width="1.5" opacity="0.6"/>
+      <path d="M35 60 L45 70 L67 48" fill="none" stroke="#7ee787" stroke-width="4"
+        stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+    </svg>
+  </div>
+
+  <h1>Security <span class="gradient">Awareness</span><br>Interactive <span class="danger-grad">Threat</span> Map</h1>
+  <p>Explore every layer of modern security — from networks to cloud, from humans to code. See how attacks flow, where defenses live, and how to stay protected.</p>
+</div>
+
+<!-- ================= STATS ================= -->
+<div class="container">
+  <div class="stats">
+    <div class="stat" style="--sc:#ef4444">
+      <div class="num" data-count="2200">0</div>
+      <div class="lbl">Attacks per Day (avg)</div>
+    </div>
+    <div class="stat" style="--sc:#f59e0b">
+      <div class="num" data-count="95">0</div>
+      <div class="lbl">% Human Error Factor</div>
+    </div>
+    <div class="stat" style="--sc:#22c55e">
+      <div class="num" data-count="60">0</div>
+      <div class="lbl">% Preventable</div>
+    </div>
+    <div class="stat" style="--sc:#60a5fa">
+      <div class="num" data-count="277">0</div>
+      <div class="lbl">Days to Detect Breach</div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SECURITY SECTORS ================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="label"><span class="d"></span> 8 Domains</div>
+      <h2>Security Sectors</h2>
+      <p>Every area of security plays a role. Click any sector to explore the risk.</p>
+    </div>
+
+    <div class="sectors" id="sectors">
+      <div class="sector" style="--sc:#60a5fa;--sc2:#3b82f6" onmousemove="tilt(event,this)">
+        <div class="sector-icon">🌐</div>
+        <h3>Network Security</h3>
+        <p>Protects data in transit. Firewalls, VPNs, IDS/IPS, zero-trust architecture.</p>
+        <span class="risk risk-high">High Risk</span>
+      </div>
+
+      <div class="sector" style="--sc:#a78bfa;--sc2:#8b5cf6" onmousemove="tilt(event,this)">
+        <div class="sector-icon">📱</div>
+        <h3>Application Security</h3>
+        <p>Secure code, input validation, OWASP Top 10, secure SDLC practices.</p>
+        <span class="risk risk-high">High Risk</span>
+      </div>
+
+      <div class="sector" style="--sc:#f472b6;--sc2:#ec4899" onmousemove="tilt(event,this)">
+        <div class="sector-icon">☁️</div>
+        <h3>Cloud Security</h3>
+        <p>IAM policies, misconfiguration, shared responsibility, container security.</p>
+        <span class="risk risk-high">High Risk</span>
+      </div>
+
+      <div class="sector" style="--sc:#f59e0b;--sc2:#f97316" onmousemove="tilt(event,this)">
+        <div class="sector-icon">🔑</div>
+        <h3>Identity & Access</h3>
+        <p>MFA, SSO, least privilege, privileged access management, zero trust.</p>
+        <span class="risk risk-med">Medium Risk</span>
+      </div>
+
+      <div class="sector" style="--sc:#22c55e;--sc2:#10b981" onmousemove="tilt(event,this)">
+        <div class="sector-icon">📊</div>
+        <h3>Data Security</h3>
+        <p>Encryption at rest & transit, DLP, data classification, backup.</p>
+        <span class="risk risk-low">Low-Medium</span>
+      </div>
+
+      <div class="sector" style="--sc:#06b6d4;--sc2:#0891b2" onmousemove="tilt(event,this)">
+        <div class="sector-icon">🖥️</div>
+        <h3>Endpoint Security</h3>
+        <p>EDR, antivirus, patching, device hardening, USB control.</p>
+        <span class="risk risk-med">Medium Risk</span>
+      </div>
+
+      <div class="sector" style="--sc:#eab308;--sc2:#ca8a04" onmousemove="tilt(event,this)">
+        <div class="sector-icon">👥</div>
+        <h3>Human Security</h3>
+        <p>Phishing awareness, social engineering defense, security culture.</p>
+        <span class="risk risk-high">High Risk</span>
+      </div>
+
+      <div class="sector" style="--sc:#ef4444;--sc2:#dc2626" onmousemove="tilt(event,this)">
+        <div class="sector-icon">🔍</div>
+        <h3>Threat Intelligence</h3>
+        <p>SIEM, SOC, incident response, threat hunting, forensics.</p>
+        <span class="risk risk-med">Medium Risk</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= THREAT RADAR ================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="label"><span class="d"></span> Real-time Detection</div>
+      <h2>Threat Radar</h2>
+      <p>Watch how threats appear across the attack surface in real time.</p>
+    </div>
+
+    <div class="radar-wrap">
+      <div class="radar reveal">
+        <div class="radar-circle"></div>
+        <div class="radar-circle"></div>
+        <div class="radar-circle"></div>
+        <div class="radar-circle"></div>
+        <div class="radar-sweep"></div>
+        <div class="radar-center"></div>
+        <div class="radar-dot" style="top:25%;left:60%"></div>
+        <div class="radar-dot yellow" style="top:55%;left:30%;animation-delay:.5s"></div>
+        <div class="radar-dot green" style="top:70%;left:75%;animation-delay:1s"></div>
+        <div class="radar-dot" style="top:40%;left:45%;animation-delay:1.5s"></div>
+        <div class="radar-dot yellow" style="top:80%;left:40%;animation-delay:2s"></div>
+      </div>
+
+      <div class="radar-legend reveal">
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#ef4444;box-shadow:0 0 12px #ef4444"></div>
+          <div class="legend-text">
+            <h4>Critical Threat</h4>
+            <p>Active attack detected. Immediate response required.</p>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#f59e0b;box-shadow:0 0 12px #f59e0b"></div>
+          <div class="legend-text">
+            <h4>Suspicious Activity</h4>
+            <p>Anomaly flagged. Analyst review needed.</p>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-dot" style="background:#22c55e;box-shadow:0 0 12px #22c55e"></div>
+          <div class="legend-text">
+            <h4>Blocked / Safe</h4>
+            <p>Threat neutralized by existing defenses.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= ATTACK FLOW ================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="label"><span class="d"></span> Anatomy of an Attack</div>
+      <h2>How an Attack Flows</h2>
+      <p>Follow the packet from the attacker's machine to the protected endpoint.</p>
+    </div>
+
+    <div class="attack-flow reveal">
+      <div class="flow-title">🔴 Live Attack Path</div>
+      <div style="position:relative">
+        <div class="flow-track"></div>
+        <div class="flow-packet"></div>
+        <div class="flow-line">
+          <div class="flow-node" id="n1">💻</div>
+          <div class="flow-node" id="n2">🌐</div>
+          <div class="flow-node" id="n3">🛡️</div>
+          <div class="flow-node" id="n4">🔥</div>
+          <div class="flow-node" id="n5">🖥️</div>
+          <div class="flow-node" id="n6">🔒</div>
+        </div>
+      </div>
+      <div class="flow-labels">
+        <span>Attacker</span>
+        <span>Internet</span>
+        <span>Firewall</span>
+        <span>IDS/IPS</span>
+        <span>Server</span>
+        <span>Protected</span>
+      </div>
+      <p style="margin-top:1.5rem;font-size:.85rem;color:#94a3b8;text-align:center">
+        Each defense layer inspects the packet. If one fails, the next catches it.
+        This is <strong style="color:#93c5fd">Defense in Depth</strong>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TERMINAL DEMO ================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="label"><span class="d"></span> What an Attack Looks Like</div>
+      <h2>Live Attack Simulation</h2>
+      <p>Watch a brute-force attack being detected and blocked in real time.</p>
+    </div>
+
+    <div class="terminal reveal">
+      <div class="term-bar">
+        <div class="dots"><span></span><span></span><span></span></div>
+        <span class="ttl">security-monitor.log</span>
+      </div>
+      <div class="term-body" id="terminal"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AWARENESS TIPS ================= -->
+<section class="section">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="label"><span class="d"></span> Stay Protected</div>
+      <h2>Top 8 Awareness Rules</h2>
+      <p>Simple habits that stop 95% of attacks.</p>
+    </div>
+
+    <div class="tips">
+      <div class="tip reveal" data-num="01" style="--tc:#60a5fa">
+        <div class="tip-icon">🔐</div>
+        <h4>Use Strong Passwords</h4>
+        <p>Minimum 12 characters. Mix letters, numbers, symbols. Never reuse across sites.</p>
+      </div>
+      <div class="tip reveal" data-num="02" style="--tc:#a78bfa">
+        <div class="tip-icon">📱</div>
+        <h4>Enable MFA Everywhere</h4>
+        <p>Multi-factor authentication blocks 99% of automated attacks. Turn it on for every account.</p>
+      </div>
+      <div class="tip reveal" data-num="03" style="--tc:#f472b6">
+        <div class="tip-icon">🎣</div>
+        <h4>Spot Phishing</h4>
+        <p>Check sender addresses. Hover over links. Never click urgent "verify now" emails.</p>
+      </div>
+      <div class="tip reveal" data-num="04" style="--tc:#22c55e">
+        <div class="tip-icon">🔄</div>
+        <h4>Update Everything</h4>
+        <p>Enable auto-updates. Patches close known vulnerabilities that attackers target.</p>
+      </div>
+      <div class="tip reveal" data-num="05" style="--tc:#f59e0b">
+        <div class="tip-icon">💾</div>
+        <h4>Backup 3-2-1</h4>
+        <p>3 copies, 2 formats, 1 offsite. Backups defeat ransomware.</p>
+      </div>
+      <div class="tip reveal" data-num="06" style="--tc:#06b6d4">
+        <div class="tip-icon">📶</div>
+        <h4>Avoid Public WiFi</h4>
+        <p>Use a VPN or your mobile hotspot. Public WiFi = public network.</p>
+      </div>
+      <div class="tip reveal" data-num="07" style="--tc:#eab308">
+        <div class="tip-icon">👀</div>
+        <h4>Least Privilege</h4>
+        <p>Only grant access users actually need. Review permissions regularly.</p>
+      </div>
+      <div class="tip reveal" data-num="08" style="--tc:#ef4444">
+        <div class="tip-icon">🚨</div>
+        <h4>Report Immediately</h4>
+        <p>Suspicious activity? Report at once. Fast reporting saves hours of recovery.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="section">
+  <div class="container">
+    <div class="cta reveal">
+      <div class="cta-content">
+        <h2>Security is <span class="gradient">Everyone's Job</span></h2>
+        <p>Technology alone cannot stop attackers. Your awareness is the strongest firewall.</p>
+        <!-- Updated: now links directly to prevention/index.html -->
+        <a href="../dashboard.html" class="btn">🎓 Start Training</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>🛡️ Security Awareness Interactive · Built for education · No data leaves your browser</p>
+</footer>
+
+<script>
+/* ================= PARTICLES ================= */
+(function(){
+  const pc = document.getElementById('particles');
+  const colors = ['#60a5fa','#a78bfa','#f472b6','#ef4444','#22c55e'];
+  for(let i=0;i<40;i++){
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.left = Math.random()*100 + '%';
+    p.style.background = colors[Math.floor(Math.random()*colors.length)];
+    p.style.boxShadow = '0 0 6px ' + p.style.background;
+    p.style.animationDuration = (8 + Math.random()*12) + 's';
+    p.style.animationDelay = (Math.random()*10) + 's';
+    pc.appendChild(p);
+  }
+})();
+
+/* ================= COUNTER ANIMATION ================= */
+(function(){
+  const counters = document.querySelectorAll('[data-count]');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){
+        const el = e.target;
+        const target = parseInt(el.dataset.count);
+        let cur = 0;
+        const step = target / 60;
+        const timer = setInterval(() => {
+          cur += step;
+          if(cur >= target){ cur = target; clearInterval(timer); }
+          el.textContent = Math.floor(cur);
+        }, 16);
+        io.unobserve(el);
+      }
+    });
+  }, {threshold: 0.3});
+  counters.forEach(c => io.observe(c));
+})();
+
+/* ================= SCROLL REVEAL ================= */
+(function(){
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {threshold: 0.15});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+})();
+
+/* ================= SECTOR TILT ================= */
+function tilt(e, el){
+  const rect = el.getBoundingClientRect();
+  const x = ((e.clientX - rect.left) / rect.width) * 100;
+  const y = ((e.clientY - rect.top) / rect.height) * 100;
+  el.style.setProperty('--mx', x + '%');
+  el.style.setProperty('--my', y + '%');
+}
+
+/* ================= ATTACK FLOW ANIMATION ================= */
+(function(){
+  const nodes = ['n1','n2','n3','n4','n5','n6'];
+  let idx = 0;
+  setInterval(() => {
+    nodes.forEach(n => document.getElementById(n).classList.remove('active','safe'));
+    document.getElementById(nodes[idx]).classList.add('active');
+    idx = (idx + 1) % nodes.length;
+  }, 700);
+})();
+
+/* ================= TERMINAL SIMULATION ================= */
+(function(){
+  const term = document.getElementById('terminal');
+  const lines = [
+    { text: '$ tail -f /var/log/auth.log', cls: 'info', delay: 300 },
+    { text: '', delay: 200 },
+    { text: '[10:42:01] Failed login for root from 185.220.101.34', cls: 'warn', delay: 400 },
+    { text: '[10:42:02] Failed login for root from 185.220.101.34', cls: 'warn', delay: 300 },
+    { text: '[10:42:03] Failed login for root from 185.220.101.34', cls: 'warn', delay: 300 },
+    { text: '[10:42:04] Failed login for root from 185.220.101.34', cls: 'warn', delay: 300 },
+    { text: '[10:42:05] Failed login for admin from 185.220.101.34', cls: 'warn', delay: 300 },
+    { text: '[10:42:06] Failed login for admin from 185.220.101.34', cls: 'warn', delay: 300 },
+    { text: '', delay: 300 },
+    { text: '⚠  Brute-force pattern detected  (threshold: 5 fails / 60s)', cls: 'err', delay: 600 },
+    { text: '⚠  Source IP reputation: MALICIOUS (threat feed hit)', cls: 'err', delay: 400 },
+    { text: '⚠  Triggering automatic response...', cls: 'err', delay: 500 },
+    { text: '', delay: 300 },
+    { text: '✓ Firewall rule added: BLOCK 185.220.101.34', cls: 'info', delay: 600 },
+    { text: '✓ Incident ticket #4471 created', cls: 'info', delay: 400 },
+    { text: '✓ SOC analyst notified via Slack', cls: 'info', delay: 400 },
+    { text: '✓ Account lockout policy engaged', cls: 'info', delay: 400 },
+    { text: '', delay: 300 },
+    { text: '✅ Threat neutralized in 3.2 seconds', cls: 'info', delay: 700 },
+    { text: '', delay: 400 }
+  ];
+
+  let i = 0;
+  function next(){
+    if(i >= lines.length){
+      // restart after pause
+      setTimeout(() => { term.innerHTML = ''; i = 0; next(); }, 3000);
+      return;
+    }
+    const line = lines[i++];
+    setTimeout(() => {
+      const div = document.createElement('div');
+      div.className = line.cls || '';
+      div.textContent = line.text;
+      term.appendChild(div);
+      term.scrollTop = term.scrollHeight;
+      // Add blinking cursor to last line
+      const cur = term.querySelector('.cursor');
+      if(cur) cur.remove();
+      if(line.text){
+        const c = document.createElement('span');
+        c.className = 'cursor';
+        div.appendChild(c);
+      }
+      next();
+    }, line.delay);
+  }
+  // start only when visible
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if(e.isIntersecting && i === 0){ next(); io.unobserve(e.target); }
+    });
+  }, {threshold: 0.3});
+  io.observe(term);
+})();
+</script>
+
+</body>
+</html>

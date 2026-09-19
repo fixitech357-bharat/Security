@@ -524,3 +524,17 @@
          font-size: 10px;
      }
  }
+/* Digital Marketing Button */
+.btn.marketing {
+    background: linear-gradient(135deg, #ff4d8d, #ff8a00);
+    color: #ffffff;
+    border: 1px solid rgba(255, 138, 0, 0.5);
+    box-shadow: 0 0 20px rgba(255, 77, 141, 0.25);
+}
+
+.btn.marketing:hover {
+    background: linear-gradient(135deg, #ff8a00, #ff4d8d);
+    color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 0 28px rgba(255, 77, 141, 0.45);
+}

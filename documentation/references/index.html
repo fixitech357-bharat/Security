@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>References | XTutiRaiseUp</title>
+
+    <meta
+        name="description"
+        content="Official documentation, books and useful technical resources for programming and software development."
+    >
+
+    <link
+        rel="icon"
+        type="image/jpeg"
+        href="../../assets/logo.jpg"
+    >
+
+    <link
+        rel="stylesheet"
+        href="./references.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- Background -->
+
+    <div class="background">
+
+        <div class="grid"></div>
+
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+
+    </div>
+
+
+    <!-- Header -->
+
+    <header class="header">
+
+        <a
+            href="../index.html"
+            class="back"
+        >
+            ← Documentation
+        </a>
+
+
+        <div class="brand">
+
+            <img
+                src="../../assets/logo.jpg"
+                alt="XTutiRaiseUp Logo"
+            >
+
+            <div>
+
+                <h1>
+                    XTutiRaiseUp
+                </h1>
+
+                <span>
+                    Technical References
+                </span>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- Main -->
+
+    <main class="container">
+
+
+        <!-- Hero -->
+
+        <section class="hero">
+
+            <div class="badge">
+                🔗 TECHNICAL REFERENCES
+            </div>
+
+            <h2>
+                Explore Reliable Resources
+            </h2>
+
+            <p>
+                A curated reference library for official
+                documentation, technical books and useful
+                developer resources.
+            </p>
+
+        </section>
+
+
+        <!-- Search -->
+
+        <section class="search-area">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search references..."
+            >
+
+        </section>
+
+
+        <!-- Reference Categories -->
+
+        <section
+            class="category-grid"
+            id="categoryGrid"
+        >
+
+
+            <!-- Official -->
+
+            <a
+                href="./official/index.html"
+                class="card official-card"
+            >
+
+                <div class="icon">
+                    📚
+                </div>
+
+                <h3>
+                    Official Documentation
+                </h3>
+
+                <p>
+                    Official documentation, API references,
+                    specifications, standards and developer
+                    documentation from technology providers.
+                </p>
+
+                <span class="explore">
+                    Explore Official Docs →
+                </span>
+
+            </a>
+
+
+            <!-- Books -->
+
+            <a
+                href="./books/index.html"
+                class="card books-card"
+            >
+
+                <div class="icon">
+                    📖
+                </div>
+
+                <h3>
+                    Books
+                </h3>
+
+                <p>
+                    Recommended programming, software engineering,
+                    system design, cybersecurity, databases and
+                    computer science books.
+                </p>
+
+                <span class="explore">
+                    Explore Books →
+                </span>
+
+            </a>
+
+
+            <!-- Resources -->
+
+            <a
+                href="./resources/index.html"
+                class="card resources-card"
+            >
+
+                <div class="icon">
+                    🌐
+                </div>
+
+                <h3>
+                    Useful Resources
+                </h3>
+
+                <p>
+                    Developer websites, learning platforms,
+                    coding tools, communities, research resources
+                    and useful technical links.
+                </p>
+
+                <span class="explore">
+                    Explore Resources →
+                </span>
+
+            </a>
+
+
+        </section>
+
+
+        <!-- Reference Principles -->
+
+        <section class="info-section">
+
+            <h2>
+                Reference Categories
+            </h2>
+
+            <div class="info-grid">
+
+                <div class="info-card">
+
+                    <span>🏛️</span>
+
+                    <strong>
+                        Official Sources
+                    </strong>
+
+                    <small>
+                        Prefer authoritative documentation
+                        and specifications.
+                    </small>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>📖</span>
+
+                    <strong>
+                        Books
+                    </strong>
+
+                    <small>
+                        Long-form learning and
+                        advanced technical knowledge.
+                    </small>
+
+                </div>
+
+
+                <div class="info-card">
+
+                    <span>🌐</span>
+
+                    <strong>
+                        Resources
+                    </strong>
+
+                    <small>
+                        Useful websites, tools,
+                        communities and learning platforms.
+                    </small>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- Footer -->
+
+    <footer>
+
+        <strong>
+            XTutiRaiseUp
+        </strong>
+
+        <span>
+            by XSympan Technologies
+        </span>
+
+    </footer>
+
+
+    <!-- Search -->
+
+    <script>
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const cards =
+            document.querySelectorAll(".card");
+
+        searchInput.addEventListener(
+            "input",
+            () => {
+
+                const search =
+                    searchInput.value
+                        .toLowerCase()
+                        .trim();
+
+                cards.forEach(card => {
+
+                    const text =
+                        card.textContent
+                            .toLowerCase();
+
+                    card.style.display =
+                        text.includes(search)
+                            ? ""
+                            : "none";
+
+                });
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Cheat Sheets | XTutiRaiseUp</title>
+
+    <meta
+        name="description"
+        content="Programming, development, cybersecurity, DevOps and technical cheat sheets."
+    >
+
+    <link
+        rel="stylesheet"
+        href="./cheatsheet.css"
+    >
+</head>
+
+<body>
+
+    <div class="background">
+        <div class="grid"></div>
+        <div class="orb orb1"></div>
+        <div class="orb orb2"></div>
+    </div>
+
+    <header class="header">
+
+        <a href="../index.html" class="back">
+            ← Documentation
+        </a>
+
+        <div class="brand">
+            <img
+                src="../../assets/logo.jpg"
+                alt="XTutiRaiseUp"
+            >
+
+            <div>
+                <h1>XTutiRaiseUp</h1>
+                <span>Cheat Sheets</span>
+            </div>
+        </div>
+
+    </header>
+
+    <main class="container">
+
+        <section class="hero">
+
+            <div class="badge">
+                ⚡ QUICK REFERENCE
+            </div>
+
+            <h2>
+                Technical Cheat Sheets
+            </h2>
+
+            <p>
+                Quick, practical and easy-to-revise cheat sheets
+                for programming, development, databases,
+                cybersecurity, DevOps and system design.
+            </p>
+
+        </section>
+
+
+        <section class="search-area">
+
+            <input
+                type="text"
+                id="searchInput"
+                placeholder="Search cheat sheets..."
+            >
+
+        </section>
+
+
+        <section class="category-grid" id="categoryGrid">
+
+            <a href="./programming/index.html" class="card">
+                <span class="icon">💻</span>
+                <h3>Programming</h3>
+                <p>Programming syntax and quick references.</p>
+            </a>
+
+            <a href="./java/index.html" class="card">
+                <span class="icon">☕</span>
+                <h3>Java</h3>
+                <p>Java syntax, collections, streams and more.</p>
+            </a>
+
+            <a href="./cpp/index.html" class="card">
+                <span class="icon">⚙️</span>
+                <h3>C++</h3>
+                <p>STL, syntax, OOP and modern C++.</p>
+            </a>
+
+            <a href="./python/index.html" class="card">
+                <span class="icon">🐍</span>
+                <h3>Python</h3>
+                <p>Python syntax, libraries and commands.</p>
+            </a>
+
+            <a href="./javascript/index.html" class="card">
+                <span class="icon">🟨</span>
+                <h3>JavaScript</h3>
+                <p>JS syntax, methods, ES features and APIs.</p>
+            </a>
+
+            <a href="./typescript/index.html" class="card">
+                <span class="icon">🔷</span>
+                <h3>TypeScript</h3>
+                <p>Types, interfaces, generics and utilities.</p>
+            </a>
+
+            <a href="./html/index.html" class="card">
+                <span class="icon">🌐</span>
+                <h3>HTML</h3>
+                <p>HTML tags, attributes and structures.</p>
+            </a>
+
+            <a href="./css/index.html" class="card">
+                <span class="icon">🎨</span>
+                <h3>CSS</h3>
+                <p>Selectors, Flexbox, Grid and responsive CSS.</p>
+            </a>
+
+            <a href="./react/index.html" class="card">
+                <span class="icon">⚛️</span>
+                <h3>React</h3>
+                <p>Hooks, components, state and patterns.</p>
+            </a>
+
+            <a href="./spring-boot/index.html" class="card">
+                <span class="icon">🍃</span>
+                <h3>Spring Boot</h3>
+                <p>Annotations, REST APIs and configuration.</p>
+            </a>
+
+            <a href="./sql/index.html" class="card">
+                <span class="icon">🗄️</span>
+                <h3>SQL</h3>
+                <p>Queries, joins, functions and commands.</p>
+            </a>
+
+            <a href="./git/index.html" class="card">
+                <span class="icon">🔀</span>
+                <h3>Git</h3>
+                <p>Commands, branches, merge and workflows.</p>
+            </a>
+
+            <a href="./linux/index.html" class="card">
+                <span class="icon">🐧</span>
+                <h3>Linux</h3>
+                <p>Linux commands and terminal references.</p>
+            </a>
+
+            <a href="./docker/index.html" class="card">
+                <span class="icon">🐳</span>
+                <h3>Docker</h3>
+                <p>Images, containers and Docker commands.</p>
+            </a>
+
+            <a href="./kubernetes/index.html" class="card">
+                <span class="icon">☸️</span>
+                <h3>Kubernetes</h3>
+                <p>kubectl commands and Kubernetes concepts.</p>
+            </a>
+
+            <a href="./dsa/index.html" class="card">
+                <span class="icon">🧩</span>
+                <h3>DSA</h3>
+                <p>Data structures, algorithms and complexity.</p>
+            </a>
+
+            <a href="./system-design/index.html" class="card">
+                <span class="icon">🏗️</span>
+                <h3>System Design</h3>
+                <p>Scalability, caching and architecture.</p>
+            </a>
+
+            <a href="./cybersecurity/index.html" class="card">
+                <span class="icon">🛡️</span>
+                <h3>Cybersecurity</h3>
+                <p>Security concepts, commands and references.</p>
+            </a>
+
+            <a href="./cloud/index.html" class="card">
+                <span class="icon">☁️</span>
+                <h3>Cloud</h3>
+                <p>AWS, Azure and cloud architecture references.</p>
+            </a>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <strong>XTutiRaiseUp</strong>
+        <span>by XSympan Technologies</span>
+    </footer>
+
+
+    <script>
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const cards =
+            document.querySelectorAll(".card");
+
+        searchInput.addEventListener("input", () => {
+
+            const search =
+                searchInput.value.toLowerCase().trim();
+
+            cards.forEach(card => {
+
+                const text =
+                    card.textContent.toLowerCase();
+
+                card.style.display =
+                    text.includes(search)
+                        ? ""
+                        : "none";
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
